@@ -1,0 +1,38 @@
+body{
+    text-align: center;
+}
+
+.nav.mb-2 li.nav-item:last-child {
+    border-top: 1px solid black;
+}
+
+#inputPassword, #inputLogin, #inputRepeatPassword, #inputEmail
+{
+    margin: auto;
+    text-align: center;
+    width: 20%;
+}
+#labelLogin
+{
+    color:white;
+}
+#labelPassword, #labelRepeatPassword, #labelEmail
+{
+    color:white;
+}
+#buttonLogin
+{
+    margin: auto;
+    margin-top: 10pt;
+    margin-bottom: 5pt;
+    width: 20%;
+    text-align: centers;
+}
+#buttonSignin
+{
+    margin: auto;
+    margin-top: 10pt;
+    margin-bottom: 5pt;
+    width: 20%;
+    text-align: centers;
+}
