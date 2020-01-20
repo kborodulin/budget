@@ -1,5 +1,9 @@
 body{
     text-align: center;
+    background: url("images/fon2.jpg");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
 }
 
 .nav.mb-2 li.nav-item:last-child {
@@ -10,7 +14,7 @@ body{
 {
     margin: auto;
     text-align: center;
-    width: 20%;
+    width: 60%;
 }
 #labelLogin
 {
@@ -20,12 +24,12 @@ body{
 {
     color:white;
 }
-#buttonLogin
+#buttonLogin 
 {
     margin: auto;
     margin-top: 10pt;
     margin-bottom: 5pt;
-    width: 20%;
+    width: 60%;
     text-align: centers;
 }
 #buttonSignin
@@ -33,6 +37,17 @@ body{
     margin: auto;
     margin-top: 10pt;
     margin-bottom: 5pt;
-    width: 20%;
+    width: 60%;
     text-align: centers;
+}
+.form-signin
+{
+    background-color: rgb(255, 255, 255);
+    width: 350pt;
+    height: 400pt;
+    border-radius: 20px;
+    margin-top: 5%;
+    padding-top: 10pt;
+    margin-left: 35%;
+    margin-right: 35%;
 }
