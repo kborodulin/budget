@@ -43,22 +43,22 @@
     </div>
 
     <div class="form-label-group" style="display: none;" id="registrationForm">
-        <label id="labelEmail" for="inputEmail">email</label>
-        <input type="email" id="inputEmail" class="form-control" placeholder="введите email" >
-        <label id="labelLogin" for="inputLogin">логин</label>
-        <input type="login" id="inputLogin" class="form-control" placeholder="введите логин"  required autofocus>
-        <label id="labelPassword" for="введите пароль">пароль</label>
-        <input type="password" id="inputPassword" class="form-control" placeholder="введите пароль" required>
-        <label id="labelRepeatPassword" for="пароль повторно">пароль</label>
-        <input type="password" id="inputRepeatPassword" class="form-control" placeholder="пароль повторно" required  >
+        <label id="labelEmailReg" for="inputEmailReg">email</label>
+        <input type="email" id="inputEmailReg" class="form-control" placeholder="введите email" >
+        <label id="labelLoginReg" for="inputLoginReg">логин</label>
+        <input type="login" id="inputLoginReg" class="form-control" placeholder="введите логин"  required autofocus>
+        <label id="labelPasswordReg" for="inputPasswordReg">пароль</label>
+        <input type="password" id="inputPasswordReg" class="form-control" placeholder="введите пароль" required>
+        <label id="labelRepeatPasswordReg" for="inputRepeatPasswordReg">пароль</label>
+        <input type="password" id="inputRepeatPasswordReg" class="form-control" placeholder="пароль повторно" required  >
         <button class="btn btn-lg btn-primary btn-block" id="buttonSignin" type="submit" >продолжить</button>
         <p>  <a id="authBtn" href="/">авторизация</a> для зарегистрированных пользователей </p>
     </div>
     <div class="form-label-group" id="authForm">
-        <label id="labelLogin" for="inputLogin">логин</label>
-        <input type="login" id="inputLogin" class="form-control" placeholder="введите логин" required autofocus>
-        <label id="labelPassword" for="введите пароль">пароль</label>
-        <input type="password" id="inputPassword" class="form-control" placeholder="введите пароль" required>
+        <label id="labelLoginAut" for="inputLoginAut">логин</label>
+        <input type="login" id="inputLoginAut" class="form-control" placeholder="введите логин" required autofocus>
+        <label id="labelPasswordAut" for="inputPasswordAut">пароль</label>
+        <input type="password" id="inputPasswordAut" class="form-control" placeholder="введите пароль" required>
         <button class="btn btn-lg btn-primary btn-block" id="buttonLogin" type="submit">продолжить</button>
         <p>  <a id="regBtn" href="/">регистрация</a> для новых пользователей </p>
     </div>

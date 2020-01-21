@@ -10,17 +10,13 @@ body{
     border-top: 1px solid black;
 }
 
-#inputPassword, #inputLogin, #inputRepeatPassword, #inputEmail
+#inputPasswordReg, #inputLoginReg, #inputRepeatPasswordReg, #inputEmailReg, #inputPasswordAut, #inputLoginAut
 {
     margin: auto;
     text-align: center;
     width: 60%;
 }
-#labelLogin
-{
-    color:white;
-}
-#labelPassword, #labelRepeatPassword, #labelEmail
+#labelPasswordReg, #labelRepeatPasswordReg, #labelEmailReg, #labelLoginReg, #labelPasswordAut, #labelLoginAut
 {
     color:white;
 }
@@ -30,7 +26,7 @@ body{
     margin-top: 10pt;
     margin-bottom: 5pt;
     width: 60%;
-    text-align: centers;
+    text-align: center;
 }
 #buttonSignin
 {
@@ -38,7 +34,7 @@ body{
     margin-top: 10pt;
     margin-bottom: 5pt;
     width: 60%;
-    text-align: centers;
+    text-align: center;
 }
 .form-signin
 {
