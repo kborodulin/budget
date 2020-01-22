@@ -10,7 +10,7 @@ body{
     border-top: 1px solid black;
 }
 
-#inputPassword, #inputLogin, #inputRepeatPassword, #inputEmail
+.form-control
 {
     margin: auto;
     text-align: center;
@@ -40,7 +40,7 @@ body{
     width: 60%;
     text-align: centers;
 }
-.form-signin
+.form-signin, form-signup
 {
     background-color: rgb(255, 255, 255);
     width: 350pt;
