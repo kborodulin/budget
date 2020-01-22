@@ -27,6 +27,16 @@
         <spring.version>5.2.3.RELEASE</spring.version>
         <javax.sevlet.version>4.0.1</javax.sevlet.version>
         <log4j.version>2.13.0</log4j.version>
+        <liquibase.version>3.8.5</liquibase.version>
+        <postgresql.version>42.2.9</postgresql.version>
+        <postgresql.host>localhost</postgresql.host>
+        <postgresql.port>5432</postgresql.port>
+        <postgresql.db>budget</postgresql.db>
+        <postgresql.login>postgres</postgresql.login>
+        <postgresql.password>postgres</postgresql.password>
+        <java.version>1.8</java.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     </properties>
 
     <dependencies>
@@ -79,6 +89,44 @@
             <version>1.2</version>
         </dependency>
 
+        <!-- https://mvnrepository.com/artifact/org.liquibase/liquibase-core -->
+        <dependency>
+            <groupId>org.liquibase</groupId>
+            <artifactId>liquibase-core</artifactId>
+            <version>${liquibase.version}</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.postgresql/postgresql -->
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>${postgresql.version}</version>
+        </dependency>
     </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.liquibase</groupId>
+                <artifactId>liquibase-maven-plugin</artifactId>
+                <configuration>
+                    <changeLogFile>/src/main/resources/liquibase/db.changelog-master.xml</changeLogFile>
+                    <driver>org.postgresql.Driver</driver>
+                    <url>jdbc:postgresql://${postgresql.host}:${postgresql.port}/${postgresql.db}</url>
+                    <username>${postgresql.login}</username>
+                    <password>${postgresql.password}</password>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>process-resources</phase>
+                        <goals>
+                            <goal>update</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
 
 </project>
