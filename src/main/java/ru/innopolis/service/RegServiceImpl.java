@@ -21,7 +21,7 @@ public class RegServiceImpl implements RegService {
     }
 
     public UserDto registerUser(UserDto userDto) {
-        User user = new User(UUID.randomUUID(), userDto.getUsername(), userDto.getPassword(), userDto.getEmail());
+        User user = new User(userDto.getId(), userDto.getUsername(), userDto.getPassword(), userDto.getEmail());
         userDao.addUser(user);
         userDto.setId(user.getId());
         return userDto;
