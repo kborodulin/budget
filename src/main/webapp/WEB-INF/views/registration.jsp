@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="resources/style.css" >
 </head>
 <body>
-<form class="form-signup" style="display: none;" id="registrationForm" method="post" name="userRegistrationForm">
+<form class="form-signup" id="registrationForm" method="post" name="userRegistrationForm">
     <div class="text-center mb-4">
         <h1 class="h3 mb-3 font-weight-normal">Контроль семейного бюджета</h1>
     </div>
@@ -22,12 +22,12 @@
         <label for="inputRepeatPassword">пароль</label>
         <input type="password" id="inputRepeatPassword" class="form-control" placeholder="пароль повторно" required name="repeatPassword">
         <button class="btn btn-lg btn-primary btn-block" id="buttonSignin" type="submit" >Зарегистрироваться</button>
-        <p><a id="authBtn" href="/">авторизация</a> для зарегистрированных пользователей </p>
+        <p style="display: none;"><a id="authBtn" href="/">авторизация</a> для зарегистрированных пользователей </p>
     </div>
     <p class="mt-5 mb-3 text-muted text-center">&copy;2020</p>
 </form>
 
-<form class="form-signin" id="authForm" method="post" name="userAuthForm">
+<form class="form-signin" style="display: none;" id="authForm" method="post" name="userAuthForm">
     <div class="text-center mb-4">
         <h1 class="h3 mb-3 font-weight-normal">Контроль семейного бюджета</h1>
     </div>
@@ -41,7 +41,6 @@
     </div>
     <p class="mt-5 mb-3 text-muted text-center">&copy; 2020</p>
 </form>
-<script src="resources/js/main.js"></script>
 </body>
 </html>
 
