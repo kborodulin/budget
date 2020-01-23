@@ -1,0 +1,53 @@
+body{
+    text-align: center;
+    background: url("images/fon2.jpg");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+}
+
+.nav.mb-2 li.nav-item:last-child {
+    border-top: 1px solid black;
+}
+
+.form-control
+{
+    margin: auto;
+    text-align: center;
+    width: 60%;
+}
+#labelLogin
+{
+    color:white;
+}
+#labelPassword, #labelRepeatPassword, #labelEmail
+{
+    color:white;
+}
+#buttonLogin 
+{
+    margin: auto;
+    margin-top: 10pt;
+    margin-bottom: 5pt;
+    width: 60%;
+    text-align: center;
+}
+#buttonSignin
+{
+    margin: auto;
+    margin-top: 10pt;
+    margin-bottom: 5pt;
+    width: 60%;
+    text-align: center;
+}
+.form-signin, .form-signup
+{
+    background-color: rgb(255, 255, 255);
+    width: 350pt;
+    height: 400pt;
+    border-radius: 20px;
+    margin-top: 5%;
+    padding-top: 10pt;
+    margin-left: 35%;
+    margin-right: 35%;
+}
