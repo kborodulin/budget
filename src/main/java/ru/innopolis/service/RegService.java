@@ -3,10 +3,10 @@ package ru.innopolis.service;
 import ru.innopolis.service.dto.UserDto;
 
 /**
- * RegisterService
+ * RegService
  *
  * @author Ekaterina Belolipetskaya
  */
 public interface RegService {
-    void registerUser(UserDto userDto);
+    UserDto registerUser(UserDto userDto);
 }
