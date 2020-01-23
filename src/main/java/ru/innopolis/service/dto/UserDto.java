@@ -9,7 +9,7 @@ import java.util.UUID;
  * @author Ekaterina Belolipetskaya
  */
 public class UserDto {
-    private UUID id;
+    private Long id;
     private String username;
     private String password;
     private String repeatPassword;
@@ -18,7 +18,7 @@ public class UserDto {
     public UserDto() {
     }
 
-    public UserDto(UUID id, String username, String password, String repeatPassword, String email) {
+    public UserDto(Long id, String username, String password, String repeatPassword, String email) {
         this.id = id;
         this.username = username;
         this.password = password;
@@ -26,11 +26,11 @@ public class UserDto {
         this.email = email;
     }
 
-    public UUID getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(UUID id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

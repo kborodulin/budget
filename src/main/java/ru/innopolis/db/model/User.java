@@ -4,7 +4,7 @@ import java.util.Objects;
 import java.util.UUID;
 
 public class User {
-    private UUID id;
+    private Long id;
     private String username;
     private String password;
     private String email;
@@ -12,18 +12,18 @@ public class User {
     public User() {
     }
 
-    public User(UUID id, String username, String password, String email) {
+    public User(Long id, String username, String password, String email) {
         this.id = id;
         this.username = username;
         this.password = password;
         this.email = email;
     }
 
-    public UUID getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(UUID id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
