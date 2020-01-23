@@ -6,9 +6,13 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8"%>
+
 <html>
 <head>
-    <title>personalAccount</title>
+    <meta charset="UTF-8">
+    <title>Personal account</title>
+    <link rel="stylesheet" href="resources/css/bs/bootstrap.min.css">
+    <link rel="stylesheet" href="resources/style.css" >
 </head>
 <body>
 
