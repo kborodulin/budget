@@ -1,3 +1,4 @@
+
 <%@ page contentType="text/html;charset=UTF-8"%>
 <!doctype html>
 <html lang="ru">
@@ -247,4 +248,5 @@
 <script src="resources/js/featherIcons/feather.min.js"></script>
 <script src="resources/js/Chart.js/Chart.min.js"></script>
 <script src="resources/js/dashboard.js"></script></body>
+
 </html>
