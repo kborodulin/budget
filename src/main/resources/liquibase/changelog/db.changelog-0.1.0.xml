@@ -6,15 +6,19 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd
       http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-3.8.xsd">
 
+
+    <property name="defaultDate" value="now()::timestamp(0)" dbms="postgresql"/>
+
     <changeSet id="1" author="kborodulin">
-        <createTable tableName="role">
-            <column name="roleid" type="bigint">
+        <createTable tableName="role" remarks="Роль">
+            <column name="roleid" type="bigint" remarks="Идентификатор">
                 <constraints primaryKey="true"></constraints>
             </column>
-            <column name="name" type="varchar(255)">
+            <column name="name" type="varchar(255)" remarks="Наименование">
                 <constraints nullable="false"/>
             </column>
-            <column name="brief" type="varchar(255)">
+            <column name="brief" type="varchar(255)" remarks="Сокращение">
+
                 <constraints nullable="false"/>
             </column>
         </createTable>
@@ -41,5 +45,80 @@
             <column name="brief" value="admin"/>
         </insert>
     </changeSet>
+
+
+    <changeSet id="4" author="kborodulin">
+        <createTable tableName="users" remarks="Пользователь">
+            <column name="userid" type="bigint" remarks="Идентификатор">
+                <constraints primaryKey="true"></constraints>
+            </column>
+            <column name="datecreate" type="timestamp()" defaultValueDate="${defaultDate}"
+                    remarks="Дата создания пользователя">
+                <constraints nullable="false"/>
+            </column>
+            <column name="login" type="varchar(255)" remarks="Логин пользователя">
+                <constraints nullable="false"/>
+            </column>
+            <column name="password" type="varchar(255)" remarks="Пароль пользователя">
+                <constraints nullable="false"/>
+            </column>
+            <column name="email" type="varchar(255)" remarks="Электронная почта"/>
+            <column name="isblock" type="int" defaultValue="0" remarks="Признак блокировки пользователя">
+                <constraints nullable="false"/>
+            </column>
+            <column name="roleid" type="bigint" defaultValue="1" remarks="Роль">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addForeignKeyConstraint
+                baseTableName="users"
+                baseColumnNames="roleid"
+                constraintName="fk_user_roleid"
+                referencedTableName="role"
+                referencedColumnNames="roleid"/>
+    </changeSet>
+
+    <changeSet id="5" author="kborodulin">
+        <createIndex tableName="users" indexName="idx_users_login" unique="true">
+            <column name="login"></column>
+        </createIndex>
+        <createIndex tableName="users" indexName="idx_users_email" unique="true">
+            <column name="email"></column>
+        </createIndex>
+    </changeSet>
+
+    <changeSet id="6" runInTransaction="true" author="kborodulin">
+        <insert tableName="users">
+            <column name="userid" value="1"/>
+            <column name="login" value="test"/>
+            <column name="password" value="1"/>
+            <column name="email" value="test@test.ru"/>
+        </insert>
+        <insert tableName="users">
+            <column name="userid" value="2"/>
+            <column name="login" value="info"/>
+            <column name="password" value="1"/>
+            <column name="email" value="info@info.ru"/>
+        </insert>
+        <insert tableName="users">
+            <column name="userid" value="3"/>
+            <column name="login" value="menext"/>
+            <column name="password" value="1"/>
+            <column name="email" value="menext@menext.ru"/>
+        </insert>
+        <insert tableName="users">
+            <column name="userid" value="4"/>
+            <column name="login" value="flex"/>
+            <column name="password" value="1"/>
+            <column name="email" value="flex@flex.ru"/>
+        </insert>
+        <insert tableName="users">
+            <column name="userid" value="5"/>
+            <column name="login" value="mtt"/>
+            <column name="password" value="1"/>
+            <column name="email" value="mtt@mtt.ru"/>
+        </insert>
+    </changeSet>
+
 
 </databaseChangeLog>

@@ -1,3 +1,4 @@
+
 <%@ page contentType="text/html;charset=UTF-8" %>
 <html lang="RU">
 <head>
@@ -43,4 +44,5 @@
 <script src="resources/js/main.js"></script>
 </body>
 </html>
+
 

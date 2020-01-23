@@ -30,6 +30,7 @@ public class RegController {
 
     @RequestMapping(method = RequestMethod.POST)
     public ModelAndView userRegistration(@ModelAttribute(name = "userRegistrationForm") UserDto userDto){
+
         ModelAndView modelAndView = new ModelAndView();
         regService.registerUser(userDto);
         modelAndView.setViewName("personalAccount");

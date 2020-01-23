@@ -20,6 +20,7 @@ public class UserDto {
 
     public UserDto(/*UUID id,*/ String username, String password, String repeatPassword, String email) {
         //this.id = id;
+
         this.username = username;
         this.password = password;
         this.repeatPassword = repeatPassword;
