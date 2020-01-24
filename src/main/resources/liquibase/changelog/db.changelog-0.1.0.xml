@@ -398,4 +398,10 @@
         </sql>
     </changeSet>
 
+    <changeSet id="27" author="kborodulin">
+        <sql>
+            alter table account add name varchar(255);
+        </sql>
+    </changeSet>
+
 </databaseChangeLog>
