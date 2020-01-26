@@ -1,11 +1,10 @@
 package ru.innopolis.service;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import ru.innopolis.db.dao.UserDao;
 import ru.innopolis.db.model.User;
-import ru.innopolis.service.dto.UserDto;
-
-import java.util.UUID;
 
 /**
  * RegServiceImpl
@@ -14,16 +13,15 @@ import java.util.UUID;
  */
 @Service
 public class RegServiceImpl implements RegService {
+    private static final Logger LOGGER = LoggerFactory.getLogger(RegServiceImpl.class);
     private UserDao userDao;
 
     public RegServiceImpl(UserDao userDao) {
         this.userDao = userDao;
     }
 
-    public UserDto registerUser(UserDto userDto) {
-        User user = new User(userDto.getId(), userDto.getUsername(), userDto.getPassword(), userDto.getEmail());
+    public void registerUser(User user) {
+        LOGGER.info("add user{}", user);
         userDao.addUser(user);
-        userDto.setId(user.getId());
-        return userDto;
     }
 }

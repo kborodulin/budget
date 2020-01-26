@@ -4,7 +4,6 @@ import org.springframework.stereotype.Repository;
 import ru.innopolis.db.model.User;
 
 import java.sql.*;
-import java.time.LocalDate;
 
 @Repository
 public class UserDaoImpl implements UserDao {
@@ -32,4 +31,15 @@ public class UserDaoImpl implements UserDao {
             e.printStackTrace();
         }
     }
+
+    @Override
+    public User getUserByEmail(String email) {
+        return null;
+    }
+
+    @Override
+    public User getUserByUsername(String username) {
+        return null;
+    }
+
 }

@@ -1,8 +1,10 @@
 package ru.innopolis.db.model;
 
-import java.util.Objects;
-import java.util.UUID;
+import org.springframework.stereotype.Component;
 
+import java.util.Objects;
+
+@Component
 public class User {
     private Long id;
     private String username;

@@ -1,6 +1,6 @@
 package ru.innopolis.service;
 
-import ru.innopolis.service.dto.UserDto;
+import ru.innopolis.db.model.User;
 
 /**
  * RegService
@@ -8,5 +8,5 @@ import ru.innopolis.service.dto.UserDto;
  * @author Ekaterina Belolipetskaya
  */
 public interface RegService {
-    UserDto registerUser(UserDto userDto);
+    void registerUser(User user);
 }
