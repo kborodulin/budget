@@ -42,11 +42,13 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User findFirstByEmail(String email) {
-        return userRepository.findFirstByEmail(email);
+       //        return userRepository.findFirstByEmail(email);
+        return null;
     }
 
     @Override
     public User findFirstByUsername(String username) {
-        return userRepository.findFirstByUsername(username);
+      //  return userRepository.findFirstByUsername(username);
+        return null;
     }
 }
