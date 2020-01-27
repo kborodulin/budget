@@ -9,52 +9,49 @@
     <version>1.0-SNAPSHOT</version>
     <packaging>war</packaging>
 
-    <name>family-budget-control Maven Webapp</name>
-
     <properties>
-        <spring.version>5.2.3.RELEASE</spring.version>
-        <javax.sevlet.version>4.0.1</javax.sevlet.version>
-        <log4j.version>2.13.0</log4j.version>
-        <liquibase.version>3.8.5</liquibase.version>
-        <postgresql.version>42.2.9</postgresql.version>
-        <postgresql.host>localhost</postgresql.host>
-        <postgresql.port>5432</postgresql.port>
-        <postgresql.db>budget</postgresql.db>
-        <postgresql.login>postgres</postgresql.login>
-        <postgresql.password>postgres</postgresql.password>
         <java.version>1.8</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <junit.version>4.4</junit.version>
+
+        <spring.version>5.2.3.RELEASE</spring.version>
+        <hibernate-core.version>5.4.10.Final</hibernate-core.version>
+        <spring-data-jpa.version>2.2.3.RELEASE</spring-data-jpa.version>
+        <log4j.version>2.13.0</log4j.version>
+        <javax.sevlet.version>4.0.1</javax.sevlet.version>
+        <jstl.version>1.2</jstl.version>
+        <postgresql.version>42.2.9</postgresql.version>
+        <junit-jupiter-engine.version>5.6.0</junit-jupiter-engine.version>
+        <liquibase.version>3.8.5</liquibase.version>
     </properties>
 
     <dependencies>
-        <!-- https://mvnrepository.com/artifact/org.springframework/spring-core -->
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-core</artifactId>
-            <version>${spring.version}</version>
-        </dependency>
-
-        <!-- https://mvnrepository.com/artifact/org.springframework/spring-context -->
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-context</artifactId>
-            <version>${spring.version}</version>
-        </dependency>
-
-        <!-- https://mvnrepository.com/artifact/org.springframework/spring-web -->
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-web</artifactId>
-            <version>${spring.version}</version>
-        </dependency>
-
         <!-- https://mvnrepository.com/artifact/org.springframework/spring-webmvc -->
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-webmvc</artifactId>
             <version>${spring.version}</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.springframework.data/spring-data-jpa -->
+        <dependency>
+            <groupId>org.springframework.data</groupId>
+            <artifactId>spring-data-jpa</artifactId>
+            <version>${spring-data-jpa.version}</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.hibernate/hibernate-core -->
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-core</artifactId>
+            <version>${hibernate-core.version}</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-slf4j-impl -->
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-slf4j-impl</artifactId>
+            <version>${log4j.version}</version>
         </dependency>
 
         <!-- https://mvnrepository.com/artifact/javax.servlet/javax.servlet-api -->
@@ -64,18 +61,26 @@
             <version>${javax.sevlet.version}</version>
         </dependency>
 
-        <!-- https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-slf4j-impl -->
-        <dependency>
-            <groupId>org.apache.logging.log4j</groupId>
-            <artifactId>log4j-slf4j-impl</artifactId>
-            <version>2.13.0</version>
-        </dependency>
-
         <!-- https://mvnrepository.com/artifact/javax.servlet/jstl -->
         <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>jstl</artifactId>
-            <version>1.2</version>
+            <version>${jstl.version}</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.postgresql/postgresql -->
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>${postgresql.version}</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-engine -->
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+            <version>${junit-jupiter-engine.version}</version>
+            <scope>test</scope>
         </dependency>
 
         <!-- https://mvnrepository.com/artifact/org.liquibase/liquibase-core -->
@@ -89,21 +94,7 @@
         <dependency>
             <groupId>org.liquibase</groupId>
             <artifactId>liquibase-maven-plugin</artifactId>
-            <version>3.8.4</version>
-        </dependency>
-
-        <!-- https://mvnrepository.com/artifact/org.postgresql/postgresql -->
-        <dependency>
-            <groupId>org.postgresql</groupId>
-            <artifactId>postgresql</artifactId>
-            <version>${postgresql.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>${junit.version}</version>
-            <scope>test</scope>
+            <version>${liquibase.version}</version>
         </dependency>
     </dependencies>
 
@@ -121,11 +112,7 @@
                 <groupId>org.liquibase</groupId>
                 <artifactId>liquibase-maven-plugin</artifactId>
                 <configuration>
-                    <changeLogFile>/src/main/resources/liquibase/db.changelog-master.xml</changeLogFile>
-                    <driver>org.postgresql.Driver</driver>
-                    <url>jdbc:postgresql://${postgresql.host}:${postgresql.port}/${postgresql.db}</url>
-                    <username>${postgresql.login}</username>
-                    <password>${postgresql.password}</password>
+                    <propertyFile>liquibase.properties</propertyFile>
                 </configuration>
                 <executions>
                     <execution>
