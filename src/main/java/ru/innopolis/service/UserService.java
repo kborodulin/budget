@@ -15,5 +15,5 @@ public interface UserService {
 
     User findFirstByEmail(String email);
 
-    User findFirstByUsername(String username);
+    User findFirstByLogin(String login);
 }
