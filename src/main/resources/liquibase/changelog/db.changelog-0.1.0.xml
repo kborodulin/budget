@@ -404,4 +404,9 @@
         </sql>
     </changeSet>
 
+    <changeSet id="28" author="kborodulin">
+        <sql>
+            alter table users alter column userid add generated always as identity;
+        </sql>
+    </changeSet>
 </databaseChangeLog>
