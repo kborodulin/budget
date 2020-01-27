@@ -39,4 +39,14 @@ public class UserServiceImpl implements UserService {
     public List<User> findAll() {
         return userRepository.findAll();
     }
+
+    @Override
+    public User findFirstByEmail(String email) {
+        return userRepository.findFirstByEmail(email);
+    }
+
+    @Override
+    public User findFirstByUsername(String username) {
+        return userRepository.findFirstByUsername(username);
+    }
 }
