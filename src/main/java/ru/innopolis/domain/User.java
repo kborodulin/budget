@@ -88,4 +88,16 @@ public class User {
     public int hashCode() {
         return Objects.hash(userid, login, password, email, isblock, roleid);
     }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "userid=" + userid +
+                ", login='" + login + '\'' +
+                ", password='" + password + '\'' +
+                ", email='" + email + '\'' +
+                ", isblock=" + isblock +
+                ", roleid=" + roleid +
+                '}';
+    }
 }
