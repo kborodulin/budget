@@ -1,5 +1,7 @@
 package ru.innopolis.domain;
 
+
+
 import lombok.Data;
 
 import javax.persistence.*;
