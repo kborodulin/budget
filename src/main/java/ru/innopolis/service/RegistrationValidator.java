@@ -17,8 +17,13 @@ import ru.innopolis.domain.User;
 public class RegistrationValidator implements Validator {
     private static final Logger LOGGER = LoggerFactory.getLogger(RegistrationValidator.class);
     private static final int PASSWORD_LENGTH = 8;
-    @Autowired
+
     private UserService userService;
+
+    @Autowired
+    public void setUserService(UserService userService) {
+        this.userService = userService;
+    }
 
     @Override
     public boolean supports(Class<?> aClass) {
@@ -44,7 +49,7 @@ public class RegistrationValidator implements Validator {
 
         if (userFromUserForm.getPassword().length() < PASSWORD_LENGTH) {
             LOGGER.error("password is short {}", userFromUserForm);
-            errors.rejectValue("password", "password.short", "Пароль должен быть минимум 8 символов");
+            errors.rejectValue("password", "password.short", "Пароль должен быть минимум " + PASSWORD_LENGTH + " символов");
             return;
         }
 
