@@ -10,6 +10,13 @@ body{
     border-top: 1px solid black;
 }
 
+#errors{
+    width: 80%;
+    margin-left: 10%;
+    margin-bottom: 10px;
+    background-color: #ff1e1e66;
+    border-radius: 5px;
+}
 
 .form-control
 {
