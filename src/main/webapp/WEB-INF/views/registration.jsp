@@ -13,7 +13,7 @@
     </div>
     <div class="form-label-group">
         <input type="email" id="inputEmail" class="form-control" placeholder="введите email" name="email">
-        <input type="login" id="inputLoginReg" class="form-control" placeholder="введите логин" name="username" required autofocus>
+        <input type="login" id="inputLoginReg" class="form-control" placeholder="введите логин" name="login" required autofocus>
         <input type="password" id="inputPasswordReg" class="form-control" placeholder="введите пароль" name="password" required>
 
         <input type="password" id="inputRepeatPassword" class="form-control" placeholder="пароль повторно" required name="repeatPassword">
