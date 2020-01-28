@@ -1,10 +1,12 @@
 package ru.innopolis.db.model;
 
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
 import java.util.Objects;
 
 @Component
+//@Repository
 public class User {
     private Long id;
     private String username;
