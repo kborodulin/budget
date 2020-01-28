@@ -1,30 +1,29 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
-<%@taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+
 <html lang="RU">
 <head>
     <meta charset="UTF-8">
     <title>Registration</title>
     <link rel="stylesheet" href="resources/css/bs/bootstrap.min.css">
-    <link rel="stylesheet" href="resources/style.css">
+    <link rel="stylesheet" href="resources/style.css" >
 </head>
 <body>
+
 <form:form method="post" class="form-signup" id="registrationForm" name="userRegistrationForm">
     <div class="text-center mb-4">
         <h1 class="h3 mb-3 font-weight-normal">Контроль семейного бюджета</h1>
     </div>
     <div class="form-label-group">
         <input type="email" id="inputEmail" class="form-control" placeholder="введите email" name="email">
-        <input type="login" id="inputLoginReg" class="form-control" placeholder="введите логин" name="login" required
-               autofocus>
-        <input type="password" id="inputPasswordReg" class="form-control" placeholder="введите пароль" name="password"
-               required>
-
-        <input type="password" id="inputRepeatPassword" class="form-control" placeholder="пароль повторно" required
-               name="repeatPassword">
-        <button class="btn btn-lg btn-primary btn-block" id="buttonSignin" type="submit">Зарегистрироваться</button>
+        <input type="login" id="inputLoginReg" class="form-control" placeholder="введите логин" name="username" required autofocus>
+        <input type="password" id="inputPasswordReg" class="form-control" placeholder="введите пароль" name="password" required>
+        <input type="password" id="inputRepeatPassword" class="form-control" placeholder="пароль повторно" required name="repeatPassword">
+        <button class="btn btn-lg btn-primary btn-block" id="buttonSignin" type="submit" >Зарегистрироваться</button>
         <p style="display: none;"><a id="authBtn" href="/">авторизация</a> для зарегистрированных пользователей </p>
     </div>
 </form:form>
+
 <p class="mt-5 mb-3 text-muted text-center">&copy;2020</p>
 </body>
 </html>
