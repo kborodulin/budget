@@ -50,12 +50,12 @@ public class UserServiceImpl implements UserService {
     @Override
     public User findFirstByEmail(String email) {
         LOGGER.info("find user by email {}", email);
-                return userRepository.findFirstByEmail(email);
+        return userRepository.findFirstByEmail(email);
     }
 
     @Override
     public User findFirstByLogin(String login) {
         LOGGER.info("find user by login {}", login);
-                return userRepository.findFirstByLogin(login);
+        return userRepository.findFirstByLogin(login);
     }
 }
