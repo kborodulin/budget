@@ -42,7 +42,7 @@ public class KinshipServiceImpl implements KinshipService {
 
     @Override
     public List<Kinship> findAll() {
-        log.info("find all account");
+        log.info("find all kinship");
         return kinshipRepository.findAll();
     }
 }

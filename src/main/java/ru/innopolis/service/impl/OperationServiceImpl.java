@@ -42,7 +42,7 @@ public class OperationServiceImpl implements OperationService {
 
     @Override
     public List<Operation> findAll() {
-        log.info("find all account");
+        log.info("find all operation");
         return operationRepository.findAll();
     }
 }
