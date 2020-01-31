@@ -56,47 +56,26 @@
         <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
             <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
                 <h3 class="h3">Личные данные</h3>
-                <a class="d-flex align-items-center text-muted" href="#" style= "display:none">
+                <a class="d-flex align-items-center text-muted" href="#">
+                    <span id="edition-account" style="text-decoration: underline; display:inherit;">редактирование&nbsp;</span>
                     <span id="save-item-account" style="text-decoration: underline; display:none;">сохранить изменения&nbsp;</span>
                 </a>
             </div>
             <form:form method="post" class="form-signup" id="setingForm" name="userSetingsForm" >
             <div style="white-space: nowrap;" class="col-md-6 mb-3">
-                <input type="text" class="form-control set-control" id="Login" placeholder="Логин" value="" required="">
+                <input type="text" class="form-control set-control" id="Login" placeholder="Логин" value="" required="" disabled>
                 <input type="email" class="form-control" id="Email" placeholder="Email" value="" required="" disabled>
             </div>
             <div style="white-space: nowrap;" class="col-md-6 mb-3">
-                <input type="text" class="form-control set-control" id="firstName" placeholder="Имя" value="" required="">
-                <input type="text" class="form-control set-control" id="lastName" placeholder="Отчество" value="" required="">
-                <input type="text" class="form-control set-control" id="family" placeholder="Фамилия" value="" required="">
+                <input type="text" class="form-control set-control" id="firstName" placeholder="Имя" value="" required="" disabled>
+                <input type="text" class="form-control set-control" id="lastName" placeholder="Отчество" value="" required="" disabled>
+                <input type="text" class="form-control set-control" id="family" placeholder="Фамилия" value="" required="" disabled>
             </div>
             <div style="white-space: nowrap;" class="col-md-6 mb-3">
-                <input type="date" class="form-control set-control" id="DOB" placeholder="Дата рождения" value="" required="">
+                <input type="date" class="form-control set-control" id="DOB" placeholder="Дата рождения" value="" required="" disabled>
                 (дата рождения)
             </div>
-            </form:form>
-            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-                <h3 class="h3">Данные семьи</h3>
-                <a class="d-flex align-items-center text-muted" href="#" style= "display:none">
-                    <span id="save-item-family" style="text-decoration: underline; display:none;">сохранить изменения&nbsp;</span>
-                </a>
-            </div>
-            <form:form method="post" class="form-signup" id="setingForm" name="userSetingsForm" >
-            <div style="white-space: nowrap;" class="col-md-6 mb-3">
-                <input type="email" class="form-control" id="EmailAdd" placeholder="Email" value="" required="">
-                <span id="item-add-family" style="text-decoration: underline;">&nbsp;отправить приглашение&nbsp;</span>
-            </div>
-            <div style="white-space: nowrap;" class="col-md-6 mb-3">
-                <input type="text" class="form-control set-control" id="LoginFamily" placeholder="Логин" value="" required="" disabled>
-                <input type="email" class="form-control" id="EmailFamily" placeholder="Email" value="" required="" disabled>
-                <input type="text" class="form-control set-control" id="FamilyNick" placeholder="краткое имя" value="" required="">
-            </div>
-            <div style="white-space: nowrap;" class="col-md-6 mb-3">
-                <input type="text" class="form-control set-control" id="LoginFamily2" placeholder="Логин" value="" required="" disabled>
-                <input type="email" class="form-control" id="EmailFamily2" placeholder="Email" value="" required="" disabled>
-                <input type="text" class="form-control set-control" id="FamilyNick2" placeholder="краткое имя" value="" required="">
-            </div>
-            </form:form>
+                <jsp:include page="${hasFamily?\"familyExist.jsp\":\"familyNoExist.jsp\"}"/>
             <script src="resources/js/jquery/jquery.slim.min.js"></script>
             <script src="resources/js/bs/bootstrap.bundle.min.js"></script>
             <script src="resources/js/featherIcons/feather.min.js"></script>
