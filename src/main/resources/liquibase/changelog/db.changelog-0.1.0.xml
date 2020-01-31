@@ -469,4 +469,11 @@
         </sql>
     </changeSet>
 
+    <changeSet id="40" author="e_belolipetskaya">
+        <sql>
+            UPDATE public.role SET brief = 'ROLE_USER' WHERE roleid = 1;
+            UPDATE public.role SET brief = 'ROLE_ADMIN' WHERE roleid = 2;
+        </sql>
+    </changeSet>
+
 </databaseChangeLog>
