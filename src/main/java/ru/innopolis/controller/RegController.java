@@ -1,6 +1,7 @@
 package ru.innopolis.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -26,6 +27,7 @@ public class RegController {
     @Autowired
     UserService userService;
     @Autowired
+    @Qualifier("registrationValidator")
     Validator regValidator;
     @Autowired
     PasswordEncoder passwordEncoder;
@@ -50,7 +52,7 @@ public class RegController {
         user.setIsblock(1);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         userService.save(user);
-        modelAndView.setViewName("redirect:/login");
+        modelAndView.setViewName("login");
         return modelAndView;
     }
 

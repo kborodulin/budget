@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.innopolis.domain.Family;
 import ru.innopolis.repository.FamilyRepository;
+import ru.innopolis.service.FamemService;
 import ru.innopolis.service.FamilyService;
 
 import javax.persistence.EntityManager;
@@ -21,6 +22,13 @@ public class FamilyServiceImpl implements FamilyService {
 
     @Autowired
     private FamilyRepository familyRepository;
+
+    private FamemService famemService;
+
+    @Autowired
+    public void setUserService(FamemService famemService) {
+        this.famemService = famemService;
+    }
 
     @Override
     public void save(Family family) {
@@ -44,5 +52,17 @@ public class FamilyServiceImpl implements FamilyService {
     public List<Family> findAll() {
         log.info("find all family");
         return familyRepository.findAll();
+    }
+
+    @Override
+    public void create(Family family, String login) {
+        save(family);
+        family = findByName(family.getName());
+        famemService.setFamilyid(login, family.getFamilyid());
+    }
+
+    public Family findByName(String name) {
+        log.info("find family by name {}", name);
+        return familyRepository.findFirstByName(name);
     }
 }

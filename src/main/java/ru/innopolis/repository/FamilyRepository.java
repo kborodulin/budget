@@ -6,4 +6,5 @@ import ru.innopolis.domain.Family;
 
 @Repository
 public interface FamilyRepository extends JpaRepository<Family, Long> {
+    Family findFirstByName(String name);
 }

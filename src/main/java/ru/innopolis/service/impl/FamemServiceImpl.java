@@ -98,4 +98,10 @@ public class FamemServiceImpl implements FamemService {
         Long userId = user.getUserid();
         return getByUserid(userId);
     }
+
+    @Override
+    public void setFamilyid(String login, Long familyid) {
+        Famem famem = getByLogin(login);
+        famem.setFamilyid(familyid);
+    }
 }

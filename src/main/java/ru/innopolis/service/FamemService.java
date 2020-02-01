@@ -20,4 +20,6 @@ public interface FamemService {
     void update(Famem famem);
 
     Famem getByLogin(String username);
+
+    void setFamilyid(String login, Long familyid);
 }
