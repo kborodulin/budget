@@ -1,5 +1,5 @@
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ page contentType="text/html;charset=UTF-8" %>
-<%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <!doctype html>
 <html lang="ru">
 <head>
@@ -57,17 +57,18 @@
         <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
             <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
                 <h3 class="h3">Личные данные</h3>
-                <a class="d-flex align-items-center text-muted" href="#">
-                    <span id="edition-account" style="text-decoration: underline; display:inherit;">редактирование&nbsp;</span>
+
+                <a class="d-flex align-items-center text-muted" href="#" style= "display:none">
                     <span id="save-item-account" style="text-decoration: underline; display:none;">сохранить изменения&nbsp;</span>
                 </a>
             </div>
-            <form:form method="post" class="form-signup" id="setingForm" name="personalInfoForm"  action="account/saveinfo">
+            <form:form method="post" class="form-signup" id="setingForm" name="personalInfoForm" action="account/saveinfo">
             <div style="white-space: nowrap;" class="col-md-6 mb-3">
                 <input type="text" class="form-control set-control" id="Login" placeholder="Логин" value="${user.login}" required="" disabled>
                 <input type="email" class="form-control" id="Email" placeholder="Email" value="${user.email}" required="" disabled>
             </div>
             <div style="white-space: nowrap;" class="col-md-6 mb-3">
+
                 <input type="text" class="form-control set-control" id="firstName" placeholder="Имя" value="${famem.name}"  name="name" required="" disabled>
                 <input type="text" class="form-control set-control" id="lastName" placeholder="Отчество" value="${famem.patronymic}" name="patronymic" required="" disabled>
                 <input type="text" class="form-control set-control" id="family" placeholder="Фамилия" value="${famem.surname}" name="surname" required="" disabled>
@@ -78,6 +79,7 @@
             </div>
             </form:form>
             <jsp:include page="${famem.familyid!=null?\"familyExist.jsp\":\"familyNoExist.jsp\"}"/>
+
             <script src="resources/js/jquery/jquery.slim.min.js"></script>
             <script src="resources/js/bs/bootstrap.bundle.min.js"></script>
             <script src="resources/js/featherIcons/feather.min.js"></script>
