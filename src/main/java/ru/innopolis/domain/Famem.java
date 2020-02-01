@@ -1,9 +1,10 @@
 package ru.innopolis.domain;
 
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "famem")
@@ -19,7 +20,8 @@ public class Famem {
 
     private String patronymic;
 
-    private LocalDateTime datebirth;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDate datebirth;
 
     private String shortname;
 

@@ -31,7 +31,7 @@
         </a>
     </li>
     <li class="nav-item">
-        <a class="nav-link" id="nav-item-settings" href="/personalAccount">
+        <a class="nav-link" id="nav-item-settings" href="/account">
             <span data-feather="user"></span>
             Личный кабинет
         </a>

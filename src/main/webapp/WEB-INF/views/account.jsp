@@ -1,3 +1,4 @@
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ page contentType="text/html;charset=UTF-8" %>
 <!doctype html>
 <html lang="ru">
@@ -60,20 +61,21 @@
                     <span id="save-item-account" style="text-decoration: underline; display:none;">сохранить изменения&nbsp;</span>
                 </a>
             </div>
-            <form:form method="post" class="form-signup" id="setingForm" name="userSetingsForm" >
+            <form:form method="post" class="form-signup" id="setingForm" name="personalInfoForm" action="account/saveinfo">
             <div style="white-space: nowrap;" class="col-md-6 mb-3">
-                <input type="text" class="form-control set-control" id="Login" placeholder="Логин" value="" required="">
-                <input type="email" class="form-control" id="Email" placeholder="Email" value="" required="" disabled>
+                <input type="text" class="form-control set-control" id="Login" placeholder="Логин" value="${user.login}" required="" disabled>
+                <input type="email" class="form-control" id="Email" placeholder="Email" value="${user.email}" required="" disabled>
             </div>
             <div style="white-space: nowrap;" class="col-md-6 mb-3">
-                <input type="text" class="form-control set-control" id="firstName" placeholder="Имя" value="" required="">
-                <input type="text" class="form-control set-control" id="lastName" placeholder="Отчество" value="" required="">
-                <input type="text" class="form-control set-control" id="family" placeholder="Фамилия" value="" required="">
+                <input type="text" class="form-control set-control" id="firstName" placeholder="Имя" value="${famem.name}" name="name" required="">
+                <input type="text" class="form-control set-control" id="lastName" placeholder="Отчество" value="${famem.patronymic}" name="patronymic" required="">
+                <input type="text" class="form-control set-control" id="family" placeholder="Фамилия" value="${famem.surname}" name="surname" required="">
             </div>
             <div style="white-space: nowrap;" class="col-md-6 mb-3">
-                <input type="date" class="form-control set-control" id="DOB" placeholder="Дата рождения" value="" required="">
+                <input type="date" class="form-control set-control" id="DOB" placeholder="Дата рождения" value="${famem.datebirth}" name="datebirth" required="">
                 (дата рождения)
             </div>
+            <button class="btn btn-lg btn-primary btn-block" id="buttonSaveChanges" type="submit">Сохранить</button>
             </form:form>
             <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
                 <h3 class="h3">Данные семьи</h3>

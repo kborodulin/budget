@@ -476,4 +476,10 @@
         </sql>
     </changeSet>
 
+    <changeSet id="41" author="e_belolipetskaya">
+        <sql>
+            ALTER TABLE famem ALTER COLUMN datebirth TYPE date;
+        </sql>
+    </changeSet>
+
 </databaseChangeLog>

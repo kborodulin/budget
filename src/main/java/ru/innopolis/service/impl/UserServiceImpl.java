@@ -58,4 +58,10 @@ public class UserServiceImpl implements UserService {
         LOGGER.info("find user by login {}", login);
         return userRepository.findFirstByLogin(login);
     }
+
+    @Override
+    public Long getUseridByLogin(String login) {
+        User user = userRepository.findFirstByLogin(login);
+        return user.getUserid();
+    }
 }

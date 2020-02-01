@@ -12,4 +12,12 @@ public interface FamemService {
     void delete(Famem famem);
 
     List<Famem> findAll();
+
+    Famem findByUserid(Long id);
+
+    Famem getByUserid(Long id);
+
+    void update(Famem famem);
+
+    Famem getByLogin(String username);
 }
