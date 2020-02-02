@@ -47,7 +47,7 @@ public class AccountController {
         return modelAndView;
     }
 
-    @PostMapping(value = "/saveFamily")
+    @PostMapping(value = "/savefamily")
     public ModelAndView saveNewFamily(@ModelAttribute("familyInfo") @Validated Family family, BindingResult result,
                                       @AuthenticationPrincipal User user){
         ModelAndView modelAndView = new ModelAndView();
