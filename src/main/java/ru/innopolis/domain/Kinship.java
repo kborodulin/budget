@@ -1,12 +1,14 @@
 package ru.innopolis.domain;
 
 import lombok.Data;
+import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
 
 @Entity
 @Table(name = "kinship")
 @Data
+@DynamicInsert
 public class Kinship {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
