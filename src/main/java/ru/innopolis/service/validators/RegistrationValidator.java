@@ -1,4 +1,4 @@
-package ru.innopolis.service;
+package ru.innopolis.service.validators;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -7,13 +7,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 import ru.innopolis.domain.User;
+import ru.innopolis.service.UserService;
 
 /**
  * RegServiceImpl
  *
  * @author Ekaterina Belolipetskaya
  */
-@Service
+@Service("registrationValidator")
 public class RegistrationValidator implements Validator {
     private static final Logger LOGGER = LoggerFactory.getLogger(RegistrationValidator.class);
     private static final int PASSWORD_LENGTH = 8;
@@ -48,7 +49,7 @@ public class RegistrationValidator implements Validator {
             return;
         }
 
-        LOGGER.debug("validation for registration data finished");
+        LOGGER.debug("validation for registration data finished successfully");
 
     }
 }

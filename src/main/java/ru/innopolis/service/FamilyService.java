@@ -12,4 +12,8 @@ public interface FamilyService {
     void delete(Family family);
 
     List<Family> findAll();
+
+    void create(Family family, String login);
+
+    Family findByName(String name);
 }
