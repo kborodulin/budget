@@ -22,7 +22,7 @@ import ru.innopolis.service.UserService;
 @Controller
 @Slf4j
 @RequestMapping("/account")
-public class PersonalInfoController {
+public class AccountController {
 
     FamemService famemService;
     UserService userService;
