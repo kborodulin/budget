@@ -48,11 +48,9 @@ public class RegController {
             modelAndView.addObject("result", result);
             return modelAndView;
         }
-        user.setRoleid(1L);
-        user.setIsblock(1);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         userService.save(user);
-        modelAndView.setViewName("login");
+        modelAndView.setViewName("redirect:/login");
         return modelAndView;
     }
 

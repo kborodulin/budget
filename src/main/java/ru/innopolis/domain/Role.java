@@ -1,12 +1,14 @@
 package ru.innopolis.domain;
 
 import lombok.Data;
+import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
 
 @Entity
 @Table(name = "role")
 @Data
+@DynamicInsert
 public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

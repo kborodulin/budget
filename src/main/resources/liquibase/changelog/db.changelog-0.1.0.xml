@@ -482,4 +482,10 @@
         </sql>
     </changeSet>
 
+    <changeSet id="42" author="kborodulin">
+        <sql>
+            ALTER TABLE users ALTER COLUMN isblock SET DEFAULT 1;
+        </sql>
+    </changeSet>
+
 </databaseChangeLog>

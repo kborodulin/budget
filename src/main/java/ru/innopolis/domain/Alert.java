@@ -3,6 +3,7 @@ package ru.innopolis.domain;
 
 
 import lombok.Data;
+import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -11,6 +12,7 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "alert")
 @Data
+@DynamicInsert
 public class Alert {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

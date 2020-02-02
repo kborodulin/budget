@@ -3,12 +3,14 @@ package ru.innopolis.domain;
 
 
 import lombok.Data;
+import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
 
 @Entity
 @Table(name = "users")
 @Data
+@DynamicInsert
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,7 +22,7 @@ public class User {
 
     private String email;
 
-    private int isblock;
+    private Integer isblock;
 
     private Long roleid;
 }
