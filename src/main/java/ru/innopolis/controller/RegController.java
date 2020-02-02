@@ -50,7 +50,7 @@ public class RegController {
         }
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         userService.save(user);
-        modelAndView.setViewName("login");
+        modelAndView.setViewName("redirect:/login");
         return modelAndView;
     }
 
