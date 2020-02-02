@@ -1,5 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8"%>
-<form:form method="post" class="form-signup" id="setingForm" name="userEdFamily" >
+<%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+
+<form:form method="post" class="form-signup" id="setingForm2" name="familyInfo" action="account/savefamily">
 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
     <h3 class="h3">Новая семья
     </h3>
@@ -10,7 +12,7 @@
 </div>
     <div>
     <div style="white-space: nowrap;" class="col-md-6 mb-3">
-    <input type="text" class="form-control" id="NewFamily" placeholder="введите имя семьи" value="" required="" style= "display:none">
+    <input type="text" class="form-control" id="NewFamily" name="name" placeholder="введите имя семьи" value="" required="" style= "display:none">
     </div>
 </div>
 </form:form>
