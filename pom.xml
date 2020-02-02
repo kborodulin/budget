@@ -25,6 +25,7 @@
         <junit-jupiter-engine.version>5.6.0</junit-jupiter-engine.version>
         <liquibase.version>3.8.5</liquibase.version>
         <lombok.version>1.18.6</lombok.version>
+        <swagger2.version>2.9.2</swagger2.version>
     </properties>
 
     <dependencies>
@@ -120,6 +121,21 @@
             <version>${lombok.version}</version>
             <scope>provided</scope>
         </dependency>
+
+        <!-- https://mvnrepository.com/artifact/io.springfox/springfox-swagger2 -->
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger2</artifactId>
+            <version>${swagger2.version}</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/io.springfox/springfox-swagger-ui -->
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger-ui</artifactId>
+            <version>${swagger2.version}</version>
+        </dependency>
+
     </dependencies>
 
     <build>
