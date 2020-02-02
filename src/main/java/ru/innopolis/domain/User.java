@@ -22,7 +22,7 @@ public class User {
 
     private String email;
 
-    private int isblock;
+    private Integer isblock;
 
     private Long roleid;
 }
