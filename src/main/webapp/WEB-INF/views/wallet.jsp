@@ -51,17 +51,167 @@
         <nav class="col-md-2 d-none d-md-block bg-light sidebar">
             <div class="sidebar-sticky">
                 <%@include file="include/mainMenu.jsp" %>
+                <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+                    <span>Cписок счетов</span>
+                    <a class="d-flex align-items-center text-muted" id="addNewInvoice" href="#" aria-label="Новый счет">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus-circle"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="16"></line><line x1="8" y1="12" x2="16" y2="12"></line></svg>
+                    </a>
+                </h6>
+                <ul class="nav flex-column mb-2">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+                            42151723423 (Сбер)
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+                            124124143 (Сбер)
+                        </a>
+                    </li>
+                </ul>
             </div>
+
         </nav>
 
         <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
             <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
                 <h3 class="h3">Счета</h3>
             </div>
+            <form:form class="form-inline" name="transactionForm" action="/account/wallet/newTransaction">
+                    <div class="form-group mx-sm-3">
+                        <label for="inputSum" class="sr-only">Сумма</label>
+                        <input type="text" class="form-control" name="sum" id="inputSum" placeholder="Сумма">
+                    </div>
+                    <select class="custom-select mx-sm-3" name="currency">
+                        <option value="1">руб.</option>
+                        <option value="2">дол.</option>
+                        <option value="3">евро</option>
+                    </select>
+                    <select class="custom-select mx-sm-3" name="account">
+                        <option selected>Счет</option>
+                        <option value="1">42151723423 (Сбер)</option>
+                        <option value="2">124124143 (Сбер)</option>
+                    </select>
+                    <select class="custom-select mx-sm-3" name="сategory">
+                        <option selected>Категория</option>
+                        <option value="1">Работа</option>
+                        <option value="2">Кредит</option>
+                        <option value="3">Депозит</option>
+                        <option value="4">Коммуналка</option>
+                        <option value="5">Телефон</option>
+                    </select>
+                    <div class="form-group mx-sm-3">
+                        <label for="inputSum" class="sr-only">Комментарий</label>
+                        <input type="text" maxlength="200" class="form-control" id="comments" name="comments" placeholder="Комментарий">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Сохранить</button>
+            </form:form>
+
+
+
+            <table class="table my-5">
+                <thead>
+                <tr>
+                    <td colspan="2">
+                        <form:form name="pickDate" id="pickDate">
+                            <div class="input-group m-3 w-25">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="basic-addon1">Статистика на</span>
+                                </div>
+                                <input type="date" class="form-control" name="statDate" id="statDate" aria-describedby="basic-addon1">
+                            </div>
+                        </form:form>
+                    </td>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>
+                        <div class="">Коммуналка</div>
+                        <div class="text-muted" style="font-size: x-small">за уборку подъезда</div>
+                    </td>
+                    <td>
+                        <div class="text-danger">-1000 руб.</div>
+                        <div class="text-muted" style="font-size: x-small">12.12.2020</div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="">Одежда</div>
+                        <div class="text-muted" style="font-size: x-small">Труселя D&G</div>
+                    </td>
+                    <td>
+                        <div class="text-danger">-20000</div>
+                        <div class="text-muted" style="font-size: x-small">14.02.2020</div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="">Кино</div>
+                        <div class="text-muted" style="font-size: x-small">Холоп</div>
+                    </td>
+                    <td>
+                        <div class="text-danger">-500</div>
+                        <div class="text-muted" style="font-size: x-small">14.01.2020</div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
         </main>
     </div>
 </div>
+
+
+<!-- Modal -->
+<div class="modal fade bd-example-modal-sm" id="newWalletDialog" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Новый счет</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="walletName" class="col-form-label">Название</label><br>
+                    <input type="text" class="form-control" id="walletName" name="walletName" maxlength="50">
+                </div>
+                <div class="form-group">
+                    <label for="walletNum" class="col-form-label">Номер счета</label><br>
+                    <input type="text" class="form-control" id="walletNum" name="walletNum">
+                    <small id="walletNumWarn" class="form-text text-muted text-danger"></small>
+                </div>
+                <div class="form-group">
+                    <label for="walletCur" class="col-form-label">Валюта счета</label><br>
+                    <select class="form-control" id="walletCur" name="walletCur">
+                        <option value="1">Рубли</option>
+                        <option value="2">Доллары</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="walletType" class="col-form-label">Тип счета</label><br>
+                    <select class="form-control" id="walletType" name="walletType">
+                        <option value="1">Наличные</option>
+                        <option value="2">Банковский вклад</option>
+                    </select>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+                <button type="submit" class="btn btn-primary">Сохранить</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 <script src="../resources/js/jquery/jquery.slim.min.js"></script>
+
+<script src="../resources/js/wallets.js"></script>
+
 <script src="../resources/js/bs/bootstrap.bundle.min.js"></script>
 <script src="../resources/js/featherIcons/feather.min.js"></script>
 <script src="../resources/js/Chart.js/Chart.min.js"></script>
