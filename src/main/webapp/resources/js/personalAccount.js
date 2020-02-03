@@ -56,7 +56,5 @@ setEditionNewFamily.addEventListener("click", e => {
 if (setItemNewFamily)
 setItemNewFamily.addEventListener("click", e => {
     e.preventDefault();
-    document.querySelector("#save-item-new-family").style.display = "none";
-    document.querySelector("#edition-new-family").style.display = "";
-    document.querySelector("#NewFamily").style.display = "none";
+    document.querySelector("#setingForm2").submit();
 });
