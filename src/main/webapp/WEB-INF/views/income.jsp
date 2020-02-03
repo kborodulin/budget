@@ -58,10 +58,93 @@
             <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
                 <h3 class="h3">Доходы</h3>
             </div>
+            <form:form class="form-inline" name="incomeForm" action="/account/income/newIncome">
+                <div class="form-group mx-sm-3">
+                    <label for="inputSum" class="sr-only">Сумма</label>
+                    <input type="text" class="form-control" name="sum" id="inputSum" placeholder="Сумма">
+                </div>
+                <select class="custom-select mx-sm-3" name="currency">
+                    <option value="1">руб.</option>
+                    <option value="2">дол.</option>
+                    <option value="3">евро</option>
+                </select>
+                <select class="custom-select mx-sm-3" name="wallet">
+                    <option selected>Счет</option>
+                    <option value="1">42151723423 (Сбер)</option>
+                    <option value="2">124124143 (Сбер)</option>
+                </select>
+                <select class="custom-select mx-sm-3" name="сategory">
+                    <option selected>Категория</option>
+                    <option value="1">Работа</option>
+                    <option value="2">Кредит</option>
+                    <option value="3">Депозит</option>
+                    <option value="4">Коммуналка</option>
+                    <option value="5">Телефон</option>
+                </select>
+                <div class="form-group mx-sm-3">
+                    <label for="inputSum" class="sr-only">Комментарий</label>
+                    <input type="text" maxlength="200" class="form-control" id="comments" name="comments"
+                           placeholder="Комментарий">
+                </div>
+                <button type="submit" class="btn btn-primary">Сохранить</button>
+            </form:form>
+
+
+            <table class="table my-5">
+                <thead>
+                <tr>
+                    <td colspan="2">
+                        <form:form name="pickDate" id="pickDate">
+                            <div class="input-group m-3 w-25">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="basic-addon1">Статистика на</span>
+                                </div>
+                                <input type="date" class="form-control" name="statDate" id="statDate"
+                                       aria-describedby="basic-addon1">
+                            </div>
+                        </form:form>
+                    </td>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>
+                        <div class="">Кредит</div>
+                        <div class="text-muted" style="font-size: x-small">вот это ...</div>
+                    </td>
+                    <td>
+                        <div class="text-success">1000 руб.</div>
+                        <div class="text-muted" style="font-size: x-small">12.12.2020</div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="">Зарплата</div>
+                        <div class="text-muted" style="font-size: x-small">D&G</div>
+                    </td>
+                    <td>
+                        <div class="text-success">20000</div>
+                        <div class="text-muted" style="font-size: x-small">14.02.2020</div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="">Взаймы</div>
+                        <div class="text-muted" style="font-size: x-small">так себе доход</div>
+                    </td>
+                    <td>
+                        <div class="text-success">500</div>
+                        <div class="text-muted" style="font-size: x-small">14.01.2020</div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
         </main>
     </div>
 </div>
+
 <script src="../resources/js/jquery/jquery.slim.min.js"></script>
+
 <script src="../resources/js/bs/bootstrap.bundle.min.js"></script>
 <script src="../resources/js/featherIcons/feather.min.js"></script>
 <script src="../resources/js/Chart.js/Chart.min.js"></script>
