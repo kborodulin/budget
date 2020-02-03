@@ -1,10 +1,8 @@
 <%@ page contentType="text/html;charset=UTF-8"%>
-<%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
-
-<form:form method="post" class="form-signup" id="setingForm2" name="familyInfo" action="account/savefamily">
+<form:form method="post" class="form-signup" id="setingForm" name="userSetingsFamily" >
 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
     <h3 class="h3">Данные семьи
-        <input type="text" class="form-control set-control-family" id="FamilyName" placeholder="Family" name="name" value="${family.name}" required="">
+        <input type="text" class="form-control set-control-family" id="FamilyName" placeholder="Family" value="${family.name}" required="">
     </h3>
     <a class="d-flex align-items-center text-muted" href="#" style= "display:none">
         <span id="edition-family" style="text-decoration: underline; display:inherit; color: #007bff;">редактирование&nbsp;</span>

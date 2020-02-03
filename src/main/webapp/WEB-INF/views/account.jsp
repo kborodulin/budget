@@ -1,6 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
-
 <!doctype html>
 <html lang="ru">
 <head>
@@ -46,12 +45,12 @@
     <link href="resources/css/dashboard.css" rel="stylesheet">
 </head>
 <body>
-<%@include file="navBar.jsp" %>
+<%@include file="include/navBar.jsp" %>
 <div class="container-fluid">
     <div class="row">
         <nav class="col-md-2 d-none d-md-block bg-light sidebar">
             <div class="sidebar-sticky">
-                <%@include file="mainMenu.jsp" %>
+                <%@include file="include/mainMenu.jsp" %>
             </div>
         </nav>
 
@@ -78,7 +77,7 @@
                 (дата рождения)
             </div>
             </form:form>
-            <jsp:include page="${famem.familyid!=null?\"familyExist.jsp\":\"familyNoExist.jsp\"}"/>
+            <jsp:include page="${famem.familyid!=null?\"include/familyExist.jsp\":\"include/familyNoExist.jsp\"}"/>
             <script src="resources/js/jquery/jquery.slim.min.js"></script>
             <script src="resources/js/bs/bootstrap.bundle.min.js"></script>
             <script src="resources/js/featherIcons/feather.min.js"></script>
