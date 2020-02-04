@@ -1,28 +1,20 @@
 package ru.innopolis.domain;
 
-
-
 import lombok.Data;
 import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
 
 @Entity
-@Table(name = "users")
+@Table(name = "currency")
 @Data
 @DynamicInsert
-public class User {
+public class Currency {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long userid;
+    private Long currencyid;
 
-    private String login;
+    private String name;
 
-    private String password;
-
-    private String email;
-
-    private Integer isblock;
-
-    private Long roleid;
+    private String brief;
 }
