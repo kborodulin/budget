@@ -5,7 +5,7 @@
 <html lang="RU">
 <head>
     <meta charset="UTF-8">
-    <title>Registration</title>
+    <title>Регистрация - Контроль расходов</title>
     <link rel="stylesheet" href="resources/css/bs/bootstrap.min.css">
     <link rel="stylesheet" href="resources/style.css" >
 </head>
