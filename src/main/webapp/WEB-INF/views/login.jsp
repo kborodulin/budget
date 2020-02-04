@@ -4,7 +4,7 @@
 <html lang="RU">
 <head>
     <meta charset="UTF-8">
-    <title>Login</title>
+    <title>Авторизация - Контроль расходов</title>
     <link rel="stylesheet" href="resources/css/bs/bootstrap.min.css">
     <link rel="stylesheet" href="resources/style.css" >
 </head>

@@ -5,7 +5,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Main</title>
+    <title>Счета - Контроль расходов</title>
 
     <!-- Bootstrap core CSS -->
     <link rel="stylesheet" href="../resources/css/bs/bootstrap.min.css">
@@ -81,7 +81,7 @@
             </div>
             <form:form class="form-inline" name="transactionForm" action="/account/wallet/newTransaction">
                     <div class="form-group mx-sm-3">
-                        <label for="inputSum" class="sr-only">Сумма</label>
+                        <label for="inputSum" class="sr-only">Сумма перевода</label>
                         <input type="text" class="form-control" name="sum" id="inputSum" placeholder="Сумма">
                     </div>
                     <select class="custom-select mx-sm-3" name="currency">
@@ -90,12 +90,12 @@
                         <option value="3">евро</option>
                     </select>
                     <select class="custom-select mx-sm-3" name="walletOut">
-                        <option selected>Счет</option>
+                        <option selected>Счет отправления</option>
                         <option value="1">42151723423 (Сбер)</option>
                         <option value="2">124124143 (Сбер)</option>
                     </select>
                 <select class="custom-select mx-sm-3" name="walletIn">
-                    <option selected>Счет</option>
+                    <option selected>Счет получения</option>
                     <option value="1">42151723423 (Сбер)</option>
                     <option value="2">124124143 (Сбер)</option>
                 </select>
@@ -140,7 +140,7 @@
                         <div class="text-muted" style="font-size: x-small">перевел с одного счета на другой</div>
                     </td>
                     <td>
-                        <div class="text-success">1000</div>
+                        <div class="text-success">1000 руб.</div>
                         <div class="text-muted" style="font-size: x-small">14.02.2020</div>
                     </td>
                 </tr>
