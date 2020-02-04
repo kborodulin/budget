@@ -1,5 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 
 <html lang="RU">
 <head>
@@ -14,6 +16,9 @@
     <fieldset>
         <div class="text-center mb-4">
             <h1 class="h3 mb-3 font-weight-normal">Контроль семейного бюджета</h1>
+        </div>
+        <div id="errors">
+            <c:out value="${error.equals(\"true\")?\"Ошибка авторизации\":\"\"}"/>
         </div>
         <div class="form-label-group">
             <input type="login" name="login" class="form-control" placeholder="введите логин" required autofocus>
