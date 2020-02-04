@@ -3,8 +3,6 @@ package ru.innopolis.controller;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -15,9 +13,12 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import ru.innopolis.domain.Famem;
 import ru.innopolis.domain.Family;
+import ru.innopolis.domain.User;
 import ru.innopolis.service.FamemService;
 import ru.innopolis.service.FamilyService;
 import ru.innopolis.service.UserService;
+
+import javax.servlet.http.HttpServletRequest;
 
 @Controller
 @Slf4j
@@ -37,11 +38,11 @@ public class AccountController {
     }
 
     @PostMapping(value = "/saveinfo")
-    public ModelAndView saveNewPersonalInfo(@ModelAttribute("personalInfoForm") Famem famem,
-                                            @AuthenticationPrincipal User user) {
+    public ModelAndView saveNewPersonalInfo(@ModelAttribute("personalInfoForm") Famem famem, HttpServletRequest request) {
+        User user = (User) request.getSession().getAttribute("user");
         ModelAndView modelAndView = new ModelAndView();
         log.info("saved changes in famem {}", famem);
-        famem.setUserid(userService.getUseridByLogin(user.getUsername()));
+        famem.setUserid(user.getUserid());
         famemService.update(famem);
         modelAndView.setViewName("redirect:/account");
         return modelAndView;
@@ -49,25 +50,27 @@ public class AccountController {
 
     @PostMapping(value = "/savefamily")
     public ModelAndView saveNewFamily(@ModelAttribute("familyInfo") @Validated Family family, BindingResult result,
-                                      @AuthenticationPrincipal User user){
+                                      HttpServletRequest request) {
+        User user = (User) request.getSession().getAttribute("user");
         ModelAndView modelAndView = new ModelAndView();
         if (result.hasErrors()) {
             modelAndView.addObject("result", result);
             modelAndView.setViewName("redirect:/account");
             return modelAndView;
         }
-        Famem famem = famemService.getByLogin(user.getUsername());
+        Famem famem = famemService.getByUserid(user.getUserid());
         log.info("save new family {}", family);
-        familyService.create(family, user.getUsername());
+        familyService.create(family, user.getLogin());
         modelAndView.setViewName("redirect:/account");
         return modelAndView;
     }
 
     @ModelAttribute
-    public void persistUser(@AuthenticationPrincipal User user, Model model) {
-        Famem famem = famemService.getByLogin(user.getUsername());
+    public void persistUser(Model model, HttpServletRequest request) {
+        User user = (User) request.getSession().getAttribute("user");
+        log.debug("get user from session {}", user);
+        Famem famem = famemService.getByUserid(user.getUserid());
         model.addAttribute("famem", famem);
-        model.addAttribute("user", userService.findFirstByLogin(user.getUsername()));
         if (famem.getFamilyid() != null) {
             model.addAttribute("family", familyService.findById(famem.getFamilyid()));
         }
