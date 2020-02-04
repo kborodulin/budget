@@ -5,10 +5,10 @@ var setItemFamily = document.querySelector("#save-item-family");
 var setEditionNewFamily = document.querySelector("#edition-new-family");
 var setItemNewFamily = document.querySelector("#save-item-new-family");
 var setEdAccount = document.querySelector("#edition-account");
-var saveItemAccount = document.querySelector("#save-item-account");
-var setNewFamily = document.querySelector("#NewFamily");
 var setSettingForm = document.querySelector("#setingForm");
-var setNavItemExit =  document.querySelector("#nav-item-exit");
+var setNavItemExit = document.querySelector("#nav-item-exit");
+var setNewFamily = document.querySelector("#NewFamily");
+var saveItemAccount = document.querySelector("#save-item-account");
 
 for (let input of setAccount) {
     input.disabled = true;
@@ -61,7 +61,5 @@ if (setEditionNewFamily)
 if (setItemNewFamily)
     setItemNewFamily.addEventListener("click", e => {
         e.preventDefault();
-        setItemNewFamily.style.display = "none";
-        setEditionNewFamily.style.display = "";
-        setNewFamily.style.display = "none";
+        document.querySelector("#setingForm2").submit();
     });
