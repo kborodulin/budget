@@ -4,14 +4,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import ru.innopolis.domain.Currency;
 import ru.innopolis.service.AccountService;
+import ru.innopolis.service.CurrencyService;
 import ru.innopolis.service.KinshipService;
 import ru.innopolis.service.RoleService;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Справочники из бд
  */
-
 @Controller
 public class ReferenceController {
     @Autowired
@@ -22,6 +26,9 @@ public class ReferenceController {
 
     @Autowired
     private AccountService accountService;
+
+    @Autowired
+    private CurrencyService currencyService;
 
     /**
      * Справочник ролей
@@ -50,4 +57,15 @@ public class ReferenceController {
         return page;
     }
 
+    /**
+     * Справочник валют
+     */
+    @GetMapping("/ref/allcurrency")
+    public String getAllCurrency(Model model, String page) {
+        List<Currency> currencies = currencyService.findAll().stream()
+                .filter(x -> x.getBrief().equals("rub"))
+                .collect(Collectors.toList());
+        model.addAttribute("refallcurrency", currencies);
+        return page;
+    }
 }
