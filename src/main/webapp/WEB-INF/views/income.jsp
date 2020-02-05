@@ -79,7 +79,7 @@
                     <option value="5">Телефон</option>
                 </select>
                 <div class="form-group mx-sm-3">
-                    <label for="inputSum" class="sr-only">Комментарий</label>
+                    <label for="comments" class="sr-only">Комментарий</label>
                     <input type="text" maxlength="200" class="form-control" id="comments" name="comments"
                            placeholder="Комментарий">
                 </div>
@@ -89,12 +89,7 @@
                 <tr>
                     <td colspan="2">
                         <form:form name="pickDate" id="pickDate">
-                            <div class="input-group m-3 w-25">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text" id="basic-addon1">Статистика на</span>
-                                </div>
-                                <input type="date" class="form-control" name="statDate" id="statDate" aria-describedby="basic-addon1">
-                            </div>
+                            <jsp:include page="include/periodSelection.jsp"/>
                         </form:form>
                     </td>
                 </tr>
