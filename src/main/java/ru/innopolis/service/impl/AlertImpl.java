@@ -7,9 +7,11 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.innopolis.domain.Alert;
 import ru.innopolis.repository.AlertRepository;
 import ru.innopolis.service.AlertService;
+import ru.innopolis.service.UserService;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -18,6 +20,9 @@ import java.util.List;
 public class AlertImpl implements AlertService {
     @PersistenceContext
     private EntityManager em;
+
+    @Autowired
+    private UserService userService;
 
     @Autowired
     private AlertRepository alertRepository;
@@ -44,5 +49,15 @@ public class AlertImpl implements AlertService {
     public List<Alert> findAll() {
         log.info("find all alert");
         return alertRepository.findAll();
+    }
+
+    @Override
+    public void setAlert(String email, Long userId) {
+        log.info("set new alert for user with email {} from user with id {}", email, userId);
+        Alert alert = new Alert();
+        alert.setInitiator(userId);
+        alert.setReceiver(userService.findFirstByEmail(email).getUserid());
+        alert.setDatealert(LocalDateTime.now());
+        save(alert);
     }
 }

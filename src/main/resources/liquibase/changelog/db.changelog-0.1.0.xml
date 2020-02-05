@@ -488,4 +488,11 @@
         </sql>
     </changeSet>
 
+    <changeSet id="43" author="e_belolipetskaya">
+        <sql>
+            ALTER TABLE alert ADD COLUMN initiator bigint REFERENCES users ("userid");
+            ALTER TABLE alert ADD COLUMN receiver bigint REFERENCES users ("userid");
+        </sql>
+    </changeSet>
+
 </databaseChangeLog>
