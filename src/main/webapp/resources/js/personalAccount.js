@@ -9,7 +9,9 @@ var setSettingForm = document.querySelector("#setingForm");
 var setNavItemExit = document.querySelector("#nav-item-exit");
 var setNewFamily = document.querySelector("#NewFamily");
 var saveItemAccount = document.querySelector("#save-item-account");
-
+var saveNewMember = document.querySelector("#item-add-family");
+var setNewMember = document.querySelector("#addMemberForm")
+;
 for (let input of setAccount) {
     input.disabled = true;
 }
@@ -62,4 +64,10 @@ if (setItemNewFamily)
     setItemNewFamily.addEventListener("click", e => {
         e.preventDefault();
         document.querySelector("#setingForm2").submit();
+    });
+
+if (saveNewMember)
+    saveNewMember.addEventListener("click", e => {
+        e.preventDefault();
+        setNewMember.submit()
     });

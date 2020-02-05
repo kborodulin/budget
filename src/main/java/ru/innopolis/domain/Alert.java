@@ -1,7 +1,6 @@
 package ru.innopolis.domain;
 
 
-
 import lombok.Data;
 import org.hibernate.annotations.DynamicInsert;
 
@@ -29,4 +28,8 @@ public class Alert {
     private BigDecimal status;
 
     private BigDecimal isalertsignproc;
+
+    private Long initiator;
+
+    private Long receiver;
 }

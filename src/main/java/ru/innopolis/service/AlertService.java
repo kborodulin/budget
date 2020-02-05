@@ -12,4 +12,6 @@ public interface AlertService {
     void delete(Alert alert);
 
     List<Alert> findAll();
+
+    void setAlert(String email, Long userId);
 }
