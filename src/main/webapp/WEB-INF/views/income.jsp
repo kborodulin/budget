@@ -11,7 +11,6 @@
     <link rel="stylesheet" href="../resources/css/bs/bootstrap.min.css">
     <link rel="stylesheet" href="../resources/styleMain.css">
 
-
     <style>
         #nav-item-income {
             color: #007bff;
@@ -57,17 +56,15 @@
         <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
             <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
                 <h3 class="h3">Доходы</h3>
+                <a class="d-flex align-items-center text-muted" href="#">
+                    <span id="save-item-income" style="text-decoration: underline;  color: #007bff;">сохранить доход&nbsp;</span>
+                </a>
             </div>
             <form:form class="form-inline" name="incomeForm" action="/account/income/newIncome">
-                <div class="form-group mx-sm-3">
-                    <label for="inputSum" class="sr-only">Сумма</label>
-                    <input type="text" class="form-control" name="sum" id="inputSum" placeholder="Сумма дохода">
+                <input type="number" step="0.01" min="0" max="999999999"  class="form-control" id="inputSumIncome" placeholder="Сумма">
+                <div class="input-group-append">
+                    <span class="input-group-text">₽</span>
                 </div>
-                <select class="custom-select mx-sm-3" name="currency">
-                    <option value="1">руб.</option>
-                    <option value="2">дол.</option>
-                    <option value="3">евро</option>
-                </select>
                 <select class="custom-select mx-sm-3" name="wallet">
                     <option selected>Счет</option>
                     <option value="1">42151723423 (Сбер)</option>
@@ -86,7 +83,6 @@
                     <input type="text" maxlength="200" class="form-control" id="comments" name="comments"
                            placeholder="Комментарий">
                 </div>
-                <button type="submit" class="btn btn-primary">Сохранить</button>
             </form:form>
             <table class="table my-5">
                 <thead>
