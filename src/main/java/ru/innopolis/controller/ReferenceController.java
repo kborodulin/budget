@@ -5,10 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import ru.innopolis.domain.Currency;
-import ru.innopolis.service.AccountService;
-import ru.innopolis.service.CurrencyService;
-import ru.innopolis.service.KinshipService;
-import ru.innopolis.service.RoleService;
+import ru.innopolis.service.*;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -29,6 +26,12 @@ public class ReferenceController {
 
     @Autowired
     private CurrencyService currencyService;
+
+    @Autowired
+    private CategoryService categoryService;
+
+    @Autowired
+    private TypeOperationService typeOperationService;
 
     /**
      * Справочник ролей
@@ -66,6 +69,24 @@ public class ReferenceController {
                 .filter(x -> x.getBrief().equals("rub"))
                 .collect(Collectors.toList());
         model.addAttribute("refallcurrency", currencies);
+        return page;
+    }
+
+    /**
+     * Справочник категорий
+     */
+    @GetMapping("/ref/allcategory")
+    public String getAllCategory(Model model, String page) {
+        model.addAttribute("refallcategory", categoryService.findAll());
+        return page;
+    }
+
+    /**
+     * Справочник типов операций
+     */
+    @GetMapping("/ref/alltypeoperation")
+    public String getAllTypeOperation(Model model, String page) {
+        model.addAttribute("refalltypeoperation", typeOperationService.findAll());
         return page;
     }
 }
