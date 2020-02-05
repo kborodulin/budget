@@ -8,6 +8,7 @@ import ru.innopolis.domain.Famem;
 import ru.innopolis.domain.User;
 import ru.innopolis.repository.FamemRepository;
 import ru.innopolis.service.FamemService;
+import ru.innopolis.service.FamilyService;
 import ru.innopolis.service.UserService;
 
 import javax.persistence.EntityManager;
@@ -25,6 +26,13 @@ public class FamemServiceImpl implements FamemService {
     private FamemRepository famemRepository;
 
     private UserService userService;
+
+    private FamilyService familyService;
+
+    @Autowired
+    public void setFamilyService(FamilyService familyService) {
+        this.familyService = familyService;
+    }
 
     @Autowired
     public void setUserService(UserService userService) {
@@ -103,5 +111,21 @@ public class FamemServiceImpl implements FamemService {
     public void setFamilyid(String login, Long familyid) {
         Famem famem = getByLogin(login);
         famem.setFamilyid(familyid);
+    }
+
+    @Override
+    public void removeFamilyRef(Long userid) {
+        Famem famem = getByUserid(userid);
+        Long familyId = famem.getFamilyid();
+        famem.setFamilyid(null);
+        if (findByFamilyid(familyId) == null) {
+            familyService.removeById(familyId);
+        }
+    }
+
+    @Override
+    public Famem findByFamilyid(Long familyId) {
+        log.info("find famem by familyId {}", familyId);
+        return famemRepository.findFirstByFamilyid(familyId);
     }
 }

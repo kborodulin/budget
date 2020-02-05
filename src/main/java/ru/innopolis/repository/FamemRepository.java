@@ -7,4 +7,6 @@ import ru.innopolis.domain.Famem;
 @Repository
 public interface FamemRepository extends JpaRepository<Famem, Long> {
     Famem findFirstByUserid(Long userid);
+
+    Famem findFirstByFamilyid(Long familyId);
 }

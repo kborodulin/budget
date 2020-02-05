@@ -65,4 +65,11 @@ public class FamilyServiceImpl implements FamilyService {
         log.info("find family by name {}", name);
         return familyRepository.findFirstByName(name);
     }
+
+    @Override
+    public void removeById(Long familyId) {
+        log.info("remove family by familyId {}", familyId);
+        Family family = findById(familyId);
+        delete(family);
+    }
 }
