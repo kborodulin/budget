@@ -43,7 +43,8 @@
     <input type="email" class="form-control" id="EmailFamily2" placeholder="Email" value="" required="" disabled>
     <input type="text" class="form-control set-control-family" id="FamilyNick2" placeholder="имя" value="" required="">
 </div>
-<a class="nav-link" id="nav-item-exit" href="" style="color: red; display:none;">
+<a class="nav-link" id="nav-item-exit" href="${pageContext.request.contextPath}/leftfamily" style="color: red; display:none;" onclick="return confirmDelete();">
     <span data-feather="power"></span>
     <span style="text-decoration: underline;">выйти из семьи</span>
 </a>
+

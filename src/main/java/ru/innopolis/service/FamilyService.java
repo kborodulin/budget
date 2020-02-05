@@ -16,4 +16,6 @@ public interface FamilyService {
     void create(Family family, String login);
 
     Family findByName(String name);
+
+    void removeById(Long familyId);
 }
