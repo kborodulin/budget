@@ -54,7 +54,13 @@
                 <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
                     <span>Cписок счетов</span>
                     <a class="d-flex align-items-center text-muted" id="addNewInvoice" href="#" aria-label="Новый счет">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus-circle"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="16"></line><line x1="8" y1="12" x2="16" y2="12"></line></svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                             class="feather feather-plus-circle">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <line x1="12" y1="8" x2="12" y2="16"></line>
+                            <line x1="8" y1="12" x2="16" y2="12"></line>
+                        </svg>
                     </a>
                 </h6>
                 <ul class="nav flex-column mb-2">
@@ -65,7 +71,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#"style="color: red">
+                        <a class="nav-link" href="#" style="color: red">
                             <span data-feather="credit-card"></span>
                             124124143 (Сбер2)
                         </a>
@@ -78,34 +84,32 @@
         <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
             <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
                 <h3 class="h3">Счета</h3>
+                <a class="d-flex align-items-center text-muted" href="#">
+                    <span id="save-item-wallet" style="text-decoration: underline;  color: #007bff;">сохранить перевод&nbsp;</span>
+                </a>
             </div>
             <form:form class="form-inline" name="transactionForm" action="/account/wallet/newTransaction">
-                    <div class="form-group mx-sm-3">
-                        <label for="inputSum" class="sr-only">Сумма перевода</label>
-                        <input type="text" class="form-control" name="sum" id="inputSum" placeholder="Сумма">
-                    </div>
-                    <select class="custom-select mx-sm-3" name="currency">
-                        <option value="1">руб.</option>
-                        <option value="2">дол.</option>
-                        <option value="3">евро</option>
-                    </select>
-                    <select class="custom-select mx-sm-3" name="walletOut">
-                        <option selected>Счет отправления</option>
-                        <option value="1">42151723423 (Сбер)</option>
-                        <option value="2">124124143 (Сбер)</option>
-                    </select>
+                <input type="number" step="0.01" min="0" max="999999999" class="form-control" id="inputSumWallet"
+                       placeholder="Сумма">
+                <div class="input-group-append">
+                    <span class="input-group-text">₽</span>
+                </div>
+                <select class="custom-select mx-sm-3" name="walletOut">
+                    <option selected>Счет отправления</option>
+                    <option value="1">42151723423 (Сбер)</option>
+                    <option value="2">124124143 (Сбер)</option>
+                </select>
                 <select class="custom-select mx-sm-3" name="walletIn">
                     <option selected>Счет получения</option>
                     <option value="1">42151723423 (Сбер)</option>
                     <option value="2">124124143 (Сбер)</option>
                 </select>
-                    <div class="form-group mx-sm-3">
-                        <label for="inputSum" class="sr-only">Комментарий</label>
-                        <input type="text" maxlength="200" class="form-control" id="comments" name="comments" placeholder="Комментарий">
-                    </div>
-                    <button type="submit" class="btn btn-primary">Сохранить</button>
+                <div class="form-group mx-sm-3">
+                    <label for="comments" class="sr-only">Комментарий</label>
+                    <input type="text" maxlength="50" class="form-control" id="comments" name="comments"
+                           placeholder="Комментарий">
+                </div>
             </form:form>
-
 
 
             <table class="table my-5">
@@ -113,12 +117,9 @@
                 <tr>
                     <td colspan="2">
                         <form:form name="pickDate" id="pickDate">
-                            <div class="input-group m-3 w-25">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text" id="basic-addon1">Статистика на</span>
-                                </div>
-                                <input type="date" class="form-control" name="statDate" id="statDate" aria-describedby="basic-addon1">
-                            </div>
+                            <form:form name="pickDate" id="pickDate">
+                                <jsp:include page="include/periodSelection.jsp"/>
+                            </form:form>
                         </form:form>
                     </td>
                 </tr>
@@ -152,7 +153,8 @@
 
 
 <!-- Modal -->
-<div class="modal fade bd-example-modal-sm" id="newWalletDialog" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+<div class="modal fade bd-example-modal-sm" id="newWalletDialog" tabindex="-1" role="dialog"
+     aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
         <div class="modal-content">
             <div class="modal-header">
