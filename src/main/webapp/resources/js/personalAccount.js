@@ -10,8 +10,13 @@ var setNavItemExit = document.querySelector("#nav-item-exit");
 var setNewFamily = document.querySelector("#NewFamily");
 var saveItemAccount = document.querySelector("#save-item-account");
 var saveNewMember = document.querySelector("#item-add-family");
-var setNewMember = document.querySelector("#addMemberForm")
-;
+var setNewMember = document.querySelector("#addMemberForm");
+var saveAlertProcAccept = document.querySelector("#acceptAlert");
+var saveAlertProcDenied = document.querySelector("#deniedAlert");
+var setAlertProcAccept= document.querySelector("#alertInfoAccept");
+var setAlertProcDenied= document.querySelector("#alertInfoDenied");
+
+
 for (let input of setAccount) {
     input.disabled = true;
 }
@@ -75,3 +80,15 @@ if (saveNewMember)
 function confirmDelete() {
     return confirm("Вы подтверждаете выход из семьи?");
 }
+
+if (saveAlertProcAccept)
+    saveAlertProcAccept.addEventListener("click", e => {
+        e.preventDefault();
+        setAlertProcAccept.submit()
+    });
+
+if (saveAlertProcDenied)
+    saveAlertProcDenied.addEventListener("click", e => {
+        e.preventDefault();
+        setAlertProcDenied.submit()
+    });
