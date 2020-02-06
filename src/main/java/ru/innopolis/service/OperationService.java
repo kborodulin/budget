@@ -14,4 +14,6 @@ public interface OperationService {
     List<Operation> findAll();
 
     List<Operation> allIncomeUser(Long userid);
+
+    List<Operation> allExpensesUser(Long userid);
 }
