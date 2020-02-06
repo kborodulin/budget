@@ -12,6 +12,7 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import ru.innopolis.domain.Alert;
 import ru.innopolis.domain.Famem;
 import ru.innopolis.domain.Family;
 import ru.innopolis.domain.User;
@@ -93,6 +94,13 @@ public class AccountController {
         model.addAttribute("famem", famem);
         if (famem.getFamilyid() != null) {
             model.addAttribute("family", familyService.findById(famem.getFamilyid()));
+        }
+        Alert alert = alertService.findByReceiver(user.getUserid());
+        if (alert != null && !alert.isAlertSignProc()) {
+            model.addAttribute("alert", alert);
+            model.addAttribute("invitingFamily", familyService.findById(alert.getFamilyid()));
+        } else {
+            model.addAttribute("alert", null);
         }
     }
 

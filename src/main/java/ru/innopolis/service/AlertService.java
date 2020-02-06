@@ -14,4 +14,6 @@ public interface AlertService {
     List<Alert> findAll();
 
     void setAlert(String email, Long userId);
+
+    Alert findByReceiver(Long userid);
 }
