@@ -71,3 +71,7 @@ if (saveNewMember)
         e.preventDefault();
         setNewMember.submit()
     });
+
+function confirmDelete() {
+    return confirm("Вы подтверждаете выход из семьи?");
+}

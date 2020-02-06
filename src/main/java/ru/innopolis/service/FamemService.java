@@ -22,4 +22,8 @@ public interface FamemService {
     Famem getByLogin(String username);
 
     void setFamilyid(String login, Long familyid);
+
+    void removeFamilyRef(Long userid);
+
+    Famem findByFamilyid(Long familyId);
 }
