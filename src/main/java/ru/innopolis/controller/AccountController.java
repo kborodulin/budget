@@ -106,6 +106,13 @@ public class AccountController {
         } else {
             model.addAttribute("alert", null);
         }
+        Alert alert = alertService.findByReceiver(user.getUserid());
+        if (alert != null && !alert.isAlertSignProc()) {
+            model.addAttribute("alert", alert);
+            model.addAttribute("invitingFamily", familyService.findById(alert.getFamilyid()));
+        } else {
+            model.addAttribute("alert", null);
+        }
     }
 
     @InitBinder(value = "familyInfo")
