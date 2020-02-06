@@ -12,4 +12,6 @@ public interface OperationService {
     void delete(Operation operation);
 
     List<Operation> findAll();
+
+    List<Operation> allIncomeUser(Long userid);
 }
