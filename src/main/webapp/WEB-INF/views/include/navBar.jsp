@@ -52,9 +52,16 @@
             <div class="modal-body">
                 Вас приглашают вступить в семью "${invitingFamily.name}".
             </div>
+            <form:form method="post" class="form-signup" id="alertInfoAccept" name="alertInfo" action="/alertproc/accept" style="display:none;">
+                    <input type="text" name="alertid" value="${alert.alertid}" required="">
+            </form:form>
+
+            <form:form method="post" class="form-signup" id="alertInfoDenied" name="alertInfo" action="/alertproc/denied" style="display:none;">
+                <input type="text" name="alertid" value="${alert.alertid}" required="">
+            </form:form>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Отклонить приглашение</button>
-                <button type="button" class="btn btn-primary" data-dismiss="modal">Вступить в семью</button>
+                <button id="deniedAlert" type="button" class="btn btn-secondary" data-dismiss="modal">Отклонить приглашение</button>
+                <button id="acceptAlert" type="button" class="btn btn-primary" data-dismiss="modal">Вступить в семью</button>
             </div>
         </div>
     </div>
