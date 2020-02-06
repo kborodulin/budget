@@ -67,5 +67,22 @@ public class OperationServiceImpl implements OperationService {
         return operations;
     }
 
-
+    @Override
+    public List<Operation> allExpensesUser(Long userid) {
+        Query query = em.createNativeQuery("select " +
+                "o.operationid, " +
+                "o.typeoperationid, " +
+                "o.categoryid, " +
+                "o.accountid, " +
+                "o.amount, " +
+                "o.dateoper, " +
+                "o.datewritedb,o.comment \n" +
+                "from operation o \n" +
+                "join account a on a.accountid = o.accountid \n" +
+                "join famem f on f.famemid = a.famemid \n" +
+                "where o.typeoperationid = 2 and f.userid = ?");
+        query.setParameter(1, userid);
+        List<Operation> operations = query.getResultList();
+        return operations;
+    }
 }
