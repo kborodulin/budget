@@ -35,7 +35,7 @@
             </c:if>
         </li>
         <li class="nav-item text-nowrap">
-            <a class="nav-link" href="#">Выход</a>
+            <a class="nav-link" href="${pageContext.request.contextPath}/login">Выход</a>
         </li>
     </ul>
 </nav>
