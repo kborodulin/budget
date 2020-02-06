@@ -6,4 +6,5 @@ import ru.innopolis.domain.Alert;
 
 @Repository
 public interface AlertRepository extends JpaRepository<Alert, Long> {
+    Alert findFirstByReceiver(Long userid);
 }
