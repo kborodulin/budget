@@ -7,10 +7,12 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.innopolis.domain.Alert;
 import ru.innopolis.repository.AlertRepository;
 import ru.innopolis.service.AlertService;
+import ru.innopolis.service.FamemService;
 import ru.innopolis.service.UserService;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -26,6 +28,9 @@ public class AlertImpl implements AlertService {
 
     @Autowired
     private AlertRepository alertRepository;
+
+    @Autowired
+    private FamemService famemService;
 
     @Override
     public void save(Alert alert) {
@@ -58,6 +63,14 @@ public class AlertImpl implements AlertService {
         alert.setInitiator(userId);
         alert.setReceiver(userService.findFirstByEmail(email).getUserid());
         alert.setDatealert(LocalDateTime.now());
+        alert.setFamilyid(famemService.getByUserid(userId).getFamilyid());
+        alert.setIsalertsignproc(BigDecimal.ZERO);
         save(alert);
+    }
+
+    @Override
+    public Alert findByReceiver(Long userid) {
+        log.info("find alert by userid {}", userid);
+        return alertRepository.findFirstByReceiver(userid);
     }
 }

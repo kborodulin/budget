@@ -32,4 +32,8 @@ public class Alert {
     private Long initiator;
 
     private Long receiver;
+
+    public boolean isAlertSignProc(){
+        return BigDecimal.ONE.compareTo(isalertsignproc)==0;
+    }
 }
