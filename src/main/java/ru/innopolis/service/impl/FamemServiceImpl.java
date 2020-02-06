@@ -128,4 +128,10 @@ public class FamemServiceImpl implements FamemService {
         log.info("find famem by familyId {}", familyId);
         return famemRepository.findFirstByFamilyid(familyId);
     }
+
+    @Override
+    public List<Famem> findAllByFamilyid(Long familyid) {
+        log.info("find all famem by familyid {}", familyid);
+        return famemRepository.findAllByFamilyid(familyid);
+    }
 }
