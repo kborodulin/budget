@@ -10,7 +10,11 @@ import ru.innopolis.service.AccountService;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+import java.math.BigDecimal;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @Transactional
@@ -44,5 +48,20 @@ public class AccountServiceImpl implements AccountService {
     public List<Account> findAll() {
         log.info("find all account");
         return accountRepository.findAll();
+    }
+
+    @Override
+    public Map<Long, Double> balance(Long userid) {
+        Query query = em.createNativeQuery("  select a.num, a.amount\n" +
+                "  from account a\n" +
+                "  join famem f on f.famemid = a.famemid\n" +
+                "  where f.userid = ?");
+        query.setParameter(1, userid);
+        List<Object[]> objects = query.getResultList();
+        Map<Long, Double> balances = new HashMap<>();
+        for (Object[] obj : objects) {
+            balances.put(((BigDecimal) obj[0]).longValue(), ((BigDecimal) obj[1]).doubleValue());
+        }
+        return balances;
     }
 }
