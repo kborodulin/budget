@@ -165,6 +165,8 @@
                         <label for="walletType" class="col-form-label">Тип счета</label><br>
                         <select class="form-control" id="walletType" name="accounttypeid"></select>
                     </div>
+                    <input type="hidden" name="amount" value="0">
+                    <input type="hidden" name="dateopen" value="">
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>

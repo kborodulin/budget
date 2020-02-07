@@ -30,6 +30,7 @@ public class WalletController {
     @PostMapping(path = "/create")
     public ModelAndView createNewWallet(@ModelAttribute("createNewAccountForm") @Validated Account account, HttpServletRequest request){
         ModelAndView modelAndView = new ModelAndView();
+
         accountService.save(account);
         modelAndView.setViewName("redirect:/wallet");
         return modelAndView;

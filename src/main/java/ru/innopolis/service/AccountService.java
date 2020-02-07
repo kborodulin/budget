@@ -12,4 +12,5 @@ public interface AccountService {
     void delete(Account account);
 
     List<Account> findAll();
+
 }
