@@ -5,6 +5,8 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="_csrf" content="${_csrf.token}"/>
+    <meta name="_csrf_header" content="${_csrf.headerName}"/>
     <title>Счета - Контроль расходов</title>
 
     <!-- Bootstrap core CSS -->
@@ -177,9 +179,9 @@
     </div>
 </form:form>
 
-<script src="../resources/js/fillAccounts.js"></script>
-<script src="../resources/js/jquery/jquery.slim.min.js"></script>
 
+<script src="../resources/js/jquery/jquery.slim.min.js"></script>
+<script src="../resources/js/fillAccounts.js"></script>
 <script src="../resources/js/wallets.js"></script>
 
 <script src="../resources/js/bs/bootstrap.bundle.min.js"></script>
