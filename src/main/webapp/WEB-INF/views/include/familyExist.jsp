@@ -1,6 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <form:form method="post" class="form-signup" id="setingForm2" name="familyInfo" action="account/savefamily">
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
@@ -33,17 +34,18 @@
         </a>
     </div>
 </form:form>
-<div style="white-space: nowrap;" class="col-md-6 mb-3">
-    <input type="text" class="form-control " id="LoginFamily" placeholder="Логин" value="" required="" disabled>
-    <input type="email" class="form-control" id="EmailFamily" placeholder="Email" value="" required="" disabled>
-    <input type="text" class="form-control set-control-family" id="FamilyNick" placeholder="имя" value="" required="">
-</div>
-<div style="white-space: nowrap;" class="col-md-6 mb-3">
-    <input type="text" class="form-control " id="LoginFamily2" placeholder="Логин" value="" required="" disabled>
-    <input type="email" class="form-control" id="EmailFamily2" placeholder="Email" value="" required="" disabled>
-    <input type="text" class="form-control set-control-family" id="FamilyNick2" placeholder="имя" value="" required="">
-</div>
-<a class="nav-link" id="nav-item-exit" href="" style="color: red; display:none;">
+<c:if test="${fn:length(membersList) gt 1}">
+    <c:forEach var="memeber" items="${membersList}">
+        <c:if test="${memeber.userid != user.userid}">
+        <div style="white-space: nowrap;" class="col-md-6 mb-3">
+            <input type="text" class="form-control " id="LoginFamily" placeholder="Логин" value="${memeber.name}" required="" disabled>
+            <input type="email" class="form-control" id="EmailFamily" placeholder="Email" value="${memeber.surname}" required="" disabled>
+        </div>
+        </c:if>
+    </c:forEach>
+</c:if>
+<a class="nav-link" id="nav-item-exit" href="${pageContext.request.contextPath}/leftfamily" style="color: red; display:none;" onclick="return confirmDelete();">
     <span data-feather="power"></span>
     <span style="text-decoration: underline;">выйти из семьи</span>
 </a>
+

@@ -12,6 +12,7 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import ru.innopolis.domain.Alert;
 import ru.innopolis.domain.Famem;
 import ru.innopolis.domain.Family;
 import ru.innopolis.domain.User;
@@ -21,6 +22,7 @@ import ru.innopolis.service.FamilyService;
 import ru.innopolis.service.UserService;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 @Controller
 @Slf4j
@@ -88,11 +90,21 @@ public class AccountController {
     @ModelAttribute
     public void persistUser(Model model, HttpServletRequest request) {
         User user = (User) request.getSession().getAttribute("user");
-        log.debug("get user from session {}", user);
         Famem famem = famemService.getByUserid(user.getUserid());
         model.addAttribute("famem", famem);
         if (famem.getFamilyid() != null) {
-            model.addAttribute("family", familyService.findById(famem.getFamilyid()));
+            Family family = familyService.findById(famem.getFamilyid());
+            model.addAttribute("family", family);
+            List<Famem> membersList = famemService.findAllByFamilyid(family.getFamilyid());
+            model.addAttribute("membersList", membersList);
+            log.info("memberList get {}", membersList);
+        }
+        Alert alert = alertService.findByReceiver(user.getUserid());
+        if (alert != null && !alert.isAlertSignProc()) {
+            model.addAttribute("alert", alert);
+            model.addAttribute("invitingFamily", familyService.findById(alert.getFamilyid()));
+        } else {
+            model.addAttribute("alert", null);
         }
     }
 
