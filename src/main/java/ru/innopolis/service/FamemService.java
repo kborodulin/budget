@@ -26,4 +26,6 @@ public interface FamemService {
     void removeFamilyRef(Long userid);
 
     Famem findByFamilyid(Long familyId);
+
+    List<Famem> findAllByFamilyid(Long familyid);
 }
