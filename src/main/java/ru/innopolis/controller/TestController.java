@@ -22,11 +22,7 @@ public class TestController {
         modelAndView.setViewName("expenses");
         return modelAndView;
     }
-    @GetMapping(value = "/wallet")
-    public ModelAndView openWallet(ModelAndView modelAndView) {
-        modelAndView.setViewName("wallet");
-        return modelAndView;
-    }
+
     @GetMapping(value = "/statistic")
     public ModelAndView openStatistic(ModelAndView modelAndView) {
         modelAndView.setViewName("statistic");

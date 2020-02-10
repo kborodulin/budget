@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import ru.innopolis.domain.*;
 import ru.innopolis.service.*;
 
@@ -20,6 +21,7 @@ public class ReferenceController {
 
     @Autowired
     private KinshipService kinshipService;
+
 
     @Autowired
     private AccountTypeService accountTypeService;
@@ -45,15 +47,18 @@ public class ReferenceController {
      * Справочник родства
      */
     @GetMapping("/ref/allkinship")
+
     public List<Kinship> getAllKinship(Model model, String page) {
         return kinshipService.findAll();
     }
+
 
     /**
      * Справочник типов счетов
      */
     @GetMapping("/ref/allaccounttype")
-    public List<AccountType> getAllAccountType(Model model, String page) {
+    @ModelAttribute("refallaccounttype")
+    public List<AccountType> getAllAccountType() {
         return accountTypeService.findAll();
     }
 
