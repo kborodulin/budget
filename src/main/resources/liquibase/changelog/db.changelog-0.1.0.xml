@@ -495,4 +495,10 @@
         </sql>
     </changeSet>
 
+    <changeSet id="44" author="kborodulin">
+        <sql>
+            delete from category where brief = 'transfer';
+        </sql>
+    </changeSet>
+
 </databaseChangeLog>

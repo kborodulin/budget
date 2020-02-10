@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import ru.innopolis.domain.*;
 import ru.innopolis.service.*;
 
@@ -72,8 +73,8 @@ public class ReferenceController {
      * Справочник категорий
      */
     @GetMapping("/ref/allcategory")
-    public List<Category> getAllCategory(Model model, String page) {
-        return categoryService.findAll();
+    public void getAllCategory(Model model) {
+        model.addAttribute("refallcategory", categoryService.findAll());
     }
 
     /**
