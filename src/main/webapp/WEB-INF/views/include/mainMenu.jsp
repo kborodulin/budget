@@ -9,7 +9,7 @@
     <li class="nav-item">
         <a class="nav-link" id="nav-item-wallet" href="/wallet">
             <span data-feather="layers"></span>
-            Счета
+            Счета и переводы
         </a>
     </li>
     <li class="nav-item">
