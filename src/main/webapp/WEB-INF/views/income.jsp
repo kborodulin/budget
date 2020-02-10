@@ -67,11 +67,9 @@
                 <div class="input-group-append">
                     <span class="input-group-text">₽</span>
                 </div>
-                <select class="custom-select mx-sm-1" name="wallet">
-                    <option selected>Счет</option>
-                    <option value="1">42151723423 (Сбер)</option>
-                    <option value="2">124124143 (Сбер)</option>
-                </select>
+                <div class="form-group mx-sm-1">
+                    <select class="form-control" id="accountbyuser" name="accountid"></select>
+                </div>
                 <div class="form-group mx-sm-1">
                     <select class="form-control" id="allcategory" name="categoryid"></select>
                 </div>
@@ -129,5 +127,6 @@
 <script src="../resources/js/personalAccount.js"></script>
 <script src="../resources/js/refCategory.js"></script>
 <script src="../resources/js/utils.js"></script>
+<script src="../resources/js/refAccountByUser.js"></script>
 </body>
 </html>

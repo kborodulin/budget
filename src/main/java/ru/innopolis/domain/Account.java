@@ -32,4 +32,6 @@ public class Account {
     private Long accounttypeid;
 
     private Long currencyid;
+
+    private String name;
 }

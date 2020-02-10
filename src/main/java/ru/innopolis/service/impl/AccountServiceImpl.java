@@ -12,6 +12,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import java.math.BigDecimal;
+import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -63,5 +65,24 @@ public class AccountServiceImpl implements AccountService {
             balances.put(((BigDecimal) obj[0]).longValue(), ((BigDecimal) obj[1]).doubleValue());
         }
         return balances;
+    }
+
+    @Override
+    public List<Account> findAllByUser(Long userid) {
+        Query query = em.createNativeQuery(
+                "select a.accountid, a.name from account a \n" +
+                        "join famem f on a.famemid = a.famemid\n" +
+                        "where f.userid = ?"
+        );
+        query.setParameter(1, userid);
+        List<Object[]> objects = query.getResultList();
+        List<Account> accounts = new ArrayList<>();
+        for (Object[] obj : objects) {
+            Account account = new Account();
+            account.setAccountid(((BigInteger) obj[0]).longValue());
+            account.setName((String) obj[1]);
+            accounts.add(account);
+        }
+        return accounts;
     }
 }

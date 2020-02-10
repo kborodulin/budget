@@ -4,10 +4,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import ru.innopolis.domain.*;
 import ru.innopolis.service.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -21,6 +21,9 @@ public class ReferenceController {
 
     @Autowired
     private KinshipService kinshipService;
+
+    @Autowired
+    private AccountService accountService;
 
     @Autowired
     private AccountTypeService accountTypeService;
@@ -38,7 +41,7 @@ public class ReferenceController {
      * Справочник ролей
      */
     @GetMapping("/ref/allrole")
-    public List<Role> getAllRole(Model model, String page) {
+    public List<Role> getAllRole(Model model) {
         return roleService.findAll();
     }
 
@@ -46,7 +49,7 @@ public class ReferenceController {
      * Справочник родства
      */
     @GetMapping("/ref/allkinship")
-    public List<Kinship> getAllKinship(Model model, String page) {
+    public List<Kinship> getAllKinship(Model model) {
         return kinshipService.findAll();
     }
 
@@ -54,7 +57,7 @@ public class ReferenceController {
      * Справочник типов счетов
      */
     @GetMapping("/ref/allaccounttype")
-    public List<AccountType> getAllAccountType(Model model, String page) {
+    public List<AccountType> getAllAccountType(Model model) {
         return accountTypeService.findAll();
     }
 
@@ -62,7 +65,7 @@ public class ReferenceController {
      * Справочник валют
      */
     @GetMapping("/ref/allcurrency")
-    public List<Currency> getAllCurrency(Model model, String page) {
+    public List<Currency> getAllCurrency(Model model) {
         List<Currency> currencies = currencyService.findAll().stream()
                 .filter(x -> x.getBrief().equals("rub"))
                 .collect(Collectors.toList());
@@ -81,7 +84,17 @@ public class ReferenceController {
      * Справочник типов операций
      */
     @GetMapping("/ref/alltypeoperation")
-    public List<TypeOperation> getAllTypeOperation(Model model, String page) {
+    public List<TypeOperation> getAllTypeOperation(Model model) {
         return typeOperationService.findAll();
+    }
+
+    /**
+     * Список счетов пользователя
+     */
+    @GetMapping("/ref/accountbyuser")
+    public void getAllOperationByUser(Model model, HttpServletRequest request) {
+        User user = (User) request.getSession().getAttribute("user");
+        List<Account> accountsByUser = accountService.findAllByUser(user.getUserid());
+        model.addAttribute("findallaccountbyuser", accountsByUser);
     }
 }

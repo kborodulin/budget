@@ -20,7 +20,7 @@ import java.util.List;
 @Controller
 public class IncomeController {
     @Autowired
-    OperationService operationService;
+    private OperationService operationService;
 
     /**
      * Список доходов пользователя
