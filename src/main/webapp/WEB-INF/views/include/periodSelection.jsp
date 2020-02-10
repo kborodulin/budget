@@ -1,5 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8"%>
-<div class="input-group">
+<div class="input-group" style="width: max-content">
     <div class="input-group-prepend">
         <span class="input-group-text" id="basic-addon1">Период</span>
     </div>
