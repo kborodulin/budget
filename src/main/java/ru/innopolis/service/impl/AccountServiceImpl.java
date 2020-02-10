@@ -27,6 +27,12 @@ public class AccountServiceImpl implements AccountService {
     private AccountRepository accountRepository;
 
     @Override
+    public List<Account> findByFamemid(Long famemid) {
+        return accountRepository.findAllByFamemid(famemid);
+    }
+
+
+    @Override
     public void save(Account account) {
         log.info("saved account to DB {}", account);
         accountRepository.save(account);

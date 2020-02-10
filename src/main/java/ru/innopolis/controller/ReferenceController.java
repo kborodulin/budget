@@ -1,6 +1,5 @@
 package ru.innopolis.controller;
 
-import com.fasterxml.jackson.annotation.JsonView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,7 +9,6 @@ import ru.innopolis.domain.*;
 import ru.innopolis.service.*;
 
 import java.util.List;
-import java.util.Scanner;
 import java.util.stream.Collectors;
 
 /**
@@ -24,7 +22,6 @@ public class ReferenceController {
     @Autowired
     private KinshipService kinshipService;
 
-    private AccountService accountService;
 
     @Autowired
     private AccountTypeService accountTypeService;
@@ -50,19 +47,11 @@ public class ReferenceController {
      * Справочник родства
      */
     @GetMapping("/ref/allkinship")
+
     public List<Kinship> getAllKinship(Model model, String page) {
         return kinshipService.findAll();
     }
 
-
-    /**
-     * Справочник  счетов
-     */
-    @GetMapping("/ref/allaccounts")
-    @ModelAttribute("refallaccounts")
-    public List<Account> getAllAccounts() {
-        return accountService.findAll();
-    }
 
     /**
      * Справочник типов счетов
@@ -98,10 +87,5 @@ public class ReferenceController {
     @GetMapping("/ref/alltypeoperation")
     public List<TypeOperation> getAllTypeOperation(Model model, String page) {
         return typeOperationService.findAll();
-    }
-
-    @Autowired
-    public void setAccountService(AccountService accountService) {
-        this.accountService = accountService;
     }
 }
