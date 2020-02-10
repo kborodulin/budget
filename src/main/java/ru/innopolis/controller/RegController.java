@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
+import ru.innopolis.domain.Famem;
 import ru.innopolis.domain.User;
 import ru.innopolis.service.UserService;
 
@@ -49,6 +50,9 @@ public class RegController {
             return modelAndView;
         }
         user.setPassword(passwordEncoder.encode(user.getPassword()));
+        Famem famem = new Famem();
+        famem.setUser(user);
+        user.setFamem(famem);
         userService.save(user);
         modelAndView.setViewName("redirect:/login");
         return modelAndView;

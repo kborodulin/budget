@@ -44,12 +44,12 @@ public class AccountController {
     }
 
     @PostMapping(value = "/saveinfo")
-    public ModelAndView saveNewPersonalInfo(@ModelAttribute("personalInfoForm") Famem famem, HttpServletRequest request) {
+    public ModelAndView saveNewPersonalInfo(@ModelAttribute("personalInfoForm") Famem famemInfo, HttpServletRequest request) {
         User user = (User) request.getSession().getAttribute("user");
         ModelAndView modelAndView = new ModelAndView();
-        log.info("saved changes in famem {}", famem);
-        famem.setUserid(user.getUserid());
-        famemService.update(famem);
+        log.info("saved changes in famem {}", famemInfo);
+        Famem updatedFamem = user.getFamem();
+        famemService.update(updatedFamem, famemInfo);
         modelAndView.setViewName("redirect:/account");
         return modelAndView;
     }
@@ -64,9 +64,10 @@ public class AccountController {
             modelAndView.setViewName("redirect:/account");
             return modelAndView;
         }
-        Famem famem = famemService.getByUserid(user.getUserid());
+        Famem famem = user.getFamem();
         log.info("save new family {}", family);
-        familyService.create(family, user.getLogin());
+        famem.setFamily(family);
+        famemService.save(famem);
         modelAndView.setViewName("redirect:/account");
         return modelAndView;
     }
@@ -80,8 +81,9 @@ public class AccountController {
             modelAndView.setViewName("redirect:/account");
             return modelAndView;
         }
-        User user = (User) request.getSession().getAttribute("user");
-        alertService.setAlert(receiver.getEmail(), user.getUserid());
+        User initiator = (User) request.getSession().getAttribute("user");
+        receiver = userService.findFirstByEmail(receiver.getEmail());
+        alertService.setAlert(receiver, initiator);
         attributes.addFlashAttribute("success", "success");
         modelAndView.setViewName("redirect:/account");
         return modelAndView;
@@ -90,19 +92,19 @@ public class AccountController {
     @ModelAttribute
     public void persistUser(Model model, HttpServletRequest request) {
         User user = (User) request.getSession().getAttribute("user");
-        Famem famem = famemService.getByUserid(user.getUserid());
+        Famem famem = famemService.findById(user.getFamem().getFamemid());
         model.addAttribute("famem", famem);
-        if (famem.getFamilyid() != null) {
-            Family family = familyService.findById(famem.getFamilyid());
+        if (famem.getFamily() != null) {
+            Family family = famem.getFamily();
             model.addAttribute("family", family);
-            List<Famem> membersList = famemService.findAllByFamilyid(family.getFamilyid());
+            List<Famem> membersList = family.getFamemList();
             model.addAttribute("membersList", membersList);
             log.info("memberList get {}", membersList);
         }
-        Alert alert = alertService.findByReceiver(user.getUserid());
+        Alert alert = alertService.findByReceiver(user);
         if (alert != null && !alert.isAlertSignProc()) {
             model.addAttribute("alert", alert);
-            model.addAttribute("invitingFamily", familyService.findById(alert.getFamilyid()));
+            model.addAttribute("invitingFamily", alert.getFamily());
         } else {
             model.addAttribute("alert", null);
         }

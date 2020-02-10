@@ -13,9 +13,5 @@ public interface FamilyService {
 
     List<Family> findAll();
 
-    void create(Family family, String login);
-
     Family findByName(String name);
-
-    void removeById(Long familyId);
 }

@@ -35,11 +35,11 @@
     </div>
 </form:form>
 <c:if test="${fn:length(membersList) gt 1}">
-    <c:forEach var="memeber" items="${membersList}">
-        <c:if test="${memeber.userid != user.userid}">
+    <c:forEach var="member" items="${membersList}">
+        <c:if test="${member.user.userid != user.userid}">
         <div style="white-space: nowrap;" class="col-md-6 mb-3">
-            <input type="text" class="form-control " id="LoginFamily" placeholder="Логин" value="${memeber.name}" required="" disabled>
-            <input type="email" class="form-control" id="EmailFamily" placeholder="Email" value="${memeber.surname}" required="" disabled>
+            <input type="text" class="form-control " id="LoginFamily" placeholder="Логин" value="${member.name}" required="" disabled>
+            <input type="email" class="form-control" id="EmailFamily" placeholder="Email" value="${member.surname}" required="" disabled>
         </div>
         </c:if>
     </c:forEach>

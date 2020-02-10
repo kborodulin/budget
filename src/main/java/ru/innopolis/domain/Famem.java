@@ -6,6 +6,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 @Table(name = "famem")
@@ -27,9 +28,29 @@ public class Famem {
 
     private String shortname;
 
-    private Long familyid;
+    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.DETACH})
+    @JoinColumn(name = "familyid")
+    private Family family;
 
-    private Long userid;
+    @OneToOne
+    @JoinColumn(name = "userid", referencedColumnName = "userid")
+    private User user;
 
     private Long kinshipid;
+
+    @OneToMany(mappedBy = "famem", fetch = FetchType.LAZY)
+    private List<Account> accountList;
+
+    @Override
+    public String toString() {
+        return "Famem{" +
+                "famemid=" + famemid +
+                ", surname='" + surname + '\'' +
+                ", name='" + name + '\'' +
+                ", patronymic='" + patronymic + '\'' +
+                ", datebirth=" + datebirth +
+                ", shortname='" + shortname + '\'' +
+                ", kinshipid=" + kinshipid +
+                '}';
+    }
 }

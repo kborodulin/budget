@@ -4,6 +4,7 @@ import lombok.Data;
 import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "role")

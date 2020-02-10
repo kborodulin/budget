@@ -13,19 +13,5 @@ public interface FamemService {
 
     List<Famem> findAll();
 
-    Famem findByUserid(Long id);
-
-    Famem getByUserid(Long id);
-
-    void update(Famem famem);
-
-    Famem getByLogin(String username);
-
-    void setFamilyid(String login, Long familyid);
-
-    void removeFamilyRef(Long userid);
-
-    Famem findByFamilyid(Long familyId);
-
-    List<Famem> findAllByFamilyid(Long familyid);
+    void update(Famem updatedFamem, Famem famemInfo);
 }

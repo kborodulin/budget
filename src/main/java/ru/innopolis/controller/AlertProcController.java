@@ -41,8 +41,8 @@ public class AlertProcController {
         procAlert.setStatus(BigDecimal.ONE);
         alertService.save(procAlert);
         User user = (User) request.getSession().getAttribute("user");
-        Famem famem = famemService.findByUserid(user.getUserid());
-        famem.setFamilyid(procAlert.getFamilyid());
+        Famem famem = user.getFamem();
+        famem.setFamily(procAlert.getFamily());
         famemService.save(famem);
         return "redirect:/account";
     }
@@ -50,10 +50,10 @@ public class AlertProcController {
     @PostMapping("/denied")
     public String alertProcDenied(@ModelAttribute("alertInfo") Alert alert) {
         log.info("alert denied {}", alert.getAlertid());
-        Alert alert1 = alertService.findById(alert.getAlertid());
-        alert.setIsalertsignproc(BigDecimal.ONE);
-        alert.setStatus(BigDecimal.ZERO);
-        alertService.save(alert);
+        Alert procAlert = alertService.findById(alert.getAlertid());
+        procAlert.setIsalertsignproc(BigDecimal.ONE);
+        procAlert.setStatus(BigDecimal.ZERO);
+        alertService.save(procAlert);
         return "redirect:/account";
     }
 }

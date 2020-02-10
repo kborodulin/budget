@@ -77,7 +77,7 @@
                 (дата рождения)
             </div>
             </form:form>
-            <jsp:include page="${famem.familyid!=null?\"include/familyExist.jsp\":\"include/familyNoExist.jsp\"}"/>
+            <jsp:include page="${famem.family!=null?\"include/familyExist.jsp\":\"include/familyNoExist.jsp\"}"/>
             <script src="resources/js/jquery/jquery.slim.min.js"></script>
             <script src="resources/js/bs/bootstrap.bundle.min.js"></script>
             <script src="resources/js/featherIcons/feather.min.js"></script>

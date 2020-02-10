@@ -5,7 +5,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.innopolis.domain.Famem;
-import ru.innopolis.domain.User;
 import ru.innopolis.repository.FamemRepository;
 import ru.innopolis.service.FamemService;
 import ru.innopolis.service.FamilyService;
@@ -64,74 +63,11 @@ public class FamemServiceImpl implements FamemService {
     }
 
     @Override
-    public Famem findByUserid(Long id) {
-        return famemRepository.findFirstByUserid(id);
-    }
-
-    /**
-     * Find famem with appropriate userId and returns it.
-     * In case famem is absent, create new famem instance with
-     * appropriate userId.
-     *
-     * @param id - userId, which is associated with the user and famem.
-     * @return - Famem object.
-     */
-    @Override
-    public Famem getByUserid(Long id) {
-        Famem famem = new Famem();
-        if (findByUserid(id) == null) {
-            famem.setUserid(id);
-            save(famem);
-            log.info("saved new family member associated with the user {}", id);
-        } else {
-            famem = findByUserid(id);
-            log.debug("get family member{}", famem);
-        }
-        return famem;
-    }
-
-    @Override
-    public void update(Famem newFamemInfo) {
-        Famem famem = getByUserid(newFamemInfo.getUserid());
-        famem.setDatebirth(newFamemInfo.getDatebirth());
-        famem.setName(newFamemInfo.getName());
-        famem.setPatronymic(newFamemInfo.getPatronymic());
-        famem.setSurname(newFamemInfo.getSurname());
-        save(famem);
-    }
-
-    @Override
-    public Famem getByLogin(String login) {
-        User user = userService.findFirstByLogin(login);
-        Long userId = user.getUserid();
-        return getByUserid(userId);
-    }
-
-    @Override
-    public void setFamilyid(String login, Long familyid) {
-        Famem famem = getByLogin(login);
-        famem.setFamilyid(familyid);
-    }
-
-    @Override
-    public void removeFamilyRef(Long userid) {
-        Famem famem = getByUserid(userid);
-        Long familyId = famem.getFamilyid();
-        famem.setFamilyid(null);
-        if (findByFamilyid(familyId) == null) {
-            familyService.removeById(familyId);
-        }
-    }
-
-    @Override
-    public Famem findByFamilyid(Long familyId) {
-        log.info("find famem by familyId {}", familyId);
-        return famemRepository.findFirstByFamilyid(familyId);
-    }
-
-    @Override
-    public List<Famem> findAllByFamilyid(Long familyid) {
-        log.info("find all famem by familyid {}", familyid);
-        return famemRepository.findAllByFamilyid(familyid);
+    public void update(Famem updatedFamem, Famem famemInfo) {
+        updatedFamem.setDatebirth(famemInfo.getDatebirth());
+        updatedFamem.setName(famemInfo.getName());
+        updatedFamem.setPatronymic(famemInfo.getPatronymic());
+        updatedFamem.setSurname(famemInfo.getSurname());
+        save(updatedFamem);
     }
 }
