@@ -61,27 +61,28 @@
                 </a>
             </div>
             <form:form class="form-inline" name="incomeForm" action="/account/income/newIncome">
-                <input type="number" step="0.01" min="0" max="999999999"  class="form-control" id="inputSumIncome" placeholder="Сумма">
+                <input type="number" step="0.01" min="0" max="999999999" class="form-control"
+                       id="inputSumIncome"
+                       placeholder="Сумма" onKeyDown="if(this.value.length==9) return false;">
                 <div class="input-group-append">
                     <span class="input-group-text">₽</span>
                 </div>
-                <select class="custom-select mx-sm-3" name="wallet">
+                <select class="custom-select mx-sm-1" name="wallet">
                     <option selected>Счет</option>
                     <option value="1">42151723423 (Сбер)</option>
                     <option value="2">124124143 (Сбер)</option>
                 </select>
-                <select class="custom-select mx-sm-3" name="сategory">
-                    <option selected>Категория</option>
-                    <option value="1">Работа</option>
-                    <option value="2">Кредит</option>
-                    <option value="3">Депозит</option>
-                    <option value="4">Коммуналка</option>
-                    <option value="5">Телефон</option>
-                </select>
-                <div class="form-group mx-sm-3">
+                <div class="form-group mx-sm-1">
+                    <select class="form-control" id="allcategory" name="categoryid"></select>
+                </div>
+                <div class="form-group mx-sm-1">
+                    <input type="date" class="form-control" class="mydate" name="date" id="theDate"
+                           placeholder="Дата">
+                </div>
+                <div class="form-group mx-sm-1">
                     <label for="comments" class="sr-only">Комментарий</label>
-                    <input type="text" maxlength="200" class="form-control" id="comments" name="comments"
-                           placeholder="Комментарий">
+                    <input type="text" maxlength="50" class="form-control" id="comments" name="comments"
+                           placeholder="Комментарий" style="display: inline-block; width:500px;">
                 </div>
             </form:form>
             <table class="table my-5">
@@ -126,5 +127,7 @@
 <script src="../resources/js/Chart.js/Chart.min.js"></script>
 <script src="../resources/js/dashboard.js"></script>
 <script src="../resources/js/personalAccount.js"></script>
+<script src="../resources/js/refCategory.js"></script>
+<script src="../resources/js/utils.js"></script>
 </body>
 </html>
