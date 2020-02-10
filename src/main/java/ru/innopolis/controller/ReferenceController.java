@@ -73,9 +73,8 @@ public class ReferenceController {
      * Справочник категорий
      */
     @GetMapping("/ref/allcategory")
-    public List<Category> getAllCategory(Model model) {
+    public void getAllCategory(Model model) {
         model.addAttribute("refallcategory", categoryService.findAll());
-        return categoryService.findAll();
     }
 
     /**
