@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.innopolis.domain.Alert;
+import ru.innopolis.domain.User;
 import ru.innopolis.repository.AlertRepository;
 import ru.innopolis.service.AlertService;
 import ru.innopolis.service.FamemService;
@@ -57,20 +58,20 @@ public class AlertImpl implements AlertService {
     }
 
     @Override
-    public void setAlert(String email, Long userId) {
-        log.info("set new alert for user with email {} from user with id {}", email, userId);
+    public void setAlert(User receiver, User initiator) {
+        log.info("set new alert for user with email {} from user with email {}", receiver.getEmail(), initiator.getEmail());
         Alert alert = new Alert();
-        alert.setInitiator(userId);
-        alert.setReceiver(userService.findFirstByEmail(email).getUserid());
+        alert.setInitiator(initiator.getFamem());
+        alert.setReceiver(receiver.getFamem());
         alert.setDatealert(LocalDateTime.now());
-        alert.setFamilyid(famemService.getByUserid(userId).getFamilyid());
+        alert.setFamily(initiator.getFamem().getFamily());
         alert.setIsalertsignproc(BigDecimal.ZERO);
         save(alert);
     }
 
     @Override
-    public Alert findByReceiver(Long userid) {
-        log.info("find alert by userid {}", userid);
-        return alertRepository.findFirstByReceiver(userid);
+    public Alert findByReceiver(User user) {
+        log.info("find alert by receiver {}", user);
+        return alertRepository.findFirstByReceiver(user.getFamem());
     }
 }

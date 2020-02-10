@@ -501,4 +501,11 @@
         </sql>
     </changeSet>
 
+    <changeSet id="44" author="e_belolipetskaya">
+        <sql>
+            ALTER TABLE alert DROP COLUMN initiator;
+            ALTER TABLE alert DROP COLUMN receiver;
+        </sql>
+    </changeSet>
+
 </databaseChangeLog>

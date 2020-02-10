@@ -54,22 +54,8 @@ public class FamilyServiceImpl implements FamilyService {
         return familyRepository.findAll();
     }
 
-    @Override
-    public void create(Family family, String login) {
-        save(family);
-        family = findByName(family.getName());
-        famemService.setFamilyid(login, family.getFamilyid());
-    }
-
     public Family findByName(String name) {
         log.info("find family by name {}", name);
         return familyRepository.findFirstByName(name);
-    }
-
-    @Override
-    public void removeById(Long familyId) {
-        log.info("remove family by familyId {}", familyId);
-        Family family = findById(familyId);
-        delete(family);
     }
 }

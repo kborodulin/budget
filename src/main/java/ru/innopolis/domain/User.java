@@ -24,5 +24,22 @@ public class User {
 
     private Integer isblock;
 
-    private Long roleid;
+    @ManyToOne
+    @JoinColumn(name = "roleid")
+    private Role role;
+
+    @OneToOne(mappedBy = "user", cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.DETACH})
+    private Famem famem;
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "userid=" + userid +
+                ", login='" + login + '\'' +
+                ", password='" + password + '\'' +
+                ", email='" + email + '\'' +
+                ", isblock=" + isblock +
+                ", role=" + role +
+                '}';
+    }
 }

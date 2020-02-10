@@ -19,19 +19,21 @@ public class Alert {
 
     private LocalDateTime datealert;
 
-    private Long alertinitid;
+    @ManyToOne
+    @JoinColumn(name = "alertinitid")
+    private Famem initiator;
 
-    private Long familyid;
+    @ManyToOne
+    @JoinColumn(name = "famemid")
+    private Famem receiver;
 
-    private Long famemid;
+    @ManyToOne
+    @JoinColumn(name = "familyid")
+    private Family family;
 
     private BigDecimal status;
 
     private BigDecimal isalertsignproc;
-
-    private Long initiator;
-
-    private Long receiver;
 
     public boolean isAlertSignProc(){
         return BigDecimal.ONE.compareTo(isalertsignproc)==0;

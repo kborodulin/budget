@@ -1,6 +1,7 @@
 package ru.innopolis.service;
 
 import ru.innopolis.domain.Alert;
+import ru.innopolis.domain.User;
 
 import java.util.List;
 
@@ -13,7 +14,7 @@ public interface AlertService {
 
     List<Alert> findAll();
 
-    void setAlert(String email, Long userId);
+    void setAlert(User receiver, User initiator);
 
-    Alert findByReceiver(Long userid);
+    Alert findByReceiver(User user);
 }

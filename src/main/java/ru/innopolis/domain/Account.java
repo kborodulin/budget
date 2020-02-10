@@ -27,9 +27,13 @@ public class Account {
 
     private BigDecimal isclosesign;
 
-    private Long famemid;
+    @ManyToOne
+    @JoinColumn(name = "famemid", nullable = false)
+    private Famem famem;
 
-    private Long accounttypeid;
+    @ManyToOne
+    @JoinColumn(name = "accounttypeid", nullable = false)
+    private AccountType accounttype;
 
     private Long currencyid;
 }
