@@ -55,18 +55,19 @@ public class OperationServiceImpl implements OperationService {
                 "  coalesce(o.amount, 0) amount,\n" +
                 "  o.dateoper,\n" +
                 "  c.name as categoryname,\n" +
-                "  o.comment\n" +
+                "  o.comment,\n" +
+                "  o.operationid\n" +
                 "from operation o\n" +
                 "join typeoperation typ on typ.typeoperationid = o.typeoperationid\n" +
                 "join category c on c.categoryid = o.categoryid\n" +
                 "join account a on a.accountid = o.accountid\n" +
                 "join famem f on f.famemid = a.famemid \n" +
-                "where typ.typeoperationid = 1 \n" +
+                "where typ.typeoperationid = 1 and f.userid = ? \n" +
                 "order by o.operationid desc\n");
-      //  query.setParameter(1, userid);
-        // and f.userid = ? and o.dateoper between ? and ?
-   //     query.setParameter(2, startDate);
-    //    query.setParameter(3, endDate);
+        query.setParameter(1, userid);
+        //  and o.dateoper between ? and ?
+        //     query.setParameter(2, startDate);
+        //    query.setParameter(3, endDate);
         List<Object[]> objects = query.getResultList();
         return objects;
     }
