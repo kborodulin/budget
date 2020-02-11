@@ -38,8 +38,9 @@ public class IncomeController {
      */
     @PostMapping("/income/add")
     public String saveIncome(@ModelAttribute("addincome") Operation operation) {
+        operation.setTypeoperationid(1L);
         operationService.save(operation);
-        return "income";
+        return "redirect:/income";
     }
 
     /**

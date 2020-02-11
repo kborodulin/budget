@@ -4,9 +4,11 @@ package ru.innopolis.domain;
 
 import lombok.Data;
 import org.hibernate.annotations.DynamicInsert;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
@@ -26,7 +28,8 @@ public class Operation {
 
     private BigDecimal amount;
 
-    private LocalDateTime dateoper;
+    @DateTimeFormat (pattern = "yyyy-MM-dd")
+    private LocalDate dateoper;
 
     private LocalDateTime datewritedb;
 

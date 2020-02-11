@@ -56,12 +56,12 @@
         <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
             <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
                 <h3 class="h3">Доходы</h3>
-                <a class="d-flex align-items-center text-muted" href="#">
+                <a class="d-flex align-items-center text-muted" id="save-income" href="#">
                     <span id="save-item-income" style="text-decoration: underline;  color: #007bff;">сохранить доход&nbsp;</span>
                 </a>
             </div>
-            <form:form class="form-inline" name="incomeForm" action="/account/income/newIncome">
-                <input type="number" step="0.01" min="0" max="999999999" class="form-control"
+            <form:form method="post" class="form-inline" name="incomeForm" id="addincome" action="/income/add">
+                <input type="number" step="0.01" min="0" max="999999999" class="form-control" name="amount"
                        id="inputSumIncome"
                        placeholder="Сумма" onKeyDown="if(this.value.length==9) return false;">
                 <div class="input-group-append">
@@ -74,12 +74,12 @@
                     <select class="form-control" id="allcategory" name="categoryid"></select>
                 </div>
                 <div class="form-group mx-sm-1">
-                    <input type="date" class="form-control" class="mydate" name="date" id="theDate"
+                    <input type="date" class="form-control" class="mydate" name="dateoper" id="theDate"
                            placeholder="Дата">
                 </div>
                 <div class="form-group mx-sm-1">
                     <label for="comments" class="sr-only">Комментарий</label>
-                    <input type="text" maxlength="50" class="form-control" id="comments" name="comments"
+                    <input type="text" maxlength="50" class="form-control" id="comments" name="comment"
                            placeholder="Комментарий" style="display: inline-block; width:500px;">
                 </div>
             </form:form>
@@ -128,5 +128,6 @@
 <script src="../resources/js/refCategory.js"></script>
 <script src="../resources/js/utils.js"></script>
 <script src="../resources/js/refAccountByUser.js"></script>
+<script src="../resources/js/income.js"></script>
 </body>
 </html>
