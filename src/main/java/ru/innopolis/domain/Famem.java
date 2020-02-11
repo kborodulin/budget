@@ -41,6 +41,9 @@ public class Famem {
     @OneToMany(mappedBy = "famem", fetch = FetchType.LAZY)
     private List<Account> accountList;
 
+    @OneToMany(mappedBy = "receiver", fetch = FetchType.LAZY)
+    private List<Alert> alertListForReceiver;
+
     @Override
     public String toString() {
         return "Famem{" +

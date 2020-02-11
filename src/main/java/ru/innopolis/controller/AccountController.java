@@ -73,8 +73,8 @@ public class AccountController {
     }
 
     @PostMapping(value = "/addmember")
-    public ModelAndView saveNewFamily(@ModelAttribute("familyInfoMember") @Validated User receiver, BindingResult result,
-                                      HttpServletRequest request, RedirectAttributes attributes) {
+    public ModelAndView inviteMember(@ModelAttribute("familyInfoMember") @Validated User receiver, BindingResult result,
+                                     HttpServletRequest request, RedirectAttributes attributes) {
         ModelAndView modelAndView = new ModelAndView();
         if (result.hasErrors()) {
             attributes.addFlashAttribute("result", result);
@@ -101,12 +101,10 @@ public class AccountController {
             model.addAttribute("membersList", membersList);
             log.info("memberList get {}", membersList);
         }
-        Alert alert = alertService.findByReceiver(user);
-        if (alert != null && !alert.isAlertSignProc()) {
-            model.addAttribute("alert", alert);
+        Alert alert = alertService.checkForAlerts(famem);
+        model.addAttribute("alert", alert);
+        if (alert != null) {
             model.addAttribute("invitingFamily", alert.getFamily());
-        } else {
-            model.addAttribute("alert", null);
         }
     }
 

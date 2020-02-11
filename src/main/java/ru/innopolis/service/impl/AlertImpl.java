@@ -5,6 +5,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.innopolis.domain.Alert;
+import ru.innopolis.domain.Famem;
+import ru.innopolis.domain.Family;
 import ru.innopolis.domain.User;
 import ru.innopolis.repository.AlertRepository;
 import ru.innopolis.service.AlertService;
@@ -16,6 +18,7 @@ import javax.persistence.PersistenceContext;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -73,5 +76,20 @@ public class AlertImpl implements AlertService {
     public Alert findByReceiver(User user) {
         log.info("find alert by receiver {}", user);
         return alertRepository.findFirstByReceiver(user.getFamem());
+    }
+
+    @Override
+    public Alert checkForAlerts(Famem famem) {
+        famem = famemService.findById(famem.getFamemid());
+        if (famem.getAlertListForReceiver()==null) return null;
+        Optional<Alert> alert = famem.getAlertListForReceiver().stream()
+                .filter(a -> !a.isAlertSignProc())
+                .findFirst();
+        return alert.orElse(null);
+    }
+
+    @Override
+    public void deleteByFamily(Family family) {
+        alertRepository.deleteAllByFamily(family);
     }
 }
