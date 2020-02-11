@@ -95,25 +95,31 @@
                 </thead>
                 <tbody>
                 <tr>
-                    <td>
-                        <div class="">зарплата</div>
-                        <div class="text-muted" style="font-size: x-small">кот наплакал</div>
-                    </td>
-                    <td>
-                        <div class="text-success">1000 руб.</div>
-                        <div class="text-muted" style="font-size: x-small">1.02.2020</div>
-                    </td>
+                    <th>Наименование</th>
+                    <th>Сумма</th>
+                    <th>Дата</th>
+                    <th>Категория</th>
+                    <th>Комментарий</th>
                 </tr>
-                <tr>
-                    <td>
-                        <div class="">кредит</div>
-                        <div class="text-muted" style="font-size: x-small">так себе доход</div>
-                    </td>
-                    <td>
-                        <div class="text-success">1000 руб.</div>
-                        <div class="text-muted" style="font-size: x-small">13.02.2020</div>
-                    </td>
-                </tr>
+                <c:forEach items="${allincomeuser}" var="income">
+                    <tr>
+                        <td>
+                            <div class="">${income[0]} </div>
+                        </td>
+                        <td>
+                            <div class="text-success">${income[1]} руб.</div>
+                        </td>
+                        <td>
+                            <div class=""> ${income[2]} </div>
+                        </td>
+                        <td>
+                            <div class="">${income[3]} </div>
+                        </td>
+                        <td>
+                            <div class="">${income[4]}</div>
+                        </td>
+                    </tr>
+                </c:forEach>
                 </tbody>
             </table>
         </main>

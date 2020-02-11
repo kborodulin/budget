@@ -12,7 +12,7 @@ public class TestController {
         return modelAndView;
     }
 
-    @GetMapping(value = "/income")
+    //@GetMapping(value = "/income")
     public ModelAndView openIncome(ModelAndView modelAndView) {
         modelAndView.setViewName("income");
         return modelAndView;

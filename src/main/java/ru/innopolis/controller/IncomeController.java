@@ -12,6 +12,7 @@ import ru.innopolis.domain.User;
 import ru.innopolis.service.OperationService;
 
 import javax.servlet.http.HttpServletRequest;
+import java.time.LocalDate;
 import java.util.List;
 
 /**
@@ -25,10 +26,10 @@ public class IncomeController {
     /**
      * Список доходов пользователя
      */
-    @GetMapping("/income/allincomeuser")
+    @GetMapping("/income")
     public String getAllIncomeUser(Model model, HttpServletRequest request) {
         User user = (User) request.getSession().getAttribute("user");
-        List<Operation> operations = operationService.allIncomeUser(user.getUserid());
+        List<Object[]> operations = operationService.allIncomeUser(user.getUserid(), LocalDate.now(), LocalDate.now());
         model.addAttribute("allincomeuser", operations);
         return "income";
     }

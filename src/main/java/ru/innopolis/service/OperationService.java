@@ -2,6 +2,7 @@ package ru.innopolis.service;
 
 import ru.innopolis.domain.Operation;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public interface OperationService {
@@ -13,7 +14,7 @@ public interface OperationService {
 
     List<Operation> findAll();
 
-    List<Operation> allIncomeUser(Long userid);
+    List<Object[]> allIncomeUser(Long userid, LocalDate startDate, LocalDate endDate);
 
     List<Operation> allExpensesUser(Long userid);
 }
