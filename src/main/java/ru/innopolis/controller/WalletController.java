@@ -13,10 +13,13 @@ import ru.innopolis.domain.Famem;
 import ru.innopolis.domain.User;
 import ru.innopolis.service.AccountService;
 import ru.innopolis.service.FamemService;
+import ru.innopolis.service.UserService;
 
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 @Controller
@@ -35,8 +38,7 @@ public class WalletController {
     @PostMapping(path = "/create")
     public ModelAndView createNewWallet(@ModelAttribute("createNewAccountForm") @Validated Account account,HttpServletRequest request){
         ModelAndView modelAndView = new ModelAndView();
-        User user = (User) request.getSession().getAttribute("user");
-        account.setFamemid(famemService.getByUserid(user.getUserid()).getFamilyid());
+        account.setFamemid(getMyFamemId(request));
         accountService.save(account);
         modelAndView.setViewName("redirect:/wallet");
         return modelAndView;
@@ -45,9 +47,7 @@ public class WalletController {
     @PostMapping(path = "/getallwallets")
     public ModelAndView getUserWallets(HttpServletRequest request){
         ModelAndView modelAndView = new ModelAndView();
-        User user = (User) request.getSession().getAttribute("user");
-        Famem famem = famemService.getByUserid(user.getUserid());
-        List<Account> accounts = accountService.findByFamemid(famem.getFamilyid());
+        List<Account> accounts = accountService.findByFamemid(getMyFamemId(request));
         modelAndView.addObject("accounts", accounts);
         modelAndView.setViewName("ref/allmywallets");
         return modelAndView;
@@ -61,5 +61,14 @@ public class WalletController {
     @Autowired
     public void setAccountService(AccountService accountService) {
         this.accountService = accountService;
+    }
+
+    private Long getMyId(HttpServletRequest request){
+        User user = (User) request.getSession().getAttribute("user");
+        return user.getUserid();
+    }
+
+    private Long getMyFamemId(HttpServletRequest request){
+        return famemService.getByUserid(getMyId(request)).getFamemid();
     }
 }
