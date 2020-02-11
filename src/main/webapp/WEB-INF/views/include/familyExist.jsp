@@ -10,7 +10,7 @@
                    value="${family.name}" required="">
         </h3>
         <a class="d-flex align-items-center text-muted" href="#" style="display:none">
-            <span id="edition-family" style="text-decoration: underline; display:inherit; color: #007bff;">редактирование&nbsp;</span>
+            <span id="edition-family" style="text-decoration: underline; display:inherit; color: #007bff;">редактировать</span>
             <span id="save-item-family" style="text-decoration: underline; display:none; color: red">сохранить изменения&nbsp;</span>
         </a>
     </div>
