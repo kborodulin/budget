@@ -82,6 +82,7 @@ public class AccountController {
             return modelAndView;
         }
         User initiator = (User) request.getSession().getAttribute("user");
+        initiator = userService.findById(initiator.getUserid());
         receiver = userService.findFirstByEmail(receiver.getEmail());
         alertService.setAlert(receiver, initiator);
         attributes.addFlashAttribute("success", "success");
