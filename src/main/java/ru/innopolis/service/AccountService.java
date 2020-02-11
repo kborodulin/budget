@@ -15,4 +15,6 @@ public interface AccountService {
     List<Account> findAll();
 
     Map<Long, Double> balance(Long userid);
+
+    List<Account> findAllByUser(Long userid);
 }
