@@ -27,7 +27,7 @@ public class IncomeController {
      * Список доходов пользователя
      */
     @GetMapping("/income")
-    public String getAllIncomeUser(Model model, HttpServletRequest request) {
+    public String getAllIncomeUser(Model model, HttpServletRequest request, @ModelAttribute("period") String period) {
         User user = (User) request.getSession().getAttribute("user");
         List<Object[]> operations = operationService.allIncomeUser(user.getUserid(), LocalDate.now(), LocalDate.now());
         model.addAttribute("allincomeuser", operations);
@@ -70,6 +70,6 @@ public class IncomeController {
     public String deleteIncome(@PathVariable("id") Long id) {
         Operation operation = operationService.findById(id);
         operationService.delete(operation);
-        return "income";
+        return "redirect:/income";
     }
 }

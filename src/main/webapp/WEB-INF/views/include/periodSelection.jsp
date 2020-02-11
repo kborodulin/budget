@@ -3,7 +3,7 @@
     <div class="input-group-prepend">
         <span class="input-group-text" id="basic-addon1">Период</span>
     </div>
-    <select class="custom-select form-control" name="dateRange" aria-describedby="basic-addon1">
+    <select class="custom-select form-control" name="dateRange" id="period" aria-describedby="basic-addon1">
         <option value="1">день</option>
         <option value="2">неделя</option>
         <option value="3">месяц</option>

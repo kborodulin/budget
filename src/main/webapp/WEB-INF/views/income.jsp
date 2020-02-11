@@ -100,6 +100,8 @@
                     <th>Дата</th>
                     <th>Категория</th>
                     <th>Комментарий</th>
+                    <th>Изменить</th>
+                    <th>Удалить</th>
                 </tr>
                 <c:forEach items="${allincomeuser}" var="income">
                     <tr>
@@ -117,6 +119,12 @@
                         </td>
                         <td>
                             <div class="">${income[4]}</div>
+                        </td>
+                        <td>
+
+                        </td>
+                        <td>
+                            <a href="/income/delete/${income[5]}">Удалить</a>
                         </td>
                     </tr>
                 </c:forEach>
