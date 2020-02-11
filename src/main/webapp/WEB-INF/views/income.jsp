@@ -56,12 +56,12 @@
         <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
             <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
                 <h3 class="h3">Доходы</h3>
-                <a class="d-flex align-items-center text-muted" href="#">
+                <a class="d-flex align-items-center text-muted" id="save-income" href="#">
                     <span id="save-item-income" style="text-decoration: underline;  color: #007bff;">сохранить доход&nbsp;</span>
                 </a>
             </div>
-            <form:form class="form-inline" name="incomeForm" action="/account/income/newIncome">
-                <input type="number" step="0.01" min="0" max="999999999" class="form-control"
+            <form:form method="post" class="form-inline" name="incomeForm" id="addincome" action="/income/add">
+                <input type="number" step="0.01" min="0" max="999999999" class="form-control" name="amount"
                        id="inputSumIncome"
                        placeholder="Сумма" onKeyDown="if(this.value.length==9) return false;">
                 <div class="input-group-append">
@@ -74,12 +74,12 @@
                     <select class="form-control" id="allcategory" name="categoryid"></select>
                 </div>
                 <div class="form-group mx-sm-1">
-                    <input type="date" class="form-control" class="mydate" name="date" id="theDate"
+                    <input type="date" class="form-control" class="mydate" name="dateoper" id="theDate"
                            placeholder="Дата">
                 </div>
                 <div class="form-group mx-sm-1">
                     <label for="comments" class="sr-only">Комментарий</label>
-                    <input type="text" maxlength="50" class="form-control" id="comments" name="comments"
+                    <input type="text" maxlength="50" class="form-control" id="comments" name="comment"
                            placeholder="Комментарий" style="display: inline-block; width:500px;">
                 </div>
             </form:form>
@@ -95,25 +95,31 @@
                 </thead>
                 <tbody>
                 <tr>
-                    <td>
-                        <div class="">зарплата</div>
-                        <div class="text-muted" style="font-size: x-small">кот наплакал</div>
-                    </td>
-                    <td>
-                        <div class="text-success">1000 руб.</div>
-                        <div class="text-muted" style="font-size: x-small">1.02.2020</div>
-                    </td>
+                    <th>Наименование</th>
+                    <th>Сумма</th>
+                    <th>Дата</th>
+                    <th>Категория</th>
+                    <th>Комментарий</th>
                 </tr>
-                <tr>
-                    <td>
-                        <div class="">кредит</div>
-                        <div class="text-muted" style="font-size: x-small">так себе доход</div>
-                    </td>
-                    <td>
-                        <div class="text-success">1000 руб.</div>
-                        <div class="text-muted" style="font-size: x-small">13.02.2020</div>
-                    </td>
-                </tr>
+                <c:forEach items="${allincomeuser}" var="income">
+                    <tr>
+                        <td>
+                            <div class="">${income[0]} </div>
+                        </td>
+                        <td>
+                            <div class="text-success">${income[1]} руб.</div>
+                        </td>
+                        <td>
+                            <div class=""> ${income[2]} </div>
+                        </td>
+                        <td>
+                            <div class="">${income[3]} </div>
+                        </td>
+                        <td>
+                            <div class="">${income[4]}</div>
+                        </td>
+                    </tr>
+                </c:forEach>
                 </tbody>
             </table>
         </main>
@@ -128,5 +134,6 @@
 <script src="../resources/js/refCategory.js"></script>
 <script src="../resources/js/utils.js"></script>
 <script src="../resources/js/refAccountByUser.js"></script>
+<script src="../resources/js/income.js"></script>
 </body>
 </html>

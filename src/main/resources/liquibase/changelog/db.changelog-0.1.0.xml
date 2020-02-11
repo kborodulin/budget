@@ -508,4 +508,16 @@
         </sql>
     </changeSet>
 
+    <changeSet id="47" author="kborodulin">
+        <sql>
+            ALTER TABLE operation ALTER COLUMN datewritedb set default ${defaultDate};
+        </sql>
+    </changeSet>
+
+    <changeSet id="48" author="kborodulin">
+        <sql>
+            ALTER TABLE operation ALTER COLUMN dateoper TYPE date;
+        </sql>
+    </changeSet>
+
 </databaseChangeLog>

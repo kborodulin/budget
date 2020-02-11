@@ -2,7 +2,6 @@ package ru.innopolis.service.impl;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.innopolis.domain.Operation;
@@ -12,6 +11,7 @@ import ru.innopolis.service.OperationService;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -49,22 +49,26 @@ public class OperationServiceImpl implements OperationService {
     }
 
     @Override
-    public List<Operation> allIncomeUser(Long userid) {
-        Query query = em.createNativeQuery("select " +
-                "o.operationid, " +
-                "o.typeoperationid, " +
-                "o.categoryid, " +
-                "o.accountid, " +
-                "o.amount, " +
-                "o.dateoper, " +
-                "o.datewritedb,o.comment \n" +
-                "from operation o \n" +
-                "join account a on a.accountid = o.accountid \n" +
+    public List<Object[]> allIncomeUser(Long userid, LocalDate startDate, LocalDate endDate) {
+        Query query = em.createNativeQuery("select\n" +
+                "  a.name,\n" +
+                "  coalesce(o.amount, 0) amount,\n" +
+                "  o.dateoper,\n" +
+                "  c.name as categoryname,\n" +
+                "  o.comment\n" +
+                "from operation o\n" +
+                "join typeoperation typ on typ.typeoperationid = o.typeoperationid\n" +
+                "join category c on c.categoryid = o.categoryid\n" +
+                "join account a on a.accountid = o.accountid\n" +
                 "join famem f on f.famemid = a.famemid \n" +
-                "where o.typeoperationid = 1 and f.userid = ?");
-        query.setParameter(1, userid);
-        List<Operation> operations = query.getResultList();
-        return operations;
+                "where typ.typeoperationid = 1 \n" +
+                "order by o.operationid desc\n");
+      //  query.setParameter(1, userid);
+        // and f.userid = ? and o.dateoper between ? and ?
+   //     query.setParameter(2, startDate);
+    //    query.setParameter(3, endDate);
+        List<Object[]> objects = query.getResultList();
+        return objects;
     }
 
     @Override
