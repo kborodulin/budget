@@ -1,6 +1,8 @@
 package ru.innopolis.service;
 
 import ru.innopolis.domain.Alert;
+import ru.innopolis.domain.Famem;
+import ru.innopolis.domain.Family;
 import ru.innopolis.domain.User;
 
 import java.util.List;
@@ -17,4 +19,8 @@ public interface AlertService {
     void setAlert(User receiver, User initiator);
 
     Alert findByReceiver(User user);
+
+    Alert checkForAlerts(Famem famem);
+
+    void deleteByFamily(Family family);
 }

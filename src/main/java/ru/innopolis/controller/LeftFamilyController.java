@@ -9,6 +9,7 @@ import org.springframework.web.servlet.ModelAndView;
 import ru.innopolis.domain.Famem;
 import ru.innopolis.domain.Family;
 import ru.innopolis.domain.User;
+import ru.innopolis.service.AlertService;
 import ru.innopolis.service.FamemService;
 import ru.innopolis.service.FamilyService;
 
@@ -26,11 +27,13 @@ import javax.servlet.http.HttpServletRequest;
 public class LeftFamilyController {
     FamemService famemService;
     FamilyService familyService;
+    AlertService alertService;
 
     @Autowired
-    public LeftFamilyController(FamemService famemService, FamilyService familyService) {
+    public LeftFamilyController(FamemService famemService, FamilyService familyService, AlertService alertService) {
         this.famemService = famemService;
         this.familyService = familyService;
+        this.alertService = alertService;
     }
 
     @GetMapping()
@@ -41,7 +44,8 @@ public class LeftFamilyController {
         Family family = famem.getFamily();
         famem.setFamily(null);
         famemService.save(famem);
-        if (family.getFamemList().size()==1){
+        if (family.getFamemList().size() == 1) {
+            alertService.deleteByFamily(family);
             familyService.delete(family);
         }
         modelAndView.setViewName("redirect:/account");
