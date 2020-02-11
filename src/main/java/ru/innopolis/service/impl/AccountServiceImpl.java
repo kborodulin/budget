@@ -71,7 +71,7 @@ public class AccountServiceImpl implements AccountService {
     public List<Account> findAllByUser(Long userid) {
         Query query = em.createNativeQuery(
                 "select a.accountid, a.name from account a \n" +
-                        "join famem f on a.famemid = a.famemid\n" +
+                        "join famem f on a.famemid = f.famemid\n" +
                         "where f.userid = ?"
         );
         query.setParameter(1, userid);
