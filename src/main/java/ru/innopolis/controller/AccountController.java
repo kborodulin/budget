@@ -22,6 +22,7 @@ import ru.innopolis.service.FamilyService;
 import ru.innopolis.service.UserService;
 
 import javax.servlet.http.HttpServletRequest;
+import java.math.BigDecimal;
 import java.util.List;
 
 @Controller
@@ -107,6 +108,8 @@ public class AccountController {
         if (alert != null) {
             model.addAttribute("invitingFamily", alert.getFamily());
         }
+        List<Alert> sendAlert = alertService.findByInitiator(famem.getFamemid(), BigDecimal.ZERO);
+        model.addAttribute("sendAlert", sendAlert);
     }
 
     @InitBinder(value = "familyInfo")

@@ -5,6 +5,7 @@ import ru.innopolis.domain.Famem;
 import ru.innopolis.domain.Family;
 import ru.innopolis.domain.User;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 public interface AlertService {
@@ -23,4 +24,6 @@ public interface AlertService {
     Alert checkForAlerts(Famem famem);
 
     void deleteByFamily(Family family);
+
+    List<Alert> findByInitiator(Long famemId, BigDecimal proc);
 }

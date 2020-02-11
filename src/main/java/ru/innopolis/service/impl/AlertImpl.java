@@ -92,4 +92,9 @@ public class AlertImpl implements AlertService {
     public void deleteByFamily(Family family) {
         alertRepository.deleteAllByFamily(family);
     }
+
+    @Override
+    public List<Alert> findByInitiator(Long famemId, BigDecimal proc) {
+        return alertRepository.findAlertsByInitiator(famemId, proc);
+    }
 }
