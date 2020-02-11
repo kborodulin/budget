@@ -38,4 +38,7 @@ public class Account {
     private Long currencyid;
 
     private String name;
+
+    @Transient
+    private Long acctypeid;
 }

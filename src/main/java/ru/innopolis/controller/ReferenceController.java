@@ -57,8 +57,8 @@ public class ReferenceController {
      * Справочник типов счетов
      */
     @GetMapping("/ref/allaccounttype")
-    public List<AccountType> getAllAccountType(Model model) {
-        return accountTypeService.findAll();
+    public void getAllAccountType(Model model) {
+        model.addAttribute("refallaccounttype",  accountTypeService.findAll());
     }
 
     /**

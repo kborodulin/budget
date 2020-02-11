@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.innopolis.domain.Account;
+import ru.innopolis.domain.Famem;
 import ru.innopolis.repository.AccountRepository;
 import ru.innopolis.service.AccountService;
 
@@ -84,5 +85,10 @@ public class AccountServiceImpl implements AccountService {
             accounts.add(account);
         }
         return accounts;
+    }
+
+    @Override
+    public List<Account> findAllByFamem(Famem famem) {
+        return accountRepository.findAllByFamem(famem);
     }
 }

@@ -5,6 +5,8 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="_csrf" content="${_csrf.token}"/>
+    <meta name="_csrf_header" content="${_csrf.headerName}"/>
     <title>Счета - Контроль расходов</title>
 
     <!-- Bootstrap core CSS -->
@@ -63,19 +65,7 @@
                         </svg>
                     </a>
                 </h6>
-                <ul class="nav flex-column mb-2">
-                    <li class="nav-item">
-                        <a class="nav-link" href="#" style="color: green">
-                            <span data-feather="credit-card"></span>
-                            42151723423 (Сбер1)
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#" style="color: red">
-                            <span data-feather="credit-card"></span>
-                            124124143 (Сбер2)
-                        </a>
-                    </li>
+                <ul class="nav flex-column mb-2" id="accountsList">
                 </ul>
             </div>
 
@@ -94,15 +84,11 @@
                 <div class="input-group-append">
                     <span class="input-group-text">₽</span>
                 </div>
-                <select class="custom-select mx-sm-3" name="walletOut">
+                <select class="custom-select mx-sm-3" name="walletOut" id="outAccount">
                     <option selected>Счет отправления</option>
-                    <option value="1">42151723423 (Сбер)</option>
-                    <option value="2">124124143 (Сбер)</option>
                 </select>
-                <select class="custom-select mx-sm-3" name="walletIn">
-                    <option selected>Счет получения</option>
-                    <option value="1">42151723423 (Сбер)</option>
-                    <option value="2">124124143 (Сбер)</option>
+                <select class="custom-select mx-sm-3" name="walletIn" id="inAccount">
+                    <option selected>Счет получателя</option>
                 </select>
                 <div class="form-group mx-sm-3">
                     <label for="comments" class="sr-only">Комментарий</label>
@@ -153,52 +139,46 @@
 
 
 <!-- Modal -->
-<div class="modal fade bd-example-modal-sm" id="newWalletDialog" tabindex="-1" role="dialog"
-     aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Новый счет</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <div class="form-group">
-                    <label for="walletName" class="col-form-label">Название</label><br>
-                    <input type="text" class="form-control" id="walletName" name="walletName" maxlength="50">
+<form:form name="createNewAccountForm" action="/wallet/create" method="post">
+    <div class="modal fade bd-example-modal-sm" id="newWalletDialog" tabindex="-1" role="dialog"
+         aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Новый счет</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
                 </div>
-                <div class="form-group">
-                    <label for="walletNum" class="col-form-label">Номер счета</label><br>
-                    <input type="text" class="form-control" id="walletNum" name="walletNum">
-                    <small id="walletNumWarn" class="form-text text-muted text-danger"></small>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="walletName" class="col-form-label">Название</label><br>
+                        <input type="text" class="form-control" id="walletName" name="name" maxlength=20>
+                    </div>
+                    <div class="form-group">
+                        <label for="walletNum" class="col-form-label">Номер счета</label><br>
+                        <input type="number" class="form-control" id="walletNum" name="num" min="1" max="99999999999999999999">
+                        <small id="walletNumWarn" class="form-text text-muted text-danger"></small>
+                    </div>
+                    <div class="form-group">
+                        <label for="walletType" class="col-form-label">Тип счета</label><br>
+                        <select class="form-control" id="walletType" name="acctypeid"></select>
+                    </div>
+                    <input type="hidden" name="amount" value="0">
+                    <input type="hidden" name="dateopen" value="">
                 </div>
-                <div class="form-group">
-                    <label for="walletCur" class="col-form-label">Валюта счета</label><br>
-                    <select class="form-control" id="walletCur" name="walletCur">
-                        <option value="1">Рубли</option>
-                        <option value="2">Доллары</option>
-                    </select>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+                    <button type="submit" class="btn btn-primary">Сохранить</button>
                 </div>
-                <div class="form-group">
-                    <label for="walletType" class="col-form-label">Тип счета</label><br>
-                    <select class="form-control" id="walletType" name="walletType">
-                        <option value="1">Наличные</option>
-                        <option value="2">Банковский вклад</option>
-                    </select>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
-                <button type="submit" class="btn btn-primary">Сохранить</button>
             </div>
         </div>
     </div>
-</div>
+</form:form>
 
 
 <script src="../resources/js/jquery/jquery.slim.min.js"></script>
-
+<script src="../resources/js/fillAccounts.js"></script>
 <script src="../resources/js/wallets.js"></script>
 
 <script src="../resources/js/bs/bootstrap.bundle.min.js"></script>
@@ -206,5 +186,6 @@
 <script src="../resources/js/Chart.js/Chart.min.js"></script>
 <script src="../resources/js/dashboard.js"></script>
 <script src="../resources/js/personalAccount.js"></script>
+
 </body>
 </html>
