@@ -57,32 +57,34 @@
         <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
             <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
                 <h3 class="h3">Расходы</h3>
-                <a class="d-flex align-items-center text-muted" href="#">
+                <a class="d-flex align-items-center text-muted" id="save-expenses" href="#">
                     <span id="save-item-expenses" style="text-decoration: underline;  color: #007bff;">сохранить расход&nbsp;</span>
                 </a>
             </div>
-            <form:form class="form-inline" name="expensesForm" action="/account/expenses/newExpenses">
-                <input type="number" step="0.01" min="0" max="999999999"  class="form-control" id="inputSumExpenses" placeholder="Сумма">
+            <form:form id= "addExpense" class="form-inline" name="expensesForm" action="/expenses/add">
+                <input type="number" step="0.01" min="0" max="999999999" class="form-control" name="amount"
+                       id="inputSumExpense"
+                       placeholder="Сумма" onKeyDown="if(this.value.length==9) return false;">
                 <div class="input-group-append">
                     <span class="input-group-text">₽</span>
                 </div>
-                <select class="custom-select mx-sm-3" name="wallet">
-                    <option selected>Счет</option>
-                    <option value="1">42151723423 (Сбер)</option>
-                    <option value="2">124124143 (Сбер)</option>
-                </select>
-                <select class="custom-select mx-sm-3" name="сategory">
-                    <option selected>Категория</option>
-                    <option value="1">Работа</option>
-                    <option value="2">Кредит</option>
-                    <option value="3">Депозит</option>
-                    <option value="4">Коммуналка</option>
-                    <option value="5">Телефон</option>
-                </select>
-                <div class="form-group mx-sm-3">
+                <div class="form-group mx-sm-1">
+                    <select class="form-control" id="accountbyuser" name="accountid"></select>
+                </div>
+                <div class="form-group mx-sm-1">
+                    <select class="form-control" id="allcategory" name="categoryid"></select>
+                </div>
+                <div class="form-group mx-sm-1">
+                    <input type="date" class="form-control" class="mydate" name="dateoper" id="theDate"
+                           placeholder="Дата">
+                </div>
+                <div class="form-group mx-sm-1">
                     <label for="comments" class="sr-only">Комментарий</label>
-                    <input type="text" maxlength="200" class="form-control" id="comments" name="comments"
-                           placeholder="Комментарий">
+                    <input type="text" maxlength="50" class="form-control" id="comments" name="comment"
+                           placeholder="Комментарий" style="display: inline-block; width:500px;">
+                </div>
+                <div class="form-group mx-sm-1">
+                    <input type="text" maxlength="50" class="form-control" name="typeoperationid" value="2" hidden="true">
                 </div>
             </form:form>
             <table class="table my-5">
@@ -97,25 +99,39 @@
                 </thead>
                 <tbody>
                 <tr>
-                    <td>
-                        <div class="">сумка</div>
-                        <div class="text-muted" style="font-size: x-small">не каких денег не жалко</div>
-                    </td>
-                    <td>
-                        <div class="text-danger">10000 руб.</div>
-                        <div class="text-muted" style="font-size: x-small">14.02.2020</div>
-                    </td>
+                    <th>Наименование</th>
+                    <th>Сумма</th>
+                    <th>Дата</th>
+                    <th>Категория</th>
+                    <th>Комментарий</th>
+                    <th>Изменить</th>
+                    <th>Удалить</th>
                 </tr>
-                <tr>
-                    <td>
-                        <div class="">носки</div>
-                        <div class="text-muted" style="font-size: x-small">подорю кому нибудь</div>
-                    </td>
-                    <td>
-                        <div class="text-danger">1000 руб.</div>
-                        <div class="text-muted" style="font-size: x-small">14.02.2020</div>
-                    </td>
-                </tr>
+                <c:forEach items="${allExpensesUser}" var="expense">
+                    <tr>
+                        <td>
+                            <div class="">${expense.account.name} </div>
+                        </td>
+                        <td>
+                            <div class="text-success">${expense.amount} руб.</div>
+                        </td>
+                        <td>
+                            <div class=""> ${expense.dateoper} </div>
+                        </td>
+                        <td>
+                            <div class="">${expense.category.name} </div>
+                        </td>
+                        <td>
+                            <div class="">${expense.comment}</div>
+                        </td>
+                        <td>
+                            <a href="/expenses/find/${expense.operationid}">Изменить</a>
+                        </td>
+                        <td>
+                            <a href="/expenses/delete/${expense.operationid}">Удалить</a>
+                        </td>
+                    </tr>
+                </c:forEach>
                 </tbody>
             </table>
         </main>
@@ -126,6 +142,9 @@
 <script src="../resources/js/featherIcons/feather.min.js"></script>
 <script src="../resources/js/Chart.js/Chart.min.js"></script>
 <script src="../resources/js/dashboard.js"></script>
-<script src="../resources/js/personalAccount.js"></script>
+<script src="../resources/js/expenses.js"></script>
+<script src="../resources/js/refCategory.js"></script>
+<script src="../resources/js/utils.js"></script>
+<script src="../resources/js/refAccountByUser.js"></script>
 </body>
 </html>
