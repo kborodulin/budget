@@ -5,5 +5,13 @@ var setAddIncome = document.querySelector("#addincome");
 if (setSaveIncome)
     setSaveIncome.addEventListener("click", e => {
         e.preventDefault();
+        if (inputSumIncome.value == "" || inputSumIncome.value == null) {
+            alert("Заполните поле сумма!!!");
+            return false;
+        }
+        if (inputSumIncome.value < 0) {
+            alert("Введите положительную сумму!!!");
+            return false;
+        }
         setAddIncome.submit();
     });

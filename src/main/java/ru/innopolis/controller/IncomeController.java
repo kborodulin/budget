@@ -14,7 +14,6 @@ import ru.innopolis.service.AccountService;
 import ru.innopolis.service.OperationService;
 
 import javax.servlet.http.HttpServletRequest;
-import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -54,9 +53,6 @@ public class IncomeController {
     @PostMapping("/income/add")
     public String saveIncome(@ModelAttribute("addincome") Operation operation) {
         Account account = accountService.findById(operation.getAccountid());
-        if (operation.getAmount()==null) {
-            operation.setAmount(BigDecimal.ZERO);
-        }
         if (operation.getTypeoperationid().equals(1L)) {
             account.setAmount(account.getAmount().add(operation.getAmount()));
         }
