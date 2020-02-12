@@ -16,5 +16,5 @@ public interface OperationService {
 
     List<Object[]> allIncomeUser(Long userid, LocalDate startDate, LocalDate endDate);
 
-    List<Operation> allExpensesUser(Long userid);
+    List<Operation> allExpensesUser(Long famemId, LocalDate startDate, LocalDate endDate);
 }

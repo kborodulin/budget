@@ -52,7 +52,7 @@ public class IncomeController {
      */
     @PostMapping("/income/add")
     public String saveIncome(@ModelAttribute("addincome") Operation operation) {
-        Account account = accountService.findById(operation.getAccountid());
+        Account account = accountService.findById(operation.getAccount().getAccountid());
         if (operation.getTypeoperationid().equals(1L)) {
             account.setAmount(account.getAmount().add(operation.getAmount()));
         }

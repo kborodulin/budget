@@ -9,9 +9,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import ru.innopolis.domain.Operation;
 import ru.innopolis.domain.User;
+import ru.innopolis.service.AccountService;
 import ru.innopolis.service.OperationService;
 
 import javax.servlet.http.HttpServletRequest;
+import java.time.LocalDate;
 import java.util.List;
 
 /**
@@ -19,17 +21,21 @@ import java.util.List;
  */
 @Controller
 public class ExpensesController {
+    private OperationService operationService;
+
     @Autowired
-    OperationService operationService;
+    public void setOperationService(OperationService operationService) {
+        this.operationService = operationService;
+    }
 
     /**
      * Список расходов пользователя
      */
-    @GetMapping("/expenses/allexpensesuser")
-    public String getAllExpensesUser(Model model, HttpServletRequest request) {
+    @GetMapping("/expenses")
+    public String getallExpensesUser(Model model, HttpServletRequest request, @ModelAttribute("period") String period) {
         User user = (User) request.getSession().getAttribute("user");
-        List<Operation> operations = operationService.allExpensesUser(user.getUserid());
-        model.addAttribute("allexpensesuser", operations);
+        List<Operation> operations = operationService.allExpensesUser(user.getFamem().getFamemid(), LocalDate.now(), LocalDate.now());
+        model.addAttribute("allExpensesUser", operations);
         return "expenses";
     }
 
@@ -56,7 +62,7 @@ public class ExpensesController {
      * Редактировать
      */
     @PostMapping("/expenses/update/{id}")
-    public String updateExpenses(@ModelAttribute("updateexpenses") Operation operation) {
+    public String updateExpenses(@ModelAttribute("updateexpenses") Operation operation, @PathVariable("id") Long id) {
         operationService.save(operation);
         return "expenses";
     }
