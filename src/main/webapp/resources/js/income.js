@@ -13,5 +13,9 @@ if (setSaveIncome)
             alert("Введите положительную сумму!!!");
             return false;
         }
+        if (inputSumIncome.value == 0) {
+            alert("Введите сумму больше 0!!!");
+            return false;
+        }
         setAddIncome.submit();
     });
