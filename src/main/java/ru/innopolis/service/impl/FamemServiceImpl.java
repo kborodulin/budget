@@ -5,6 +5,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.innopolis.domain.Famem;
+import ru.innopolis.domain.Family;
+import ru.innopolis.domain.User;
 import ru.innopolis.repository.FamemRepository;
 import ru.innopolis.service.FamemService;
 import ru.innopolis.service.FamilyService;
@@ -69,5 +71,15 @@ public class FamemServiceImpl implements FamemService {
         updatedFamem.setPatronymic(famemInfo.getPatronymic());
         updatedFamem.setSurname(famemInfo.getSurname());
         save(updatedFamem);
+    }
+
+    @Override
+    public Famem findByUser(User user) {
+        return famemRepository.findFirstByUser(user);
+    }
+
+    @Override
+    public List<Famem> findAllByFamily(Family family) {
+        return famemRepository.findAllByFamily(family);
     }
 }
