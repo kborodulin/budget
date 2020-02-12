@@ -82,6 +82,9 @@
                     <input type="text" maxlength="50" class="form-control" id="comments" name="comment"
                            placeholder="Комментарий" style="display: inline-block; width:500px;">
                 </div>
+                <div class="form-group mx-sm-1">
+                    <input type="text" maxlength="50" class="form-control" name="typeoperationid" value="1" hidden="true">
+                </div>
             </form:form>
             <table class="table my-5">
                 <thead>
@@ -121,7 +124,7 @@
                             <div class="">${income[4]}</div>
                         </td>
                         <td>
-
+                            <a href="/income/find/${income[5]}">Изменить</a>
                         </td>
                         <td>
                             <a href="/income/delete/${income[5]}">Удалить</a>

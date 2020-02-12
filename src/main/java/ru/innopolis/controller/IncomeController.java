@@ -7,8 +7,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import ru.innopolis.domain.Account;
 import ru.innopolis.domain.Operation;
 import ru.innopolis.domain.User;
+import ru.innopolis.service.AccountService;
 import ru.innopolis.service.OperationService;
 
 import javax.servlet.http.HttpServletRequest;
@@ -20,8 +22,19 @@ import java.util.List;
  */
 @Controller
 public class IncomeController {
-    @Autowired
     private OperationService operationService;
+
+    private AccountService accountService;
+
+    @Autowired
+    public void setOperationService(OperationService operationService) {
+        this.operationService = operationService;
+    }
+
+    @Autowired
+    public void setAccountService(AccountService accountService) {
+        this.accountService = accountService;
+    }
 
     /**
      * Список доходов пользователя
@@ -39,7 +52,11 @@ public class IncomeController {
      */
     @PostMapping("/income/add")
     public String saveIncome(@ModelAttribute("addincome") Operation operation) {
-        operation.setTypeoperationid(1L);
+        Account account = accountService.findById(operation.getAccountid());
+        if (operation.getTypeoperationid().equals(1L)) {
+            account.setAmount(account.getAmount().add(operation.getAmount()));
+        }
+        accountService.save(account);
         operationService.save(operation);
         return "redirect:/income";
     }
@@ -47,20 +64,20 @@ public class IncomeController {
     /**
      * Найти
      */
-    @PostMapping("/income/find/{id}")
+    @GetMapping("/income/find/{id}")
     public String findIncome(Model model, @PathVariable("id") Long id) {
         Operation operation = operationService.findById(id);
         model.addAttribute("findincome", operation);
-        return "income";
+        return "redirect:/income";
     }
 
     /**
      * Редактировать
      */
     @PostMapping("/income/update/{id}")
-    public String updateIncome(@ModelAttribute("updateincome") Operation operation) {
+    public String updateIncome(@ModelAttribute("updincome") Operation operation) {
         operationService.save(operation);
-        return "income";
+        return "redirect:/income";
     }
 
     /**
