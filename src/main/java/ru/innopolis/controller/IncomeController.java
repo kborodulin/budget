@@ -8,9 +8,11 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import ru.innopolis.domain.Account;
+import ru.innopolis.domain.Category;
 import ru.innopolis.domain.Operation;
 import ru.innopolis.domain.User;
 import ru.innopolis.service.AccountService;
+import ru.innopolis.service.CategoryService;
 import ru.innopolis.service.OperationService;
 
 import javax.servlet.http.HttpServletRequest;
@@ -26,6 +28,8 @@ public class IncomeController {
 
     private AccountService accountService;
 
+    private CategoryService categoryService;
+
     @Autowired
     public void setOperationService(OperationService operationService) {
         this.operationService = operationService;
@@ -34,6 +38,11 @@ public class IncomeController {
     @Autowired
     public void setAccountService(AccountService accountService) {
         this.accountService = accountService;
+    }
+
+    @Autowired
+    public void setCategoryService(CategoryService categoryService) {
+        this.categoryService = categoryService;
     }
 
     /**
@@ -51,12 +60,17 @@ public class IncomeController {
      * Добавить
      */
     @PostMapping("/income/add")
-    public String saveIncome(@ModelAttribute("addincome") Operation operation) {
-        Account account = accountService.findById(operation.getAccountid());
+    public String saveIncome(@ModelAttribute("addincome") Operation operation,
+                             @ModelAttribute("accountid") Account account,
+                             @ModelAttribute("categoryid") Category category) {
+        account = accountService.findById(account.getAccountid());
+        category = categoryService.findById(category.getCategoryid());
         if (operation.getTypeoperationid().equals(1L)) {
             account.setAmount(account.getAmount().add(operation.getAmount()));
         }
         accountService.save(account);
+        operation.setAccount(account);
+        operation.setCategory(category);
         operationService.save(operation);
         return "redirect:/income";
     }

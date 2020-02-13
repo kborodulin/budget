@@ -22,9 +22,13 @@ public class Operation {
 
     private Long typeoperationid;
 
-    private Long categoryid;
+    @ManyToOne
+    @JoinColumn(name = "categoryid")
+    private Category category;
 
-    private Long accountid;
+    @ManyToOne
+    @JoinColumn(name = "accountid")
+    private Account account;
 
     private BigDecimal amount;
 

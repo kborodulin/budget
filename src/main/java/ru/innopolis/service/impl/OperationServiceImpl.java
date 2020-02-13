@@ -4,8 +4,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ru.innopolis.domain.Account;
 import ru.innopolis.domain.Operation;
 import ru.innopolis.repository.OperationRepository;
+import ru.innopolis.service.AccountService;
 import ru.innopolis.service.OperationService;
 
 import javax.persistence.EntityManager;
@@ -23,6 +25,9 @@ public class OperationServiceImpl implements OperationService {
 
     @Autowired
     private OperationRepository operationRepository;
+
+    @Autowired
+    private AccountService accountService;
 
     @Override
     public void save(Operation operation) {
@@ -73,21 +78,14 @@ public class OperationServiceImpl implements OperationService {
     }
 
     @Override
-    public List<Operation> allExpensesUser(Long userid) {
-        Query query = em.createNativeQuery("select " +
-                "o.operationid, " +
-                "o.typeoperationid, " +
-                "o.categoryid, " +
-                "o.accountid, " +
-                "o.amount, " +
-                "o.dateoper, " +
-                "o.datewritedb,o.comment \n" +
-                "from operation o \n" +
-                "join account a on a.accountid = o.accountid \n" +
-                "join famem f on f.famemid = a.famemid \n" +
-                "where o.typeoperationid = 2 and f.userid = ?");
-        query.setParameter(1, userid);
-        List<Operation> operations = query.getResultList();
-        return operations;
+    public List<Operation> allExpensesUser(Long famemId, LocalDate startDate, LocalDate endDate) {
+        return operationRepository.findUserExpensesInPeriod(famemId, startDate, endDate);
+    }
+
+    @Override
+    public void clearDelete(Operation operation) {
+        Account account = accountService.findById(operation.getAccount().getAccountid());
+        account.setAmount(account.getAmount().add(operation.getAmount()));
+        delete(operation);
     }
 }

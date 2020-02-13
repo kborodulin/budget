@@ -12,19 +12,6 @@ public class TestController {
         return modelAndView;
     }
 
-    //@GetMapping(value = "/income")
-    public ModelAndView openIncome(ModelAndView modelAndView) {
-        modelAndView.setViewName("income");
-        return modelAndView;
-    }
-
-    @GetMapping(value = "/expenses")
-    public ModelAndView openExpenses(ModelAndView modelAndView) {
-        modelAndView.setViewName("expenses");
-        return modelAndView;
-    }
-    
-
     @GetMapping(value = "/statistic")
     public ModelAndView openStatistic(ModelAndView modelAndView) {
         modelAndView.setViewName("statistic");
