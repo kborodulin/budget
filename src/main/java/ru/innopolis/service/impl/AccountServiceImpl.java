@@ -91,4 +91,30 @@ public class AccountServiceImpl implements AccountService {
     public List<Account> findAllByFamem(Famem famem) {
         return accountRepository.findAllByFamem(famem);
     }
+
+    @Override
+    public List<Account> findAllByUserSort(Long userid, Long accountid) {
+        Query query = em.createNativeQuery(
+                "select a.accountid, a.name \n" +
+                        "from (select a.name, a.accountid, f.userid, \n" +
+                        "\t\tcase \n" +
+                        "\t\t\twhen accountid = ?\n" +
+                        "\t\t\tthen 1 \n" +
+                        "\t\t\telse row_number() over() + 1 \n" +
+                        "\t\tend rn\n" +
+                        "\tfrom account a join famem f on a.famemid = f.famemid where f.userid = ?) a\n" +
+                        "order by a.rn"
+        );
+        query.setParameter(1, accountid);
+        query.setParameter(2, userid);
+        List<Object[]> objects = query.getResultList();
+        List<Account> accounts = new ArrayList<>();
+        for (Object[] obj : objects) {
+            Account account = new Account();
+            account.setAccountid(((BigInteger) obj[0]).longValue());
+            account.setName((String) obj[1]);
+            accounts.add(account);
+        }
+        return accounts;
+    }
 }

@@ -63,27 +63,77 @@
             <form:form method="post" class="form-inline" name="incomeForm" id="addincome" action="/income/add">
                 <input type="number" step="0.01" min="0" max="999999999" class="form-control" name="amount"
                        id="inputSumIncome"
-                       placeholder="Сумма" onKeyDown="if(this.value.length==9) return false;">
+                       placeholder="Сумма" onKeyDown="if(this.value.length==9) return false;"
+                       value="${findincome.amount}">
                 <div class="input-group-append">
                     <span class="input-group-text">₽</span>
                 </div>
-                <div class="form-group mx-sm-1">
-                    <select class="form-control" id="accountbyuser" name="accountid"></select>
-                </div>
-                <div class="form-group mx-sm-1">
-                    <select class="form-control" id="allcategory" name="categoryid"></select>
-                </div>
-                <div class="form-group mx-sm-1">
-                    <input type="date" class="form-control" class="mydate" name="dateoper" id="theDate"
-                           placeholder="Дата">
-                </div>
+                <c:choose>
+                    <c:when test="${findincome.account.accountid == null}">
+                        <div class="form-group mx-sm-1">
+                            <select class="form-control" id="accountbyuser" name="accountid"></select>
+                        </div>
+                    </c:when>
+                    <c:otherwise>
+                        <div class="form-group mx-sm-1">
+                            <div class="form-group mx-sm-1">
+                                <select class="form-control" name="accountid">
+                                    <c:forEach var="account" items="${findallaccountbyusersort}">
+                                        <option value=<c:out value="${account.accountid}"/>><c:out
+                                                value="${account.name}"/></option>
+                                    </c:forEach>
+                                </select>
+                            </div>
+                        </div>
+                    </c:otherwise>
+                </c:choose>
+                <c:choose>
+                    <c:when test="${findincome.category.categoryid == null}">
+                        <div class="form-group mx-sm-1">
+                            <select class="form-control" id="allcategory" name="categoryid"></select>
+                        </div>
+                    </c:when>
+                    <c:otherwise>
+                        <div class="form-group mx-sm-1">
+                            <div class="form-group mx-sm-1">
+                                <select class="form-control" name="categoryid">
+                                    <c:forEach var="category" items="${findallcategoriessort}">
+                                        <option value=<c:out value="${category.categoryid}"/>><c:out
+                                                value="${category.name}"/></option>
+                                    </c:forEach>
+                                </select>
+                            </div>
+                        </div>
+                    </c:otherwise>
+                </c:choose>
+                <c:choose>
+                    <c:when test="${findincome.dateoper == null}">
+                        <div class="form-group mx-sm-1">
+                            <input type="date" class="form-control" class="mydate" name="dateoper" id="theDate"
+                                   placeholder="Дата">
+                        </div>
+                    </c:when>
+                    <c:otherwise>
+                        <div class="form-group mx-sm-1">
+                            <input type="date" class="form-control" class="mydate" name="dateoper"
+                                   value="${findincome.dateoper}"
+                                   placeholder="Дата">
+                        </div>
+                    </c:otherwise>
+                </c:choose>
                 <div class="form-group mx-sm-1">
                     <label for="comments" class="sr-only">Комментарий</label>
                     <input type="text" maxlength="50" class="form-control" id="comments" name="comment"
-                           placeholder="Комментарий" style="display: inline-block; width:500px;">
+                           placeholder="Комментарий" style="display: inline-block; width:500px;"
+                           value="${findincome.comment}">
                 </div>
                 <div class="form-group mx-sm-1">
-                    <input type="text" maxlength="50" class="form-control" name="typeoperationid" value="1" hidden="true">
+                    <input type="text" maxlength="50" class="form-control" name="typeoperationid" value="1"
+                           hidden="true">
+                </div>
+                <div class="form-group mx-sm-1">
+                    <input type="text" class="form-control" name="operationid" value="${findoperationid}"
+                           hidden="true">
                 </div>
             </form:form>
             <table class="table my-5">

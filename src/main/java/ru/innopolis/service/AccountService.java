@@ -20,4 +20,6 @@ public interface AccountService {
     List<Account> findAllByUser(Long userid);
 
     List<Account> findAllByFamem(Famem famem);
+
+    List<Account> findAllByUserSort(Long userid, Long accountid);
 }

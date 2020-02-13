@@ -12,4 +12,6 @@ public interface CategoryService {
     void delete(Category category);
 
     List<Category> findAll();
+
+    List<Category> findAllSort(Long categoryid);
 }
