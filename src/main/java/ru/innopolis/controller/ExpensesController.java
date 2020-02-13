@@ -1,5 +1,6 @@
 package ru.innopolis.controller;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,6 +16,7 @@ import ru.innopolis.service.AccountService;
 import ru.innopolis.service.CategoryService;
 import ru.innopolis.service.OperationService;
 
+import javax.jws.WebParam;
 import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDate;
 import java.util.List;
@@ -23,6 +25,7 @@ import java.util.List;
  * Расходы
  */
 @Controller
+@Slf4j
 public class ExpensesController {
     private OperationService operationService;
 
@@ -64,6 +67,10 @@ public class ExpensesController {
                                @ModelAttribute("categoryid") Category category) {
         account = accountService.findById(account.getAccountid());
         category = categoryService.findById(category.getCategoryid());
+        if (operation.getOperationid() != null){
+            Operation operationOld = operationService.findById(operation.getOperationid());
+            account.setAmount(account.getAmount().add(operationOld.getAmount()));
+        }
         if (operation.getTypeoperationid().equals(2L)) {
             account.setAmount(account.getAmount().subtract(operation.getAmount()));
         }
@@ -87,9 +94,13 @@ public class ExpensesController {
     /**
      * Редактировать
      */
-    @PostMapping("/expenses/update/{id}")
-    public String updateExpenses(@ModelAttribute("updateexpenses") Operation operation, @PathVariable("id") Long id) {
-        operationService.save(operation);
+    @GetMapping("/expenses/{id}")
+    public String renderUpdateExpenses(@PathVariable("id") Long id, Model model, HttpServletRequest request) {
+        User user = (User) request.getSession().getAttribute("user");
+        List<Operation> operations = operationService.allExpensesUser(user.getFamem().getFamemid(), LocalDate.now(), LocalDate.now());
+        model.addAttribute("allExpensesUser", operations);
+        Operation updatedOperation = operationService.findById(id);
+        model.addAttribute("updatedOperation", updatedOperation);
         return "expenses";
     }
 
@@ -101,5 +112,13 @@ public class ExpensesController {
         Operation operation = operationService.findById(id);
         operationService.clearDelete(operation);
         return "redirect:/expenses";
+    }
+
+    @ModelAttribute
+    public void setModel(Model model, HttpServletRequest request){
+        User user = (User) request.getSession().getAttribute("user");
+        List<Account> accountsByUser = accountService.findAllByUser(user.getUserid());
+        model.addAttribute("findallaccountbyuser", accountsByUser);
+        model.addAttribute("refallcategory", categoryService.findAll());
     }
 }

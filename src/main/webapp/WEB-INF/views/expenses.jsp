@@ -62,29 +62,60 @@
                 </a>
             </div>
             <form:form id= "addExpense" class="form-inline" name="expensesForm" action="/expenses/add">
-                <input type="number" step="0.01" min="0" max="999999999" class="form-control" name="amount"
+                <input type="number" step="0.01" min="0" max="999999999" class="form-control" name="amount" value="${updatedOperation.amount}"
                        id="inputSumExpense"
                        placeholder="Сумма" onKeyDown="if(this.value.length==9) return false;">
                 <div class="input-group-append">
                     <span class="input-group-text">₽</span>
                 </div>
                 <div class="form-group mx-sm-1">
-                    <select class="form-control" id="accountbyuser" name="accountid"></select>
+                    <select class="form-control" name="accountid">
+                        <c:forEach var="account" items="${findallaccountbyuser}">
+                            <c:if test="${updatedOperation.account.name == account.name}">
+                                <option selected value=<c:out value="${account.accountid}"/>><c:out value="${account.name}"/></option>
+                            </c:if>
+                            <c:if test="${updatedOperation.account.name != account.name}">
+                                <option value=<c:out value="${account.accountid}"/>><c:out value="${account.name}"/></option>
+                            </c:if>
+                        </c:forEach>
+                    </select>
                 </div>
                 <div class="form-group mx-sm-1">
-                    <select class="form-control" id="allcategory" name="categoryid"></select>
+                    <select class="form-control" name="categoryid">
+                    <c:forEach var="category" items="${refallcategory}">
+                        <c:if test="${updatedOperation.category.name == category.name}">
+                            <option selected value=<c:out value="${category.categoryid}"/>><c:out value="${category.name}"/></option>
+                        </c:if>
+                        <c:if test="${updatedOperation.category.name != category.name}">
+                            <option value=<c:out value="${category.categoryid}"/>><c:out value="${category.name}"/></option>
+                        </c:if>
+                    </c:forEach>
+                    </select>
                 </div>
                 <div class="form-group mx-sm-1">
-                    <input type="date" class="form-control" class="mydate" name="dateoper" id="theDate"
-                           placeholder="Дата">
+                    <c:choose>
+                        <c:when test="${updatedOperation.dateoper == null}">
+                            <input type="date" class="form-control" class="mydate" name="dateoper" id="theDate"
+                                   placeholder="Дата">
+                        </c:when>
+                        <c:otherwise>
+                            <input type="date" class="form-control" class="mydate" name="dateoper"
+                                   value="${updatedOperation.dateoper}"
+                                   placeholder="Дата">
+                        </c:otherwise>
+                    </c:choose>
                 </div>
                 <div class="form-group mx-sm-1">
                     <label for="comments" class="sr-only">Комментарий</label>
-                    <input type="text" maxlength="50" class="form-control" id="comments" name="comment"
+                    <input type="text" maxlength="50" class="form-control" id="comments" name="comment" value="${updatedOperation.comment}"
                            placeholder="Комментарий" style="display: inline-block; width:500px;">
                 </div>
                 <div class="form-group mx-sm-1">
                     <input type="text" maxlength="50" class="form-control" name="typeoperationid" value="2" hidden="true">
+                </div>
+                <div class="form-group mx-sm-1">
+                    <input type="text" class="form-control" name="operationid" value="${updatedOperation.operationid}"
+                           hidden="true">
                 </div>
             </form:form>
             <table class="table my-5">
@@ -125,7 +156,7 @@
                             <div class="">${expense.comment}</div>
                         </td>
                         <td>
-                            <a href="/expenses/find/${expense.operationid}">Изменить</a>
+                            <a href="/expenses/${expense.operationid}">Изменить</a>
                         </td>
                         <td>
                             <a href="/expenses/delete/${expense.operationid}">Удалить</a>
