@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import ru.innopolis.domain.Account;
 import ru.innopolis.domain.Category;
 import ru.innopolis.domain.Operation;
@@ -65,6 +66,10 @@ public class IncomeController {
                              @ModelAttribute("categoryid") Category category) {
         account = accountService.findById(account.getAccountid());
         category = categoryService.findById(category.getCategoryid());
+        if (operation.getOperationid() != null) {
+            Operation operationOld = operationService.findById(operation.getOperationid());
+            account.setAmount(account.getAmount().subtract(operationOld.getAmount()));
+        }
         if (operation.getTypeoperationid().equals(1L)) {
             account.setAmount(account.getAmount().add(operation.getAmount()));
         }
@@ -79,9 +84,15 @@ public class IncomeController {
      * Найти
      */
     @GetMapping("/income/find/{id}")
-    public String findIncome(Model model, @PathVariable("id") Long id) {
+    public String findIncome(RedirectAttributes attributes, @PathVariable("id") Long id, HttpServletRequest request) {
         Operation operation = operationService.findById(id);
-        model.addAttribute("findincome", operation);
+        attributes.addFlashAttribute("findincome", operation);
+        User user = (User) request.getSession().getAttribute("user");
+        List<Account> accountsByUser = accountService.findAllByUserSort(user.getUserid(), operation.getAccount().getAccountid());
+        List<Category> categories = categoryService.findAllSort(operation.getCategory().getCategoryid());
+        attributes.addFlashAttribute("findallaccountbyusersort", accountsByUser);
+        attributes.addFlashAttribute("findallcategoriessort", categories);
+        attributes.addFlashAttribute("findoperationid", operation.getOperationid());
         return "redirect:/income";
     }
 
