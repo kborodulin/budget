@@ -7,6 +7,5 @@ import ru.innopolis.domain.User;
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
     User findFirstByEmail(String email);
-
     User findFirstByLogin(String login);
 }

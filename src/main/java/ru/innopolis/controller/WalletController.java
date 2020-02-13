@@ -14,9 +14,11 @@ import ru.innopolis.domain.User;
 import ru.innopolis.service.AccountService;
 import ru.innopolis.service.AccountTypeService;
 import ru.innopolis.service.FamemService;
+import ru.innopolis.service.UserService;
 
 import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -26,6 +28,7 @@ public class WalletController {
     AccountService accountService;
     FamemService famemService;
     AccountTypeService accountTypeService;
+    UserService userService;
 
 
     @GetMapping
@@ -50,17 +53,20 @@ public class WalletController {
     public ModelAndView getUserWallets(HttpServletRequest request){
         ModelAndView modelAndView = new ModelAndView();
         Famem myFamem = getMyFamem(request);
-
         List<Account> accounts = accountService.findAllByFamem(myFamem);
-
         Family myFamily = myFamem.getFamily();
+        List<Famem> allFamems = new ArrayList<>();
+        allFamems.add(myFamem);
         if (myFamily != null){
             List<Famem> famems = famemService.findAllByFamily(myFamily);
+            allFamems.addAll(famems);
             famems.stream().filter(f->!f.getUser().getUserid().equals(myFamem.getUser().getUserid())).forEach(f->{
                 accounts.addAll(accountService.findAllByFamem(f));
             });
         }
-
+        modelAndView.addObject("users", userService.findAll());
+        modelAndView.addObject("famems", allFamems);
+        modelAndView.addObject("myfamem", myFamem);
         modelAndView.addObject("accounts", accounts);
         modelAndView.addObject("types", accountTypeService.findAll());
         modelAndView.setViewName("ref/allmywallets");
@@ -84,6 +90,11 @@ public class WalletController {
     @Autowired
     public void setAccountTypeService(AccountTypeService accountTypeService) {
         this.accountTypeService = accountTypeService;
+    }
+
+    @Autowired
+    public void setUserService(UserService userService) {
+        this.userService = userService;
     }
 
     @Autowired

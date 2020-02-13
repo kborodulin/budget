@@ -87,6 +87,10 @@
                 <select class="custom-select mx-sm-3" name="walletOut" id="outAccount">
                     <option selected>Счет отправления</option>
                 </select>
+                <span style="margin:0 5px">--></span>
+                <select class="custom-select mx-sm-3" name="inUser" id="inUser">
+                    <option selected>Получатель</option>
+                </select>
                 <select class="custom-select mx-sm-3" name="walletIn" id="inAccount">
                     <option selected>Счет получателя</option>
                 </select>
@@ -156,11 +160,6 @@
                         <input type="text" class="form-control" id="walletName" name="name" maxlength=20>
                     </div>
                     <div class="form-group">
-                        <label for="walletNum" class="col-form-label">Номер счета</label><br>
-                        <input type="number" class="form-control" id="walletNum" name="num" min="1" max="99999999999999999999">
-                        <small id="walletNumWarn" class="form-text text-muted text-danger"></small>
-                    </div>
-                    <div class="form-group">
                         <label for="walletType" class="col-form-label">Тип счета</label><br>
                         <select class="form-control" id="walletType" name="acctypeid"></select>
                     </div>
@@ -168,7 +167,6 @@
                     <input type="hidden" name="dateopen" value="">
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
                     <button type="submit" class="btn btn-primary">Сохранить</button>
                 </div>
             </div>
