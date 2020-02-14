@@ -12,8 +12,15 @@
         </li>
     </c:forEach>
 </ul>
+<select id="_myAccountSelect">
+    <c:forEach var="account" items="${accounts}">
+        <c:if test="${myfamem.famemid.equals(account.famem.famemid)}">
+            <option value=<c:out value="${account.accountid}"/>><c:out value="${account.name}"/></option>
+        </c:if>
+    </c:forEach>
+</select>
 <select id="_accountSelect">
     <c:forEach var="account" items="${accounts}">
-        <option value=<c:out value="${account.accountid}"/>><c:out value="${account.name}"/></option>
+        <option value=<c:out value="${account.accountid}"/> data-user=<c:out value="${users.stream().filter(u->u.getUserid().equals(famems.stream().filter(f->f.getFamemid().equals(account.famem.famemid)).findFirst().get().user.userid)).findFirst().get().login}"/>><c:out value="${account.name}"/></option>
     </c:forEach>
 </select>

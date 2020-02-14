@@ -21,10 +21,10 @@
         </c:forEach>
     </div>
     <div class="form-label-group">
-        <input type="email" id="inputEmail" class="form-control" placeholder="введите email" name="email" maxlength="50">
-        <input type="login" id="inputLoginReg" class="form-control" placeholder="введите логин" name="login" maxlength="15" required autofocus>
-        <input type="password" id="inputPasswordReg" class="form-control" placeholder="введите пароль" name="password" maxlength="15" required>
-        <input type="password" id="inputRepeatPassword" class="form-control" placeholder="пароль повторно" maxlength="15" required name="repeatPassword">
+        <input type="email" id="inputEmail" class="form-control" placeholder="введите email" name="email" maxlength="50" required="required">
+        <input type="login" id="inputLoginReg" class="form-control" placeholder="введите логин" name="login" maxlength="15" required="required" autofocus>
+        <input type="password" id="inputPasswordReg" class="form-control" placeholder="введите пароль" name="password" maxlength="15" required="required">
+        <input type="password" id="inputRepeatPassword" class="form-control" placeholder="пароль повторно" maxlength="15" required="required" name="repeatPassword">
         <button class="btn btn-lg btn-primary btn-block" id="buttonSignin" type="submit" >Зарегистрироваться</button>
         <p><a id="authBtn" href="/login">авторизация</a> для зарегистрированных пользователей </p>
     </div>
