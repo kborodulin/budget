@@ -1,9 +1,9 @@
 const outAccount = document.querySelector("#outAccount");
 const inAccount = document.querySelector("#inAccount");
 const saveTrans = document.querySelector("#save-item-wallet");
-const inUser =  document.querySelector("#inUser");
+const inUser = document.querySelector("#inUser");
 
-fetch("/ref/allaccounttype").then(r=>r.text()).then(data=>{
+fetch("/ref/allaccounttype").then(r => r.text()).then(data => {
     document.querySelector("#walletType").innerHTML = data;
 });
 
@@ -13,17 +13,44 @@ const header = $("meta[name='_csrf_header']").attr("content");
 let headers = {};
 headers[header] = token;
 
-function getUsersFromSelect(accountOptions){
+function getUsersFromSelect(accountOptions) {
     let users = new Set();
-    console.log(accountOptions);
-    Array.from(accountOptions.options).forEach(opt=>users.add(opt.dataset.user));
-    console.log(users);
+    //console.log(accountOptions);
+    Array.from(accountOptions.options).forEach(opt => users.add(opt.dataset.user));
+    //console.log(users);
     let select = document.createElement("select");
-    users.forEach(user=>select.options.add(new Option(user,user)));
+    let defOption = new Option("Получатель", null, true, true);
+    defOption.disabled = true;
+    select.add(defOption);
+    users.forEach(user => {
+        if (user) select.options.add(new Option(user, user));
+    });
     return select;
 }
 
-fetch("/wallet/getallwallets", {method:"POST", headers}).then(r=>r.text()).then(data=>{
+function removeWalletDialog() {
+    document.querySelector("#delWalletId").value = this.dataset.walletid;
+    document.querySelector("#delWalletMessage").innerHTML = this.dataset.amount==0?
+        `Кошелек "${this.dataset.walletname}" будет удален. Он более не будет отображаться в списке кошельков`:
+        `Кошелек "${this.dataset.walletname}" не пуст. Кошелек будет отображаться в списке как неактивный. На него нельзя будет переводить деньги. После обнуления баланса кошелек будет удален.`;
+    $("#deleteWalletDialogModal").modal();
+}
+
+function recoverWalletDialog() {
+    document.querySelector("#recoverWalletId").value = this.dataset.walletid;
+    document.querySelector("#recoverWalletMessage").innerHTML = `Кошелек "${this.dataset.walletname}" будет восстановлен.`;
+    $("#recoverWalletDialogModal").modal();
+}
+
+function addListeners() {
+    let removeWalletBtns = document.querySelectorAll(".removeWallet");
+    for (let rwb of removeWalletBtns) rwb.addEventListener("click", removeWalletDialog);
+    let recoverWalletBtns = document.querySelectorAll(".recoverWallet");
+    for (let rcw of recoverWalletBtns) rcw.addEventListener("click", recoverWalletDialog);
+
+}
+
+fetch("/wallet/getallwallets", {method: "POST", headers}).then(r => r.text()).then(data => {
     let div = document.createElement("div");
     div.innerHTML = data;
     let accountsSelect = div.querySelector("#_accountSelect");
@@ -34,43 +61,39 @@ fetch("/wallet/getallwallets", {method:"POST", headers}).then(r=>r.text()).then(
     inUser.innerHTML = getUsersFromSelect(accountsSelect).innerHTML;
     checkTransactionAvailable();
     filterInUserAccounts();
+    addListeners();
 });
 
-function toggleSaveTransBtn(disable){
-    saveTrans.style.display = disable?"none":"";
+function toggleSaveTransBtn(disable) {
+    saveTrans.style.display = disable ? "none" : "";
 }
 
-function toggleTransactionForm(disable){
+function toggleTransactionForm(disable, disableSaveBtn = disable) {
     document.querySelector("#inputSumWallet").disabled = disable;
     inAccount.disabled = disable;
     outAccount.disabled = disable;
     document.querySelector("#comments").disabled = disable;
-    toggleSaveTransBtn(disable);
+    toggleSaveTransBtn(disableSaveBtn);
 }
 
-function checkTransactionAvailable(){
-    if (inAccount.options.length <=1 && outAccount.options.length<=1) {
+function checkTransactionAvailable() {
+    if (outAccount.options.length <= 1 && inAccount.options.length <= 1) {
         return toggleTransactionForm(true);
     }
-    toggleTransactionForm(false);
-    if (inAccount.value === outAccount.value) toggleSaveTransBtn(true);
+    toggleTransactionForm(false, inAccount.value === outAccount.value || inAccount.options.length <= 1 || outAccount.options.length <= 1);
 }
 
-function filterInUserAccounts(){
+function filterInUserAccounts() {
     let val = inUser.value;
-    let found = false;
-    Array.from(inAccount.options).forEach(option=>{
-        if (val==option.dataset.user) {
+    Array.from(inAccount.options).forEach((option, i) => {
+        if (!i) return;
+        if (val == option.dataset.user) {
             option.style.display = "";
-            if (!found) {
-                option.selected = true;
-                checkTransactionAvailable();
-                found = true;
-            }
             return;
         }
         option.style.display = "none";
     });
+    inAccount.options[0].selected = true;
 }
 
 inAccount.addEventListener("change", checkTransactionAvailable);
