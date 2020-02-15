@@ -2,16 +2,14 @@
 <databaseChangeLog
         xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xmlns:pro="http://www.liquibase.org/xml/ns/pro"
-        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd
-      http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-3.8.xsd">
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
 
     <property name="defaultDate" value="now()::timestamp(0)" dbms="postgresql"/>
 
     <changeSet id="1" author="kborodulin">
         <createTable tableName="role" remarks="Роль">
             <column name="roleid" type="bigint" remarks="Идентификатор">
-                <constraints primaryKey="true"></constraints>
+                <constraints primaryKey="true"/>
             </column>
             <column name="name" type="varchar(255)" remarks="Наименование">
                 <constraints nullable="false"/>
@@ -24,7 +22,7 @@
 
     <changeSet id="2" author="kborodulin">
         <createIndex tableName="role" indexName="idx_role_name" unique="true">
-            <column name="name"></column>
+            <column name="name"/>
         </createIndex>
         <createIndex tableName="role" indexName="idx_role_brief" unique="true">
             <column name="brief">brief</column>
@@ -51,7 +49,7 @@
     <changeSet id="5" author="kborodulin">
         <createTable tableName="users" remarks="Пользователь">
             <column name="userid" type="bigint" remarks="Идентификатор">
-                <constraints primaryKey="true"></constraints>
+                <constraints primaryKey="true"/>
             </column>
             <column name="datecreate" type="timestamp()" defaultValueDate="${defaultDate}"
                     remarks="Дата создания пользователя">
@@ -81,10 +79,10 @@
 
     <changeSet id="6" author="kborodulin">
         <createIndex tableName="users" indexName="idx_users_login" unique="true">
-            <column name="login"></column>
+            <column name="login"/>
         </createIndex>
         <createIndex tableName="users" indexName="idx_users_email" unique="true">
-            <column name="email"></column>
+            <column name="email"/>
         </createIndex>
     </changeSet>
 
