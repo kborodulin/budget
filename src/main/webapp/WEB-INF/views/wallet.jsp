@@ -79,26 +79,38 @@
                 </a>
             </div>
             <form:form class="form-inline" name="transactionForm" action="/account/wallet/newTransaction">
-                <input type="number" step="0.01" min="0" max="999999999" class="form-control" id="inputSumWallet"
-                       placeholder="Сумма">
-                <div class="input-group-append">
-                    <span class="input-group-text">₽</span>
-                </div>
-                <select class="custom-select mx-sm-3" name="walletOut" id="outAccount">
-                    <option selected>Счет отправления</option>
-                </select>
-                <span style="margin:0 5px">--></span>
-                <select class="custom-select mx-sm-3" name="inUser" id="inUser">
-                    <option selected>Получатель</option>
-                </select>
-                <select class="custom-select mx-sm-3" name="walletIn" id="inAccount">
-                    <option selected>Счет получателя</option>
-                </select>
-                <div class="form-group mx-sm-3">
-                    <label for="comments" class="sr-only">Комментарий</label>
-                    <input type="text" maxlength="50" class="form-control" id="comments" name="comments"
-                           placeholder="Комментарий">
-                </div>
+                    <div class="form-group">
+                        <input type="number" step="0.01" min="0" max="999999999" class="form-control" id="inputSumWallet"
+                               placeholder="Сумма" required>
+                        <div class="input-group-append">
+                            <span class="input-group-text">₽</span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <select class="form-control custom-select mx-sm-3" name="walletOut" id="outAccount" required>
+                            <option selected>Счет отправления</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <span style="margin:0 5px" class="form-control-plaintext">--></span>
+                    </div>
+                    <div class="form-group">
+                        <select class="form-control custom-select mx-sm-3" name="inUser" id="inUser" required>
+                            <option selected disabled>Получатель</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <select class="form-control custom-select mx-sm-3" name="walletIn" id="inAccount" required>
+                            <option selected>Счет получателя</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <div class="form-group mx-sm-3">
+                            <label for="comments" class="sr-only">Комментарий</label>
+                            <input type="text" maxlength="50" class="form-control" id="comments" name="comments"
+                                   placeholder="Комментарий" required>
+                        </div>
+                    </div>
             </form:form>
 
 
@@ -174,6 +186,8 @@
     </div>
 </form:form>
 
+<%@include file="include/modalDeleteAccount.jsp" %>
+<%@include file="include/modalRecoverAccount.jsp" %>
 
 <script src="../resources/js/jquery/jquery.slim.min.js"></script>
 <script src="../resources/js/fillAccounts.js"></script>

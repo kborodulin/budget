@@ -67,7 +67,6 @@ public class AccountServiceImpl implements AccountService {
         }
         return balances;
     }
-
     @Override
     public List<Account> findAllByUser(Long userid) {
         Query query = em.createNativeQuery(

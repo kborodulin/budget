@@ -17,6 +17,7 @@ import ru.innopolis.service.FamemService;
 import ru.innopolis.service.UserService;
 
 import javax.servlet.http.HttpServletRequest;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -34,6 +35,26 @@ public class WalletController {
     @GetMapping
     public ModelAndView openWallet(ModelAndView modelAndView) {
         modelAndView.setViewName("wallet");
+        return modelAndView;
+    }
+
+    @PostMapping(path = "/remove")
+    public ModelAndView deleteWallet(@ModelAttribute("deletewallet") Account account){
+        ModelAndView modelAndView = new ModelAndView();
+        account = accountService.findById(account.getAccountid());
+        account.setIsclosesign(new BigDecimal(1));
+        accountService.save(account);
+        modelAndView.setViewName("redirect:/wallet");
+        return modelAndView;
+    }
+
+    @PostMapping(path = "/recover")
+    public ModelAndView recoverWallet(@ModelAttribute("recoverwallet") Account account){
+        ModelAndView modelAndView = new ModelAndView();
+        account = accountService.findById(account.getAccountid());
+        account.setIsclosesign(new BigDecimal(0));
+        accountService.save(account);
+        modelAndView.setViewName("redirect:/wallet");
         return modelAndView;
     }
 
