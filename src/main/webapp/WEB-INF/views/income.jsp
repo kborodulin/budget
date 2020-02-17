@@ -140,7 +140,7 @@
                 <thead>
                 <tr>
                     <td colspan="2">
-                        <form:form name="pickDate" id="pickDate">
+                        <form:form method="post" name="pickDate" id="pickDate" action="/income/filter">
                             <jsp:include page="include/periodSelection.jsp"/>
                         </form:form>
                     </td>

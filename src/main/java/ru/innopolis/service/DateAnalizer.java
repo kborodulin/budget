@@ -9,4 +9,6 @@ public interface DateAnalizer {
     List<LocalDate> parsePeriod(String period);
 
     List<LocalDate> parsePeriod(Periods period);
+
+    List<LocalDate> parsePeriod(int period);
 }
