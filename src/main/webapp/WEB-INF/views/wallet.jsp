@@ -75,19 +75,19 @@
             <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
                 <h3 class="h3">Счета</h3>
                 <a class="d-flex align-items-center text-muted" href="#">
-                    <span id="save-item-wallet" style="text-decoration: underline;  color: #007bff;">сохранить перевод&nbsp;</span>
+                    <span style="text-decoration: underline;  color: #007bff; display: none" id="save-item-wallet">сохранить перевод&nbsp;</span>
                 </a>
             </div>
-            <form:form class="form-inline" name="transactionForm" action="/account/wallet/newTransaction">
+            <form:form class="form-inline" name="transaction" action="/wallet/savetrans" id="transactionForm">
                     <div class="form-group">
-                        <input type="number" step="0.01" min="0" max="999999999" class="form-control" id="inputSumWallet"
-                               placeholder="Сумма" required>
+                        <input type="number" step="10" min="0" max="999999999" class="form-control" id="inputSumWallet"
+                               placeholder="Сумма" required name="outSum">
                         <div class="input-group-append">
                             <span class="input-group-text">₽</span>
                         </div>
                     </div>
                     <div class="form-group">
-                        <select class="form-control custom-select mx-sm-3" name="walletOut" id="outAccount" required>
+                        <select class="form-control custom-select mx-sm-3" name="outAccountId" id="outAccount" required>
                             <option selected>Счет отправления</option>
                         </select>
                     </div>
@@ -95,19 +95,19 @@
                         <span style="margin:0 5px" class="form-control-plaintext">--></span>
                     </div>
                     <div class="form-group">
-                        <select class="form-control custom-select mx-sm-3" name="inUser" id="inUser" required>
+                        <select class="form-control custom-select mx-sm-3" name="inUserId" id="inUser" required>
                             <option selected disabled>Получатель</option>
                         </select>
                     </div>
                     <div class="form-group">
-                        <select class="form-control custom-select mx-sm-3" name="walletIn" id="inAccount" required>
+                        <select class="form-control custom-select mx-sm-3" name="inAccountId" id="inAccount" required>
                             <option selected>Счет получателя</option>
                         </select>
                     </div>
                     <div class="form-group">
                         <div class="form-group mx-sm-3">
                             <label for="comments" class="sr-only">Комментарий</label>
-                            <input type="text" maxlength="50" class="form-control" id="comments" name="comments"
+                            <input type="text" maxlength="50" class="form-control" id="comments" name="comment"
                                    placeholder="Комментарий" required>
                         </div>
                     </div>
@@ -119,9 +119,7 @@
                 <tr>
                     <td colspan="2">
                         <form:form name="pickDate" id="pickDate">
-                            <form:form name="pickDate" id="pickDate">
-                                <jsp:include page="include/periodSelection.jsp"/>
-                            </form:form>
+                            <jsp:include page="include/periodSelection.jsp"/>
                         </form:form>
                     </td>
                 </tr>

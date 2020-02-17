@@ -7,14 +7,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
-import ru.innopolis.domain.Account;
-import ru.innopolis.domain.Famem;
-import ru.innopolis.domain.Family;
-import ru.innopolis.domain.User;
-import ru.innopolis.service.AccountService;
-import ru.innopolis.service.AccountTypeService;
-import ru.innopolis.service.FamemService;
-import ru.innopolis.service.UserService;
+import ru.innopolis.domain.*;
+import ru.innopolis.service.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.math.BigDecimal;
@@ -30,10 +24,17 @@ public class WalletController {
     FamemService famemService;
     AccountTypeService accountTypeService;
     UserService userService;
-
+    CategoryService categoryService;
+    OperationService operationService;
 
     @GetMapping
     public ModelAndView openWallet(ModelAndView modelAndView) {
+        modelAndView.setViewName("wallet");
+        return modelAndView;
+    }
+
+    @PostMapping ModelAndView walletsWithFilter(ModelAndView modelAndView){
+
         modelAndView.setViewName("wallet");
         return modelAndView;
     }
@@ -94,6 +95,44 @@ public class WalletController {
         return modelAndView;
     }
 
+    @PostMapping(path="/savetrans")
+    private ModelAndView saveTransaction(@ModelAttribute("transaction") Transaction transaction, HttpServletRequest request){
+        ModelAndView modelAndView = new ModelAndView();
+        Category category = categoryService.findById(15L);
+        LocalDate dateOper = LocalDate.now();
+        Account accountOut = accountService.findById(transaction.getOutAccountId());
+        Account accountIn = accountService.findById(transaction.getInAccountId());
+
+        Operation operationOut = new Operation();
+        operationOut.setTypeoperationid(3L);
+        operationOut.setCategory(category);
+        operationOut.setAmount(transaction.getOutSum());
+        operationOut.setDateoper(dateOper);
+        operationOut.setComment(transaction.getComment());
+        operationOut.setAccount(accountOut);
+
+        Operation operationIn = new Operation();
+        operationIn.setTypeoperationid(4L);
+        operationIn.setCategory(category);
+        operationIn.setAmount(transaction.getOutSum());
+        operationIn.setDateoper(dateOper);
+        operationIn.setComment(transaction.getComment());
+        operationIn.setAccount(accountIn);
+
+        operationService.save(operationOut);
+        operationService.save(operationIn);
+
+        accountOut.setAmount(accountOut.getAmount().subtract(transaction.getOutSum()));
+        accountIn.setAmount(accountIn.getAmount().add(transaction.getOutSum()));
+
+        accountService.save(accountIn);
+        accountService.save(accountOut);
+
+        modelAndView.setViewName("redirect:/wallet");
+        return modelAndView;
+    }
+
+
     private User getMe(HttpServletRequest request){
         return (User) request.getSession().getAttribute("user");
     }
@@ -123,4 +162,13 @@ public class WalletController {
         this.accountService = accountService;
     }
 
+    @Autowired
+    public void setCategoryService(CategoryService categoryService) {
+        this.categoryService = categoryService;
+    }
+
+    @Autowired
+    public void setOperationService(OperationService operationService) {
+        this.operationService = operationService;
+    }
 }

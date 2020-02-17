@@ -2,6 +2,8 @@ const outAccount = document.querySelector("#outAccount");
 const inAccount = document.querySelector("#inAccount");
 const saveTrans = document.querySelector("#save-item-wallet");
 const inUser = document.querySelector("#inUser");
+const inputSumWallet = document.querySelector("#inputSumWallet");
+const comments = document.querySelector("#comments");
 
 fetch("/ref/allaccounttype").then(r => r.text()).then(data => {
     document.querySelector("#walletType").innerHTML = data;
@@ -69,10 +71,10 @@ function toggleSaveTransBtn(disable) {
 }
 
 function toggleTransactionForm(disable, disableSaveBtn = disable) {
-    document.querySelector("#inputSumWallet").disabled = disable;
+    inputSumWallet.disabled = disable;
     inAccount.disabled = disable;
     outAccount.disabled = disable;
-    document.querySelector("#comments").disabled = disable;
+    comments.disabled = disable;
     toggleSaveTransBtn(disableSaveBtn);
 }
 
@@ -80,7 +82,7 @@ function checkTransactionAvailable() {
     if (outAccount.options.length <= 1 && inAccount.options.length <= 1) {
         return toggleTransactionForm(true);
     }
-    toggleTransactionForm(false, inAccount.value === outAccount.value || inAccount.options.length <= 1 || outAccount.options.length <= 1);
+    toggleTransactionForm(false, !comments.value || !inputSumWallet.value || inAccount.value==0 || outAccount.value==0 || inAccount.value == outAccount.value || inAccount.options.length <= 1 || outAccount.options.length <= 1);
 }
 
 function filterInUserAccounts() {
@@ -99,4 +101,5 @@ function filterInUserAccounts() {
 inAccount.addEventListener("change", checkTransactionAvailable);
 outAccount.addEventListener("change", checkTransactionAvailable);
 inUser.addEventListener("change", filterInUserAccounts);
-
+inputSumWallet.addEventListener("input", checkTransactionAvailable);
+comments.addEventListener("input", checkTransactionAvailable);
