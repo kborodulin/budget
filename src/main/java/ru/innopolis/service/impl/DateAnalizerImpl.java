@@ -1,5 +1,6 @@
 package ru.innopolis.service.impl;
 
+import org.springframework.stereotype.Service;
 import ru.innopolis.enums.Periods;
 import ru.innopolis.service.DateAnalizer;
 
@@ -16,6 +17,7 @@ import static ru.innopolis.enums.Periods.*;
  *
  * @author Ekaterina Belolipetskaya
  */
+@Service
 public class DateAnalizerImpl implements DateAnalizer {
 
     public static final int DAYS_OF_WEEK = 6;
@@ -70,6 +72,27 @@ public class DateAnalizerImpl implements DateAnalizer {
             return parseYearPeriod(today);
         }
         if (Objects.equals(LIFE, period)) {
+            return parseLifePeriod(today);
+        }
+        return parseTodayPeriod(today);
+    }
+
+    @Override
+    public List<LocalDate> parsePeriod(int period) {
+        LocalDate today = LocalDate.now();
+        if (Objects.equals(1, period)) {
+            return parseTodayPeriod(today);
+        }
+        if (Objects.equals(2, period)) {
+            return parseWeekPeriod(today);
+        }
+        if (Objects.equals(3, period)) {
+            return parseMonthPeriod(today);
+        }
+        if (Objects.equals(4, period)) {
+            return parseYearPeriod(today);
+        }
+        if (Objects.equals(5, period)) {
             return parseLifePeriod(today);
         }
         return parseTodayPeriod(today);

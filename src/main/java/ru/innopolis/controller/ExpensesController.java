@@ -14,6 +14,7 @@ import ru.innopolis.domain.Operation;
 import ru.innopolis.domain.User;
 import ru.innopolis.service.AccountService;
 import ru.innopolis.service.CategoryService;
+import ru.innopolis.service.DateAnalizer;
 import ru.innopolis.service.OperationService;
 
 import javax.servlet.http.HttpServletRequest;
@@ -32,6 +33,8 @@ public class ExpensesController {
 
     private CategoryService categoryService;
 
+    private DateAnalizer dateAnalizer;
+
     @Autowired
     public void setOperationService(OperationService operationService) {
         this.operationService = operationService;
@@ -45,6 +48,11 @@ public class ExpensesController {
     @Autowired
     public void setCategoryService(CategoryService categoryService) {
         this.categoryService = categoryService;
+    }
+
+    @Autowired
+    public void setDateAnalizer(DateAnalizer dateAnalizer) {
+        this.dateAnalizer = dateAnalizer;
     }
 
     /**
@@ -66,7 +74,7 @@ public class ExpensesController {
                                @ModelAttribute("categoryid") Category category) {
         account = accountService.findById(account.getAccountid());
         category = categoryService.findById(category.getCategoryid());
-        if (operation.getOperationid() != null){
+        if (operation.getOperationid() != null) {
             Operation operationOld = operationService.findById(operation.getOperationid());
             account.setAmount(account.getAmount().add(operationOld.getAmount()));
         }
@@ -114,10 +122,25 @@ public class ExpensesController {
     }
 
     @ModelAttribute
-    public void setModel(Model model, HttpServletRequest request){
+    public void setModel(Model model, HttpServletRequest request) {
         User user = (User) request.getSession().getAttribute("user");
         List<Account> accountsByUser = accountService.findAllByUser(user.getUserid());
         model.addAttribute("findallaccountbyuser", accountsByUser);
         model.addAttribute("refallcategory", categoryService.findAll());
+    }
+
+    /**
+     * Фильтр
+     */
+    @PostMapping("/expenses/filter")
+    public String filterIncome(Model model,
+                               HttpServletRequest request,
+                               @ModelAttribute("dateRange") int period) {
+        List<LocalDate> dates = dateAnalizer.parsePeriod(period);
+        User user = (User) request.getSession().getAttribute("user");
+        List<Operation> operations = operationService.allExpensesUser(user.getFamem().getFamemid(), dates.get(0), dates.get(1));
+        model.addAttribute("periodselected", period);
+        model.addAttribute("allExpensesUser", operations);
+        return "expenses";
     }
 }

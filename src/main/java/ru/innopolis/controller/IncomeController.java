@@ -14,6 +14,7 @@ import ru.innopolis.domain.Operation;
 import ru.innopolis.domain.User;
 import ru.innopolis.service.AccountService;
 import ru.innopolis.service.CategoryService;
+import ru.innopolis.service.DateAnalizer;
 import ru.innopolis.service.OperationService;
 
 import javax.servlet.http.HttpServletRequest;
@@ -31,6 +32,8 @@ public class IncomeController {
 
     private CategoryService categoryService;
 
+    private DateAnalizer dateAnalizer;
+
     @Autowired
     public void setOperationService(OperationService operationService) {
         this.operationService = operationService;
@@ -44,6 +47,11 @@ public class IncomeController {
     @Autowired
     public void setCategoryService(CategoryService categoryService) {
         this.categoryService = categoryService;
+    }
+
+    @Autowired
+    public void setDateAnalizer(DateAnalizer dateAnalizer) {
+        this.dateAnalizer = dateAnalizer;
     }
 
     /**
@@ -113,5 +121,20 @@ public class IncomeController {
         Operation operation = operationService.findById(id);
         operationService.delete(operation);
         return "redirect:/income";
+    }
+
+    /**
+     * Фильтр
+     */
+    @PostMapping("/income/filter")
+    public String filterIncome(Model model,
+                               HttpServletRequest request,
+                               @ModelAttribute("dateRange") int period) {
+        List<LocalDate> dates = dateAnalizer.parsePeriod(period);
+        User user = (User) request.getSession().getAttribute("user");
+        List<Object[]> operations = operationService.allIncomeUser(user.getUserid(), dates.get(0), dates.get(1));
+        model.addAttribute("periodselected", period);
+        model.addAttribute("allincomeuser", operations);
+        return "income";
     }
 }
