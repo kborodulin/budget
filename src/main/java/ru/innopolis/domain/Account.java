@@ -7,6 +7,7 @@ import org.hibernate.annotations.DynamicInsert;
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 @Table(name = "account")
@@ -41,4 +42,24 @@ public class Account {
 
     @Transient
     private Long acctypeid;
+
+    @OneToMany(mappedBy = "account", fetch = FetchType.LAZY)
+    private List<Operation> operationList;
+
+    @Override
+    public String toString() {
+        return "Account{" +
+                "accountid=" + accountid +
+                ", num=" + num +
+                ", amount=" + amount +
+                ", dateopen=" + dateopen +
+                ", accountopenorg='" + accountopenorg + '\'' +
+                ", isclosesign=" + isclosesign +
+                ", famem=" + famem +
+                ", accounttype=" + accounttype +
+                ", currencyid=" + currencyid +
+                ", name='" + name + '\'' +
+                ", acctypeid=" + acctypeid +
+                '}';
+    }
 }

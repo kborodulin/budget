@@ -116,4 +116,9 @@ public class AccountServiceImpl implements AccountService {
         }
         return accounts;
     }
+
+    @Override
+    public BigDecimal famemBalance(Famem famem) {
+        return accountRepository.famemBalance(famem.getFamemid());
+    }
 }

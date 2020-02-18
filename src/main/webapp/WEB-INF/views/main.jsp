@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!doctype html>
 <html lang="ru">
 <head>
@@ -11,6 +12,8 @@
     <link rel="stylesheet" href="../resources/css/bs/bootstrap.min.css">
     <link rel="stylesheet" href="../resources/styleMain.css">
 
+    <script src="../resources/js/utilsChart.js"></script>
+    <script src="../resources/js/Chart.js/Chart.min.js"></script>
 
     <style>
         #nav-item-main {
@@ -43,6 +46,58 @@
     </style>
     <!-- Custom styles for this template -->
     <link href="../resources/css/dashboard.css" rel="stylesheet">
+
+    <style>
+        canvas {
+            -moz-user-select: none;
+            -webkit-user-select: none;
+            -ms-user-select: none;
+        }
+    </style>
+    <style type="text/css">/* Chart.js */
+    @keyframes chartjs-render-animation {
+        from {
+            opacity: .99
+        }
+        to {
+            opacity: 1
+        }
+    }
+
+    .chartjs-render-monitor {
+        animation: chartjs-render-animation 1ms
+    }
+
+    .chartjs-size-monitor, .chartjs-size-monitor-expand, .chartjs-size-monitor-shrink {
+        position: absolute;
+        direction: ltr;
+        left: 0;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        overflow: hidden;
+        pointer-events: none;
+        visibility: hidden;
+        z-index: -1
+    }
+
+    .chartjs-size-monitor-expand > div {
+        position: absolute;
+        width: 1000000px;
+        height: 1000000px;
+        left: 0;
+        top: 0
+    }
+
+    .chartjs-size-monitor-shrink > div {
+        position: absolute;
+        width: 200%;
+        height: 200%;
+        left: 0;
+        top: 0
+    }</style>
+</head>
+
 </head>
 <body>
 <%@include file="include/navBar.jsp" %>
@@ -58,14 +113,23 @@
             <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
                 <h3 class="h3">Главная</h3>
             </div>
+            <div class="container-fluid">
+                <h5 class="h5">Баланс семьи <span style="font-style: italic">${family.name}</span> <span style="color: #1c7430"> ${familyBalance} ₽</span> </h5>
+
+                <jsp:include page="include/progress.jsp"/>
+                <jsp:include page="charts/memberExpensesChart.jsp"/>
+                <jsp:include page="charts/categoryExpensesChart.jsp"/>
+                <jsp:include page="charts/memberBalanceChart.jsp"/>
+            </div>
         </main>
     </div>
 </div>
 <script src="../resources/js/jquery/jquery.slim.min.js"></script>
 <script src="../resources/js/bs/bootstrap.bundle.min.js"></script>
 <script src="../resources/js/featherIcons/feather.min.js"></script>
-<script src="../resources/js/Chart.js/Chart.min.js"></script>
 <script src="../resources/js/dashboard.js"></script>
 <script src="../resources/js/personalAccount.js"></script>
+<script src="../resources/js/utils.js"></script>
+<script src="../resources/js/chartsLoad.js"></script>
 </body>
 </html>
