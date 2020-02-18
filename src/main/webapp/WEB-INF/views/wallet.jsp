@@ -18,11 +18,9 @@
         #nav-item-wallet {
             color: #007bff;
         }
-
         .sidebar .nav-link .feather {
             color: inherit !important;
         }
-
         .bd-placeholder-img {
             font-size: 1.125rem;
             text-anchor: middle;
@@ -31,12 +29,10 @@
             -ms-user-select: none;
             user-select: none;
         }
-
         .form-control {
             display: inline-block;
             width: auto;
         }
-
         @media (min-width: 768px) {
             .bd-placeholder-img-lg {
                 font-size: 3.5rem;
@@ -53,142 +49,78 @@
         <nav class="col-md-2 d-none d-md-block bg-light sidebar">
             <div class="sidebar-sticky">
                 <%@include file="include/mainMenu.jsp" %>
-                <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
-                    <span>Cписок счетов</span>
-                    <a class="d-flex align-items-center text-muted" id="addNewInvoice" href="#" aria-label="Новый счет">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                             class="feather feather-plus-circle">
-                            <circle cx="12" cy="12" r="10"></circle>
-                            <line x1="12" y1="8" x2="12" y2="16"></line>
-                            <line x1="8" y1="12" x2="16" y2="12"></line>
-                        </svg>
-                    </a>
-                </h6>
-                <ul class="nav flex-column mb-2" id="accountsList">
-                </ul>
             </div>
-
         </nav>
 
         <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
             <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
                 <h3 class="h3">Счета</h3>
-                <a class="d-flex align-items-center text-muted" href="#">
-                    <span style="text-decoration: underline;  color: #007bff; display: none" id="save-item-wallet">сохранить перевод&nbsp;</span>
+                <a class="d-flex align-items-center text-muted" id="addNewInvoice" href="#">
+                    <span style="text-decoration: underline;  color: #007bff;">добавить счет</span>
                 </a>
             </div>
-            <form:form class="form-inline" name="transaction" action="/wallet/savetrans" id="transactionForm">
-                    <div class="form-group">
-                        <input type="number" step="10" min="0" max="999999999" class="form-control" id="inputSumWallet"
-                               placeholder="Сумма" required name="outSum">
-                        <div class="input-group-append">
-                            <span class="input-group-text">₽</span>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <select class="form-control custom-select mx-sm-3" name="outAccountId" id="outAccount" required>
-                            <option selected>Счет отправления</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <span style="margin:0 5px" class="form-control-plaintext">--></span>
-                    </div>
-                    <div class="form-group">
-                        <select class="form-control custom-select mx-sm-3" name="inUserId" id="inUser" required>
-                            <option selected disabled>Получатель</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <select class="form-control custom-select mx-sm-3" name="inAccountId" id="inAccount" required>
-                            <option selected>Счет получателя</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <div class="form-group mx-sm-3">
-                            <label for="comments" class="sr-only">Комментарий</label>
-                            <input type="text" maxlength="50" class="form-control" id="comments" name="comment"
-                                   placeholder="Комментарий" required>
-                        </div>
-                    </div>
-            </form:form>
-
+            <c:if test="${err != null}">
+                <div class="alert alert-danger" role="alert">
+                    ${err}
+                </div>
+            </c:if>
 
             <table class="table my-5">
                 <thead>
-                <tr>
-                    <td colspan="2">
-                        <form:form name="pickDate" id="pickDate">
-                            <jsp:include page="include/periodSelection.jsp"/>
-                        </form:form>
-                    </td>
-                </tr>
+                <tr><th>Название</th><th>Тип</th><th>Владелец</th><th>Баланс</th><th></th><th></th></tr>
                 </thead>
                 <tbody>
-                <tr>
-                    <td>
-                        <div class="">со чета сбер1</div>
-                        <div class="text-muted" style="font-size: x-small">перевел с одного счета на другой</div>
-                    </td>
-                    <td>
-                        <div class="text-danger">-1000 руб.</div>
-                        <div class="text-muted" style="font-size: x-small">14.02.2020</div>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <div class="">на счет сбер2</div>
-                        <div class="text-muted" style="font-size: x-small">перевел с одного счета на другой</div>
-                    </td>
-                    <td>
-                        <div class="text-success">1000 руб.</div>
-                        <div class="text-muted" style="font-size: x-small">14.02.2020</div>
-                    </td>
-                </tr>
+                <c:forEach var="account" items="${accounts}">
+                    <c:if test="${account.isclosesign<1||account.amount>0||account.amount<0}">
+                        <tr data-accountid=<c:out value="${account.accountid}"/> >
+                            <td class="nav-link <c:choose><c:when test="${account.isclosesign>0}">text-muted</c:when><c:when test="${account.amount>0}">text-success</c:when><c:when test="${account.amount<0}">text-danger</c:when></c:choose>">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-credit-card"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect><line x1="1" y1="10" x2="23" y2="10"></line></svg>
+                                    <c:out value="${account.name}"/>
+                            </td>
+                            <td>
+                                ${types.stream().filter(t->t.accounttypeid.equals(account.accounttype.accounttypeid)).findFirst().get().name}
+                            </td>
+                            <td>
+                                ${users.stream().filter(u->u.getUserid().equals(famems.stream().filter(f->f.getFamemid().equals(account.famem.famemid)).findFirst().get().user.userid)).findFirst().get().login}
+                            </td>
+                            <td>${account.amount}₽</td>
+                            <td>
+                                <c:if test="${account.isclosesign<1&&account.famem.famemid.equals(myfamem.famemid)}">
+                                    <a class="editWallet" href="#">
+                                        <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" class="feather"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+                                    </a>
+                                </c:if>
+                            </td>
+                            <td>
+                                <c:choose>
+                                    <c:when test="${account.isclosesign<1&&account.famem.famemid.equals(myfamem.famemid)}">
+                                        <a class="removeWallet" href="#" data-walletid="${account.accountid}" data-walletname="${account.name}" data-amount="${account.amount}" data-closed="${account.isclosesign}">
+                                            <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" class="feather text-danger"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg>
+                                        </a>
+                                    </c:when>
+                                    <c:when test="${account.famem.famemid.equals(myfamem.famemid)}">
+                                        <a class="recoverWallet" href="#" data-walletid="${account.accountid}" data-walletname="${account.name}" data-amount="${account.amount}" data-closed="${account.isclosesign}">
+                                            <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" class="feather text-muted"><polyline points="1 4 1 10 7 10"></polyline><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path></svg>
+                                        </a>
+                                    </c:when>
+                                </c:choose>
+                            </td>
+                        </tr>
+                    </c:if>
+                </c:forEach>
                 </tbody>
             </table>
         </main>
     </div>
 </div>
 
-
-<!-- Modal -->
-<form:form name="createNewAccountForm" action="/wallet/create" method="post">
-    <div class="modal fade bd-example-modal-sm" id="newWalletDialog" tabindex="-1" role="dialog"
-         aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Новый счет</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div class="form-group">
-                        <label for="walletName" class="col-form-label">Название</label><br>
-                        <input type="text" class="form-control" id="walletName" name="name" maxlength=20>
-                    </div>
-                    <div class="form-group">
-                        <label for="walletType" class="col-form-label">Тип счета</label><br>
-                        <select class="form-control" id="walletType" name="acctypeid"></select>
-                    </div>
-                    <input type="hidden" name="amount" value="0">
-                    <input type="hidden" name="dateopen" value="">
-                </div>
-                <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary">Сохранить</button>
-                </div>
-            </div>
-        </div>
-    </div>
-</form:form>
-
+<%@include file="include/modalCreateAccount.jsp" %>
 <%@include file="include/modalDeleteAccount.jsp" %>
 <%@include file="include/modalRecoverAccount.jsp" %>
 
+
 <script src="../resources/js/jquery/jquery.slim.min.js"></script>
-<script src="../resources/js/fillAccounts.js"></script>
+<script src="../resources/js/fillWallets.js"></script>
 <script src="../resources/js/wallets.js"></script>
 
 <script src="../resources/js/bs/bootstrap.bundle.min.js"></script>

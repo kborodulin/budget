@@ -1,13 +1,10 @@
 const outAccount = document.querySelector("#outAccount");
 const inAccount = document.querySelector("#inAccount");
-const saveTrans = document.querySelector("#save-item-wallet");
 const inUser = document.querySelector("#inUser");
 const inputSumWallet = document.querySelector("#inputSumWallet");
 const comments = document.querySelector("#comments");
+const saveTransfer = document.querySelector("#save-item-wallet");
 
-fetch("/ref/allaccounttype").then(r => r.text()).then(data => {
-    document.querySelector("#walletType").innerHTML = data;
-});
 
 const token = $("meta[name='_csrf']").attr("content");
 const header = $("meta[name='_csrf_header']").attr("content");
@@ -30,60 +27,48 @@ function getUsersFromSelect(accountOptions) {
     return select;
 }
 
-function removeWalletDialog() {
-    document.querySelector("#delWalletId").value = this.dataset.walletid;
-    document.querySelector("#delWalletMessage").innerHTML = this.dataset.amount==0?
-        `Кошелек "${this.dataset.walletname}" будет удален. Он более не будет отображаться в списке кошельков`:
-        `Кошелек "${this.dataset.walletname}" не пуст. Кошелек будет отображаться в списке как неактивный. На него нельзя будет переводить деньги. После обнуления баланса кошелек будет удален.`;
-    $("#deleteWalletDialogModal").modal();
-}
 
-function recoverWalletDialog() {
-    document.querySelector("#recoverWalletId").value = this.dataset.walletid;
-    document.querySelector("#recoverWalletMessage").innerHTML = `Кошелек "${this.dataset.walletname}" будет восстановлен.`;
-    $("#recoverWalletDialogModal").modal();
-}
-
-function addListeners() {
-    let removeWalletBtns = document.querySelectorAll(".removeWallet");
-    for (let rwb of removeWalletBtns) rwb.addEventListener("click", removeWalletDialog);
-    let recoverWalletBtns = document.querySelectorAll(".recoverWallet");
-    for (let rcw of recoverWalletBtns) rcw.addEventListener("click", recoverWalletDialog);
-
-}
-
-fetch("/wallet/getallwallets", {method: "POST", headers}).then(r => r.text()).then(data => {
+fetch("/transactions/getallwallets", {method: "POST", headers}).then(r => r.text()).then(data => {
     let div = document.createElement("div");
     div.innerHTML = data;
     let accountsSelect = div.querySelector("#_accountSelect");
-    let recAccountlist = div.querySelector("#_accountList");
-    document.querySelector("#accountsList").innerHTML = recAccountlist.innerHTML;
     outAccount.innerHTML = div.querySelector("#_myAccountSelect").innerHTML;
     inAccount.innerHTML = accountsSelect.innerHTML;
     inUser.innerHTML = getUsersFromSelect(accountsSelect).innerHTML;
-    checkTransactionAvailable();
     filterInUserAccounts();
-    addListeners();
 });
 
-function toggleSaveTransBtn(disable) {
-    saveTrans.style.display = disable ? "none" : "";
-}
-
-function toggleTransactionForm(disable, disableSaveBtn = disable) {
-    inputSumWallet.disabled = disable;
-    inAccount.disabled = disable;
-    outAccount.disabled = disable;
-    comments.disabled = disable;
-    toggleSaveTransBtn(disableSaveBtn);
-}
 
 function checkTransactionAvailable() {
-    if (outAccount.options.length <= 1 && inAccount.options.length <= 1) {
-        return toggleTransactionForm(true);
+    let checkresult = outAccount.options.length > 1
+        && inAccount.options.length > 1
+        && Number(inputSumWallet.value) > 0
+        && Number(outAccount.value) > 0
+        && theDate.value
+        && Number(inAccount.value) > 0;
+
+    if (outAccount.value == inAccount.value) {
+        alert("Нельзя проводить операцию между одинаковыми счетами");
+        return false;
     }
-    toggleTransactionForm(false, !comments.value || !inputSumWallet.value || inAccount.value==0 || outAccount.value==0 || inAccount.value == outAccount.value || inAccount.options.length <= 1 || outAccount.options.length <= 1);
+    if (Number(inputSumWallet.value) <= 0 || Number(inputSumWallet.value) > 999999999) {
+        alert("Необходимо указать сумму в диапазоне (0...999999999]");
+        return false;
+    }
+    if (!checkresult) alert("Необходимо заполнить все поля формы перевода");
+
+    return checkresult;
 }
+
+function submitTransferForm(e) {
+    e.preventDefault();
+    if (checkTransactionAvailable()) {
+        document.querySelector("#transactionForm").submit();
+        saveTransfer.removeEventListener("click", submitTransferForm);
+    }
+}
+
+saveTransfer.addEventListener("click", submitTransferForm);
 
 function filterInUserAccounts() {
     let val = inUser.value;
@@ -98,8 +83,5 @@ function filterInUserAccounts() {
     inAccount.options[0].selected = true;
 }
 
-inAccount.addEventListener("change", checkTransactionAvailable);
-outAccount.addEventListener("change", checkTransactionAvailable);
 inUser.addEventListener("change", filterInUserAccounts);
-inputSumWallet.addEventListener("input", checkTransactionAvailable);
-comments.addEventListener("input", checkTransactionAvailable);
+theDate.value = new Date().toISOString().split("T")[0];

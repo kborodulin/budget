@@ -95,6 +95,40 @@ public class OperationServiceImpl implements OperationService {
         return objects;
     }
 
+
+    @Override
+    public List<Object[]> findAllTransactionsByPeriod(Long familyid, LocalDate startDate, LocalDate endDate, Integer page) {
+        Query query = em.createNativeQuery("select\n" +
+                "  a.name,\n" +
+                "  coalesce(o.amount, 0) amount,\n" +
+                "  o.dateoper,\n" +
+                "  o.comment,\n" +
+                "  o.operationid,\n" +
+                "  typ.typeoperationid,\n" +
+                "  u.login \n" +
+                "from  operation o\n" +
+                "join typeoperation typ on typ.typeoperationid = o.typeoperationid\n" +
+                "join account a on a.accountid = o.accountid\n" +
+                "join famem f on f.famemid = a.famemid \n" +
+                "join users u on u.userid = f.userid\n" +
+                "where (typ.typeoperationid = 3 or typ.typeoperationid = 4) \n" +
+                "and f.familyid = ? \n" +
+                "and o.dateoper between ? and ? \n" +
+                "order by o.operationid desc\n");
+        query.setParameter(1, familyid);
+        query.setParameter(2, startDate);
+        query.setParameter(3, endDate);
+        List<Object[]> objects = null;
+        if (page == null) {
+            objects = query.getResultList();
+        }
+        else {
+            objects = query.setFirstResult((page - 1) * MAX_COUNT_ELEMENT_PAGE*2).setMaxResults(MAX_COUNT_ELEMENT_PAGE*2).getResultList();
+        }
+        return objects;
+    }
+
+
     @Override
     public List<Operation> allExpensesUser(Long famemId, LocalDate startDate, LocalDate endDate, int categoryid, Pageable page) {
         return operationRepository.findUserExpensesInPeriod(famemId, startDate, endDate, categoryid, page);
@@ -161,4 +195,6 @@ public class OperationServiceImpl implements OperationService {
     public List<Operation> getTopFamilyOperations(Family family, Pageable pageable) {
         return operationRepository.getTopByFamily(family.getFamilyid(), pageable);
     }
+
+
 }
