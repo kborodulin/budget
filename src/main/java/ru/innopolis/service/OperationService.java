@@ -1,7 +1,11 @@
 package ru.innopolis.service;
 
+import ru.innopolis.domain.Category;
+import ru.innopolis.domain.Famem;
+import ru.innopolis.domain.Family;
 import ru.innopolis.domain.Operation;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -19,4 +23,14 @@ public interface OperationService {
     List<Operation> allExpensesUser(Long famemId, LocalDate startDate, LocalDate endDate, int categoryid);
 
     void clearDelete(Operation operation);
+
+    List<BigDecimal> findMembersExpenses(List<Famem> familyMembers, List<LocalDate> period);
+
+    List<BigDecimal> findAllCategoryExpenses(Family family, List<Category> categoryList, List<LocalDate> period);
+
+    List<Operation> findOneCategoryExpenses(Family family, Category category, List<LocalDate> period);
+
+    BigDecimal getSummaryExpenses(Family family, List<LocalDate> period);
+
+    BigDecimal getSummaryIncome(Family family, List<LocalDate> period);
 }

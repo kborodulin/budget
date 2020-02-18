@@ -6,11 +6,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 public class TestController {
-    @GetMapping(value = "/main")
-    public ModelAndView openMain(ModelAndView modelAndView) {
-        modelAndView.setViewName("/main");
-        return modelAndView;
-    }
 
     @GetMapping(value = "/statistic")
     public ModelAndView openStatistic(ModelAndView modelAndView) {
