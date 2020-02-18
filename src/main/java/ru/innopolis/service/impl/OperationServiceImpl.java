@@ -55,7 +55,7 @@ public class OperationServiceImpl implements OperationService {
     }
 
     @Override
-    public List<Object[]> allIncomeUser(Long userid, LocalDate startDate, LocalDate endDate) {
+    public List<Object[]> allIncomeUser(Long userid, LocalDate startDate, LocalDate endDate, int categoryid) {
         Query query = em.createNativeQuery("select\n" +
                 "  a.name,\n" +
                 "  coalesce(o.amount, 0) amount,\n" +
@@ -71,17 +71,20 @@ public class OperationServiceImpl implements OperationService {
                 "where typ.typeoperationid = 1 \n" +
                 "and f.userid = ? \n" +
                 "and o.dateoper between ? and ? \n" +
+                "and c.categoryid = (case when ? = 0 then c.categoryid else ? end) \n" +
                 "order by o.operationid desc\n");
         query.setParameter(1, userid);
         query.setParameter(2, startDate);
         query.setParameter(3, endDate);
+        query.setParameter(4, categoryid);
+        query.setParameter(5, categoryid);
         List<Object[]> objects = query.getResultList();
         return objects;
     }
 
     @Override
-    public List<Operation> allExpensesUser(Long famemId, LocalDate startDate, LocalDate endDate) {
-        return operationRepository.findUserExpensesInPeriod(famemId, startDate, endDate);
+    public List<Operation> allExpensesUser(Long famemId, LocalDate startDate, LocalDate endDate, int categoryid) {
+        return operationRepository.findUserExpensesInPeriod(famemId, startDate, endDate, categoryid);
     }
 
     @Override

@@ -124,7 +124,7 @@
                 <div class="form-group mx-sm-1">
                     <label for="comments" class="sr-only">Комментарий</label>
                     <input type="text" maxlength="50" class="form-control" id="comments" name="comment"
-                           placeholder="Комментарий" style="display: inline-block; width:500px;"
+                           placeholder="Комментарий" style="display: inline-block;width:500px;"
                            value="${findincome.comment}">
                 </div>
                 <div class="form-group mx-sm-1">
@@ -139,7 +139,7 @@
             <table class="table my-5">
                 <thead>
                 <tr>
-                    <td colspan="2">
+                    <td colspan="4">
                         <form:form method="post" name="pickDate" id="pickDate" action="/income/filter">
                             <jsp:include page="include/periodSelection.jsp"/>
                         </form:form>
@@ -193,6 +193,7 @@
 <script src="../resources/js/dashboard.js"></script>
 <script src="../resources/js/personalAccount.js"></script>
 <script src="../resources/js/refCategory.js"></script>
+<script src="../resources/js/refCategoryPeriod.js"></script>
 <script src="../resources/js/utils.js"></script>
 <script src="../resources/js/refAccountByUser.js"></script>
 <script src="../resources/js/income.js"></script>

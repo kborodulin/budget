@@ -18,6 +18,7 @@ import ru.innopolis.service.DateAnalizer;
 import ru.innopolis.service.OperationService;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -61,8 +62,10 @@ public class ExpensesController {
     @GetMapping("/expenses")
     public String getAllExpensesUser(Model model, HttpServletRequest request, @ModelAttribute("period") String period) {
         User user = (User) request.getSession().getAttribute("user");
-        List<Operation> operations = operationService.allExpensesUser(user.getFamem().getFamemid(), LocalDate.now(), LocalDate.now());
+        List<Operation> operations = operationService.allExpensesUser(user.getFamem().getFamemid(), LocalDate.now(), LocalDate.now(), 0);
         model.addAttribute("allExpensesUser", operations);
+        HttpSession session = request.getSession(true);
+        session.setAttribute("allcategoryperiod", null);
         return "expenses";
     }
 
@@ -70,7 +73,9 @@ public class ExpensesController {
      * Добавить
      */
     @PostMapping("/expenses/add")
-    public String saveExpenses(@ModelAttribute("expensesForm") Operation operation, @ModelAttribute("accountid") Account account,
+    public String saveExpenses(HttpServletRequest request,
+                               @ModelAttribute("expensesForm") Operation operation,
+                               @ModelAttribute("accountid") Account account,
                                @ModelAttribute("categoryid") Category category) {
         account = accountService.findById(account.getAccountid());
         category = categoryService.findById(category.getCategoryid());
@@ -85,6 +90,8 @@ public class ExpensesController {
         operation.setAccount(account);
         operation.setCategory(category);
         operationService.save(operation);
+        HttpSession session = request.getSession(true);
+        session.setAttribute("allcategoryperiod", null);
         return "redirect:/expenses";
     }
 
@@ -104,7 +111,7 @@ public class ExpensesController {
     @GetMapping("/expenses/{id}")
     public String renderUpdateExpenses(@PathVariable("id") Long id, Model model, HttpServletRequest request) {
         User user = (User) request.getSession().getAttribute("user");
-        List<Operation> operations = operationService.allExpensesUser(user.getFamem().getFamemid(), LocalDate.now(), LocalDate.now());
+        List<Operation> operations = operationService.allExpensesUser(user.getFamem().getFamemid(), LocalDate.now(), LocalDate.now(), 0);
         model.addAttribute("allExpensesUser", operations);
         Operation updatedOperation = operationService.findById(id);
         model.addAttribute("updatedOperation", updatedOperation);
@@ -135,12 +142,15 @@ public class ExpensesController {
     @PostMapping("/expenses/filter")
     public String filterIncome(Model model,
                                HttpServletRequest request,
-                               @ModelAttribute("dateRange") int period) {
+                               @ModelAttribute("dateRange") int period,
+                               @ModelAttribute("categoryperiod") int category) {
         List<LocalDate> dates = dateAnalizer.parsePeriod(period);
         User user = (User) request.getSession().getAttribute("user");
-        List<Operation> operations = operationService.allExpensesUser(user.getFamem().getFamemid(), dates.get(0), dates.get(1));
+        List<Operation> operations = operationService.allExpensesUser(user.getFamem().getFamemid(), dates.get(0), dates.get(1), category);
         model.addAttribute("periodselected", period);
         model.addAttribute("allExpensesUser", operations);
+        HttpSession session = request.getSession(true);
+        session.setAttribute("allcategoryperiod", category);
         return "expenses";
     }
 }

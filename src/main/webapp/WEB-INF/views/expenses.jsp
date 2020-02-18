@@ -108,7 +108,7 @@
                 <div class="form-group mx-sm-1">
                     <label for="comments" class="sr-only">Комментарий</label>
                     <input type="text" maxlength="50" class="form-control" id="comments" name="comment" value="${updatedOperation.comment}"
-                           placeholder="Комментарий" style="display: inline-block; width:500px;">
+                           placeholder="Комментарий" style="display: inline-block;width:500px;">
                 </div>
                 <div class="form-group mx-sm-1">
                     <input type="text" maxlength="50" class="form-control" name="typeoperationid" value="2" hidden="true">
@@ -121,7 +121,7 @@
             <table class="table my-5">
                 <thead>
                     <tr>
-                        <td colspan="2">
+                        <td colspan="4">
                             <form:form method="post" name="pickDate" id="pickDate" action="/expenses/filter">
                                 <jsp:include page="include/periodSelection.jsp"/>
                             </form:form>
