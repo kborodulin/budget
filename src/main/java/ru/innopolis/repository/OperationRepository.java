@@ -47,5 +47,4 @@ public interface OperationRepository extends JpaRepository<Operation, Long> {
             "AND o.typeoperationid=1 " +
             "AND o.dateoper BETWEEN ?2 AND ?3")
     BigDecimal getSummaryIncome(Long familyid, LocalDate localDate, LocalDate localDate1);
-    List<Operation> findUserExpensesInPeriod(Long famemId, LocalDate startDate, LocalDate endDate, int categoryid);
 }

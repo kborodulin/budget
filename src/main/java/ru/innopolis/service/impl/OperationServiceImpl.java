@@ -98,7 +98,7 @@ public class OperationServiceImpl implements OperationService {
     public List<BigDecimal> findMembersExpenses(List<Famem> familyMembers, List<LocalDate> period) {
         List<BigDecimal> summaryMembersExp = new ArrayList<>();
         for (Famem famem : familyMembers) {
-            BigDecimal summaryExp = allExpensesUser(famem.getFamemid(), period.get(0), period.get(1))
+            BigDecimal summaryExp = allExpensesUser(famem.getFamemid(), period.get(0), period.get(1), 0)
                     .stream()
                     .map(Operation::getAmount)
                     .reduce(BigDecimal::add)
