@@ -4,8 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.innopolis.domain.Account;
-import ru.innopolis.domain.Operation;
+import ru.innopolis.domain.*;
 import ru.innopolis.repository.OperationRepository;
 import ru.innopolis.service.AccountService;
 import ru.innopolis.service.OperationService;
@@ -13,7 +12,9 @@ import ru.innopolis.service.OperationService;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -88,5 +89,48 @@ public class OperationServiceImpl implements OperationService {
         Account account = accountService.findById(operation.getAccount().getAccountid());
         account.setAmount(account.getAmount().add(operation.getAmount()));
         delete(operation);
+    }
+
+    @Override
+    public List<BigDecimal> findMembersExpenses(List<Famem> familyMembers, List<LocalDate> period) {
+        List<BigDecimal> summaryMembersExp = new ArrayList<>();
+        for (Famem famem : familyMembers) {
+            BigDecimal summaryExp = allExpensesUser(famem.getFamemid(), period.get(0), period.get(1))
+                    .stream()
+                    .map(Operation::getAmount)
+                    .reduce(BigDecimal::add)
+                    .orElse(BigDecimal.ZERO);
+            summaryMembersExp.add(summaryExp);
+        }
+        return summaryMembersExp;
+    }
+
+    @Override
+    public List<BigDecimal> findAllCategoryExpenses(Family family, List<Category> categoryList, List<LocalDate> period) {
+        List<BigDecimal> summaryCategoryExp = new ArrayList<>();
+        for (Category category : categoryList) {
+            List<Operation> operations = findOneCategoryExpenses(family, category, period);
+            BigDecimal summaryExp = operations.stream()
+                    .map(Operation::getAmount)
+                    .reduce(BigDecimal::add)
+                    .orElse(BigDecimal.ZERO);
+            summaryCategoryExp.add(summaryExp);
+        }
+        return summaryCategoryExp;
+    }
+
+    @Override
+    public List<Operation> findOneCategoryExpenses(Family family, Category category, List<LocalDate> period) {
+        return operationRepository.findCategoryExpensesForFamily(family.getFamilyid(), category.getCategoryid(), period.get(0), period.get(1));
+    }
+
+    @Override
+    public BigDecimal getSummaryExpenses(Family family, List<LocalDate> period) {
+        return operationRepository.getSummaryExpenses(family.getFamilyid(), period.get(0), period.get(1));
+    }
+
+    @Override
+    public BigDecimal getSummaryIncome(Family family, List<LocalDate> period) {
+        return operationRepository.getSummaryIncome(family.getFamilyid(), period.get(0), period.get(1));
     }
 }
