@@ -18,6 +18,7 @@ import ru.innopolis.service.DateAnalizer;
 import ru.innopolis.service.OperationService;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -60,8 +61,10 @@ public class IncomeController {
     @GetMapping("/income")
     public String getAllIncomeUser(Model model, HttpServletRequest request, @ModelAttribute("period") String period) {
         User user = (User) request.getSession().getAttribute("user");
-        List<Object[]> operations = operationService.allIncomeUser(user.getUserid(), LocalDate.now(), LocalDate.now());
+        List<Object[]> operations = operationService.allIncomeUser(user.getUserid(), LocalDate.now(), LocalDate.now(), 0);
         model.addAttribute("allincomeuser", operations);
+        HttpSession session = request.getSession(true);
+        session.setAttribute("allcategoryperiod", null);
         return "income";
     }
 
@@ -69,7 +72,8 @@ public class IncomeController {
      * Добавить
      */
     @PostMapping("/income/add")
-    public String saveIncome(@ModelAttribute("addincome") Operation operation,
+    public String saveIncome(HttpServletRequest request,
+                             @ModelAttribute("addincome") Operation operation,
                              @ModelAttribute("accountid") Account account,
                              @ModelAttribute("categoryid") Category category) {
         account = accountService.findById(account.getAccountid());
@@ -85,6 +89,8 @@ public class IncomeController {
         operation.setAccount(account);
         operation.setCategory(category);
         operationService.save(operation);
+        HttpSession session = request.getSession(true);
+        session.setAttribute("allcategoryperiod", null);
         return "redirect:/income";
     }
 
@@ -129,12 +135,15 @@ public class IncomeController {
     @PostMapping("/income/filter")
     public String filterIncome(Model model,
                                HttpServletRequest request,
-                               @ModelAttribute("dateRange") int period) {
+                               @ModelAttribute("dateRange") int period,
+                               @ModelAttribute("categoryperiod") int category) {
         List<LocalDate> dates = dateAnalizer.parsePeriod(period);
         User user = (User) request.getSession().getAttribute("user");
-        List<Object[]> operations = operationService.allIncomeUser(user.getUserid(), dates.get(0), dates.get(1));
+        List<Object[]> operations = operationService.allIncomeUser(user.getUserid(), dates.get(0), dates.get(1), category);
         model.addAttribute("periodselected", period);
         model.addAttribute("allincomeuser", operations);
+        HttpSession session = request.getSession(true);
+        session.setAttribute("allcategoryperiod", category);
         return "income";
     }
 }

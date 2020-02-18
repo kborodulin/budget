@@ -58,7 +58,7 @@ public class ReferenceController {
      */
     @GetMapping("/ref/allaccounttype")
     public void getAllAccountType(Model model) {
-        model.addAttribute("refallaccounttype",  accountTypeService.findAll());
+        model.addAttribute("refallaccounttype", accountTypeService.findAll());
     }
 
     /**
@@ -78,6 +78,19 @@ public class ReferenceController {
     @GetMapping("/ref/allcategory")
     public void getAllCategory(Model model) {
         model.addAttribute("refallcategory", categoryService.findAll());
+    }
+
+    /**
+     * Справочник категорий с учетом "Все"
+     */
+    @GetMapping("/ref/allcategoryperiod")
+    public void getAllCategoryPeriod(Model model) {
+        Category category = new Category();
+        category.setCategoryid(0L);
+        category.setName("Все");
+        List<Category> categories = categoryService.findAll();
+        categories.add(0, category);
+        model.addAttribute("refallcategory", categories);
     }
 
     /**

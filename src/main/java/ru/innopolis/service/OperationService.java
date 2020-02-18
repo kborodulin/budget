@@ -14,9 +14,9 @@ public interface OperationService {
 
     List<Operation> findAll();
 
-    List<Object[]> allIncomeUser(Long userid, LocalDate startDate, LocalDate endDate);
+    List<Object[]> allIncomeUser(Long userid, LocalDate startDate, LocalDate endDate, int categoryid);
 
-    List<Operation> allExpensesUser(Long famemId, LocalDate startDate, LocalDate endDate);
+    List<Operation> allExpensesUser(Long famemId, LocalDate startDate, LocalDate endDate, int categoryid);
 
     void clearDelete(Operation operation);
 }

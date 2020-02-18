@@ -67,12 +67,13 @@ public class AccountServiceImpl implements AccountService {
         }
         return balances;
     }
+
     @Override
     public List<Account> findAllByUser(Long userid) {
         Query query = em.createNativeQuery(
                 "select a.accountid, a.name from account a \n" +
                         "join famem f on a.famemid = f.famemid\n" +
-                        "where f.userid = ?"
+                        "where f.userid = ? and a.isclosesign = 0"
         );
         query.setParameter(1, userid);
         List<Object[]> objects = query.getResultList();
@@ -101,7 +102,7 @@ public class AccountServiceImpl implements AccountService {
                         "\t\t\tthen 1 \n" +
                         "\t\t\telse row_number() over() + 1 \n" +
                         "\t\tend rn\n" +
-                        "\tfrom account a join famem f on a.famemid = f.famemid where f.userid = ?) a\n" +
+                        "\tfrom account a join famem f on a.famemid = f.famemid where f.userid = ? and a.isclosesign = 0) a\n" +
                         "order by a.rn"
         );
         query.setParameter(1, accountid);
