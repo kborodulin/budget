@@ -520,4 +520,12 @@
         </sql>
     </changeSet>
 
+    <changeSet id="49" author="alex">
+        <sql>
+            insert into typeoperation(name, brief)
+            values('Отправление перевода', 'transactionOut');
+            insert into typeoperation(name, brief)
+            values('Получение перевода', 'transactionIn');
+        </sql>
+    </changeSet>
 </databaseChangeLog>
