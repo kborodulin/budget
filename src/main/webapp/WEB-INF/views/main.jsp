@@ -114,12 +114,30 @@
                 <h3 class="h3">Главная</h3>
             </div>
             <div class="container-fluid">
-                <h5 class="h5">Баланс семьи <span style="font-style: italic">${family.name}</span> <span style="color: #1c7430"> ${familyBalance} ₽</span> </h5>
-
+                <h5 class="h5">Баланс семьи
+                    <span style="font-style: italic">${family.name} </span>
+                    <c:if test="${familyBalance gt 0}">
+                    <span class="text-success">${familyBalance} ₽</span>
+                    </c:if>
+                    <c:if test="${familyBalance lt 0}">
+                        <span class="text-danger">${familyBalance} ₽</span>
+                    </c:if>
+                    <c:if test="${!(familyBalance gt 0) && !(familyBalance lt 0)}">
+                        <span class="text-info">${familyBalance} ₽</span>
+                    </c:if>
+                </h5>
+                <table class="table my-3"></table>
                 <jsp:include page="include/progress.jsp"/>
-                <jsp:include page="charts/memberExpensesChart.jsp"/>
-                <jsp:include page="charts/categoryExpensesChart.jsp"/>
-                <jsp:include page="charts/memberBalanceChart.jsp"/>
+                <table class="table my-3"></table>
+                    <table class="table">
+                        <tbody>
+                        <tr>
+                            <th style="width: 30%"><jsp:include page="charts/memberExpensesChart.jsp"/></th>
+                            <th style="width: 40%"><jsp:include page="charts/categoryExpensesChart.jsp"/></th>
+                            <th style="width: 30%"><jsp:include page="charts/memberBalanceChart.jsp"/></th>
+                        </tr>
+                        </tbody>
+                    </table>
             </div>
         </main>
     </div>

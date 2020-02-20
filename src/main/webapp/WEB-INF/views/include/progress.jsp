@@ -35,8 +35,8 @@
 <table class="table my-0">
     <tbody>
     <tr>
-        <th style="text-align: left">Расходы за месяц</th>
-        <th style="text-align: right">Доходы за месяц</th>
+        <th style="text-align: left">Расходы за ${month} <span style="font-style: italic" class="text-danger">-${summaryAllFamilyExpenses} ₽</span></th>
+        <th style="text-align: right">Доходы за  ${month} <span style="font-style: italic" class="text-success">+${summaryAllFamilyIncome} ₽</span></th>
     </tr>
     </tbody>
 </table>

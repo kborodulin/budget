@@ -17,7 +17,9 @@ import ru.innopolis.service.*;
 import javax.servlet.http.HttpServletRequest;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
@@ -62,14 +64,20 @@ public class MainController {
 
         List<LocalDate> period = dateAnalizer.parsePeriod(Periods.MONTH);
 
+        model.addAttribute("month", dateAnalizer.getMonthName(LocalDate.now().getMonthValue()-1));
+
         List<BigDecimal> familyMembersExpenses = operationService.findMembersExpenses(familyMembers, period);
         model.addAttribute("familyMembersExpenses", familyMembersExpenses);
 
         List<Category> categoryList = categoryService.findAll();
-        model.addAttribute("categoryList", categoryList);
-
         List<BigDecimal> familyCategoryExpenses = operationService.findAllCategoryExpenses(family, categoryList, period);
-        model.addAttribute("familyCategoryExpenses", familyCategoryExpenses);
+        Map<String, String> familyCategoryExpensesMap = new HashMap<>();
+        for (int i = 0; i < categoryList.size(); i++) {
+            if (familyCategoryExpenses.get(i).compareTo(BigDecimal.ZERO) != 0) {
+                familyCategoryExpensesMap.put(categoryList.get(i).getName(), familyCategoryExpenses.get(i).toString());
+            }
+        }
+        model.addAttribute("familyCategoryExpensesMap", familyCategoryExpensesMap);
 
         BigDecimal summaryAllFamilyExpenses = operationService.getSummaryExpenses(family, period);
         model.addAttribute("summaryAllFamilyExpenses", summaryAllFamilyExpenses);

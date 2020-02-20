@@ -1,22 +1,12 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<div id="canvas-holder" style="width:60%"><div class="chartjs-size-monitor"><div class="chartjs-size-monitor-expand"><div class=""></div></div><div class="chartjs-size-monitor-shrink"><div class=""></div></div></div>
+<div id="canvas-holder" style="width:100%">
+<div class="chartjs-size-monitor"><div class="chartjs-size-monitor-expand"><div class=""></div></div><div class="chartjs-size-monitor-shrink"><div class=""></div></div></div>
     <canvas id="chart-area" style="display: block; width: 186px; height: 93px;" width="186" height="93" class="chartjs-render-monitor"></canvas>
 </div>
 <script>
-    const getColor = function () {
-        const number = Math.round(Math.random() * 10);
-        if (number === 0) return window.chartColors.red;
-        if (number === 1) return window.chartColors.orange;
-        if (number === 2) return window.chartColors.yellow;
-        if (number === 3) return window.chartColors.lightgreen;
-        if (number === 4) return window.chartColors.blue;
-        if (number === 5) return window.chartColors.lemon;
-        if (number === 6) return window.chartColors.darkgreen;
-        if (number === 7) return window.chartColors.darkpink;
-        if (number === 8) return window.chartColors.green;
-        if (number === 9) return window.chartColors.pink;
-        if (number === 10) return window.chartColors.purple;
+    const getColor = function() {
+        return '#' + Math.floor(Math.random()*16777215).toString(16)
     };
     const config = {
         type: 'doughnut',
@@ -47,8 +37,8 @@
             },
             title: {
                 display: true,
-                text: 'Траты за месяц',
-                position: 'bottom',
+                text: 'Траты за ${month}',
+                position: 'top',
             },
             animation: {
                 animateScale: true,
