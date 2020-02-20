@@ -165,6 +165,20 @@
                 </c:forEach>
                 </tbody>
             </table>
+            <table align="center">
+                <c:forEach begin="1" end="${countPage}" var="page">
+                    <th>
+                        <c:choose>
+                            <c:when test="${isfilter == 1}">
+                                <a href="/expenses/filter${page}">${page}</a>
+                            </c:when>
+                            <c:otherwise>
+                                <a href="/expenses${page}">${page}</a>
+                            </c:otherwise>
+                        </c:choose>
+                    </th>
+                </c:forEach>
+            </table>
         </main>
     </div>
 </div>

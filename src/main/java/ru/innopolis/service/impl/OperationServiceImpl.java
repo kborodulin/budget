@@ -2,6 +2,7 @@ package ru.innopolis.service.impl;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.innopolis.domain.*;
@@ -16,6 +17,8 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+
+import static ru.innopolis.controller.IncomeController.MAX_COUNT_ELEMENT_PAGE;
 
 @Service
 @Transactional
@@ -55,7 +58,7 @@ public class OperationServiceImpl implements OperationService {
     }
 
     @Override
-    public List<Object[]> allIncomeUser(Long userid, LocalDate startDate, LocalDate endDate, int categoryid) {
+    public List<Object[]> allIncomeUser(Long userid, LocalDate startDate, LocalDate endDate, int categoryid, Integer page) {
         Query query = em.createNativeQuery("select\n" +
                 "  a.name,\n" +
                 "  coalesce(o.amount, 0) amount,\n" +
@@ -78,13 +81,18 @@ public class OperationServiceImpl implements OperationService {
         query.setParameter(3, endDate);
         query.setParameter(4, categoryid);
         query.setParameter(5, categoryid);
-        List<Object[]> objects = query.getResultList();
+        List<Object[]> objects = null;
+        if (page == null) {
+            objects = query.getResultList();
+        } else {
+            objects = query.setFirstResult((page - 1) * MAX_COUNT_ELEMENT_PAGE).setMaxResults(MAX_COUNT_ELEMENT_PAGE).getResultList();
+        }
         return objects;
     }
 
     @Override
-    public List<Operation> allExpensesUser(Long famemId, LocalDate startDate, LocalDate endDate, int categoryid) {
-        return operationRepository.findUserExpensesInPeriod(famemId, startDate, endDate, categoryid);
+    public List<Operation> allExpensesUser(Long famemId, LocalDate startDate, LocalDate endDate, int categoryid, Pageable page) {
+        return operationRepository.findUserExpensesInPeriod(famemId, startDate, endDate, categoryid, page);
     }
 
     @Override
@@ -98,7 +106,7 @@ public class OperationServiceImpl implements OperationService {
     public List<BigDecimal> findMembersExpenses(List<Famem> familyMembers, List<LocalDate> period) {
         List<BigDecimal> summaryMembersExp = new ArrayList<>();
         for (Famem famem : familyMembers) {
-            BigDecimal summaryExp = allExpensesUser(famem.getFamemid(), period.get(0), period.get(1), 0)
+            BigDecimal summaryExp = allExpensesUser(famem.getFamemid(), period.get(0), period.get(1), 0, null)
                     .stream()
                     .map(Operation::getAmount)
                     .reduce(BigDecimal::add)
