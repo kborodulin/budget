@@ -1,5 +1,6 @@
 package ru.innopolis.repository;
 
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -19,7 +20,7 @@ public interface OperationRepository extends JpaRepository<Operation, Long> {
             "AND o.dateoper BETWEEN ?2 AND ?3 " +
             "AND o.category.categoryid = (case when ?4 = 0 then o.category.categoryid else ?4 end) " +
             "order by o.datewritedb desc")
-    List<Operation> findUserExpensesInPeriod(Long famemId, LocalDate startDate, LocalDate endDate, int categoryid);
+    List<Operation> findUserExpensesInPeriod(Long famemId, LocalDate startDate, LocalDate endDate, int categoryid, Pageable page);
 
     @Query("SELECT o FROM Famem f " +
             "JOIN f.accountList a " +

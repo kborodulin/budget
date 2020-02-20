@@ -35,6 +35,12 @@ public class IncomeController {
 
     private DateAnalizer dateAnalizer;
 
+    public static final int MAX_COUNT_ELEMENT_PAGE = 10;
+
+    private int dateRange;
+
+    private int categoryPeriod;
+
     @Autowired
     public void setOperationService(OperationService operationService) {
         this.operationService = operationService;
@@ -59,12 +65,26 @@ public class IncomeController {
      * Список доходов пользователя
      */
     @GetMapping("/income")
-    public String getAllIncomeUser(Model model, HttpServletRequest request, @ModelAttribute("period") String period) {
+    public String getAllIncomeUser(Model model, HttpServletRequest request, @ModelAttribute("period") String period, Integer page) {
         User user = (User) request.getSession().getAttribute("user");
-        List<Object[]> operations = operationService.allIncomeUser(user.getUserid(), LocalDate.now(), LocalDate.now(), 0);
+        if (page == null) page = 1;
+        List<Object[]> operations = operationService.allIncomeUser(user.getUserid(), LocalDate.now(), LocalDate.now(), 0, page);
+        model.addAttribute("countPage", page(user.getUserid(), LocalDate.now(), LocalDate.now(), 0));
         model.addAttribute("allincomeuser", operations);
         HttpSession session = request.getSession(true);
         session.setAttribute("allcategoryperiod", null);
+        return "income";
+    }
+
+    /**
+     * Список доходов пользователя с разбивкой на страницы
+     */
+    @GetMapping(value = "/income{page}")
+    public String listPartPage(Model model,
+                               HttpServletRequest request,
+                               @ModelAttribute("period") String period,
+                               @PathVariable("page") Integer page) {
+        getAllIncomeUser(model, request, period, page);
         return "income";
     }
 
@@ -136,14 +156,38 @@ public class IncomeController {
     public String filterIncome(Model model,
                                HttpServletRequest request,
                                @ModelAttribute("dateRange") int period,
-                               @ModelAttribute("categoryperiod") int category) {
+                               @ModelAttribute("categoryperiod") int category,
+                               Integer page) {
         List<LocalDate> dates = dateAnalizer.parsePeriod(period);
         User user = (User) request.getSession().getAttribute("user");
-        List<Object[]> operations = operationService.allIncomeUser(user.getUserid(), dates.get(0), dates.get(1), category);
+        if (page == null) page = 1;
+        List<Object[]> operations = operationService.allIncomeUser(user.getUserid(), dates.get(0), dates.get(1), category, page);
+        model.addAttribute("countPage", page(user.getUserid(), dates.get(0), dates.get(1), category));
         model.addAttribute("periodselected", period);
         model.addAttribute("allincomeuser", operations);
         HttpSession session = request.getSession(true);
         session.setAttribute("allcategoryperiod", category);
+        if (period > 0 || category > 0) {
+            model.addAttribute("isfilter", 1);
+            dateRange = period;
+            categoryPeriod = category;
+        }
         return "income";
+    }
+
+    /**
+     * Фильтр с учетом разбивки на страницы
+     */
+    @GetMapping(value = "/income/filter{page}")
+    public String filterIncomePage(Model model,
+                                   HttpServletRequest request,
+                                   @PathVariable("page") Integer page) {
+        filterIncome(model, request, dateRange, categoryPeriod, page);
+        return "income";
+    }
+
+    private int page(Long userId, LocalDate dateStart, LocalDate end, int categoryid) {
+        int allRecord = operationService.allIncomeUser(userId, dateStart, end, categoryid, null).size();
+        return (allRecord % MAX_COUNT_ELEMENT_PAGE == 0) ? allRecord / MAX_COUNT_ELEMENT_PAGE : allRecord / MAX_COUNT_ELEMENT_PAGE + 1;
     }
 }

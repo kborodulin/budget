@@ -1,5 +1,6 @@
 package ru.innopolis.service;
 
+import org.springframework.data.domain.Pageable;
 import ru.innopolis.domain.Category;
 import ru.innopolis.domain.Famem;
 import ru.innopolis.domain.Family;
@@ -18,9 +19,9 @@ public interface OperationService {
 
     List<Operation> findAll();
 
-    List<Object[]> allIncomeUser(Long userid, LocalDate startDate, LocalDate endDate, int categoryid);
+    List<Object[]> allIncomeUser(Long userid, LocalDate startDate, LocalDate endDate, int categoryid, Integer page);
 
-    List<Operation> allExpensesUser(Long famemId, LocalDate startDate, LocalDate endDate, int categoryid);
+    List<Operation> allExpensesUser(Long famemId, LocalDate startDate, LocalDate endDate, int categoryid, Pageable page);
 
     void clearDelete(Operation operation);
 

@@ -2,6 +2,8 @@ package ru.innopolis.controller;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,6 +24,8 @@ import javax.servlet.http.HttpSession;
 import java.time.LocalDate;
 import java.util.List;
 
+import static ru.innopolis.controller.IncomeController.MAX_COUNT_ELEMENT_PAGE;
+
 /**
  * Расходы
  */
@@ -35,6 +39,10 @@ public class ExpensesController {
     private CategoryService categoryService;
 
     private DateAnalizer dateAnalizer;
+
+    private int dateRange;
+
+    private int categoryPeriod;
 
     @Autowired
     public void setOperationService(OperationService operationService) {
@@ -60,12 +68,27 @@ public class ExpensesController {
      * Список расходов пользователя
      */
     @GetMapping("/expenses")
-    public String getAllExpensesUser(Model model, HttpServletRequest request, @ModelAttribute("period") String period) {
+    public String getAllExpensesUser(Model model, HttpServletRequest request, @ModelAttribute("period") String period, Integer page) {
+        if (page == null) page = 1;
+        Pageable pageable = PageRequest.of(page - 1, MAX_COUNT_ELEMENT_PAGE);
         User user = (User) request.getSession().getAttribute("user");
-        List<Operation> operations = operationService.allExpensesUser(user.getFamem().getFamemid(), LocalDate.now(), LocalDate.now(), 0);
+        List<Operation> operations = operationService.allExpensesUser(user.getFamem().getFamemid(), LocalDate.now(), LocalDate.now(), 0, pageable);
+        model.addAttribute("countPage", page(user.getFamem().getFamemid(), LocalDate.now(), LocalDate.now(), 0));
         model.addAttribute("allExpensesUser", operations);
         HttpSession session = request.getSession(true);
         session.setAttribute("allcategoryperiod", null);
+        return "expenses";
+    }
+
+    /**
+     * Список расходов пользователя с разбивкой на страницы
+     */
+    @GetMapping(value = "/expenses{page}")
+    public String listPartPage(Model model,
+                               HttpServletRequest request,
+                               @ModelAttribute("period") String period,
+                               @PathVariable("page") Integer page) {
+        getAllExpensesUser(model, request, period, page);
         return "expenses";
     }
 
@@ -111,7 +134,7 @@ public class ExpensesController {
     @GetMapping("/expenses/{id}")
     public String renderUpdateExpenses(@PathVariable("id") Long id, Model model, HttpServletRequest request) {
         User user = (User) request.getSession().getAttribute("user");
-        List<Operation> operations = operationService.allExpensesUser(user.getFamem().getFamemid(), LocalDate.now(), LocalDate.now(), 0);
+        List<Operation> operations = operationService.allExpensesUser(user.getFamem().getFamemid(), LocalDate.now(), LocalDate.now(), 0, null);
         model.addAttribute("allExpensesUser", operations);
         Operation updatedOperation = operationService.findById(id);
         model.addAttribute("updatedOperation", updatedOperation);
@@ -143,14 +166,39 @@ public class ExpensesController {
     public String filterIncome(Model model,
                                HttpServletRequest request,
                                @ModelAttribute("dateRange") int period,
-                               @ModelAttribute("categoryperiod") int category) {
+                               @ModelAttribute("categoryperiod") int category,
+                               Integer page) {
         List<LocalDate> dates = dateAnalizer.parsePeriod(period);
         User user = (User) request.getSession().getAttribute("user");
-        List<Operation> operations = operationService.allExpensesUser(user.getFamem().getFamemid(), dates.get(0), dates.get(1), category);
+        if (page == null) page = 1;
+        Pageable pageable = PageRequest.of(page - 1, MAX_COUNT_ELEMENT_PAGE);
+        List<Operation> operations = operationService.allExpensesUser(user.getFamem().getFamemid(), dates.get(0), dates.get(1), category, pageable);
+        model.addAttribute("countPage", page(user.getFamem().getFamemid(), dates.get(0), dates.get(1), category));
         model.addAttribute("periodselected", period);
         model.addAttribute("allExpensesUser", operations);
         HttpSession session = request.getSession(true);
         session.setAttribute("allcategoryperiod", category);
+        if (period > 0 || category > 0) {
+            model.addAttribute("isfilter", 1);
+            dateRange = period;
+            categoryPeriod = category;
+        }
         return "expenses";
+    }
+
+    /**
+     * Фильтр с учетом разбивки на страницы
+     */
+    @GetMapping(value = "/expenses/filter{page}")
+    public String filterIncomePage(Model model,
+                                   HttpServletRequest request,
+                                   @PathVariable("page") Integer page) {
+        filterIncome(model, request, dateRange, categoryPeriod, page);
+        return "expenses";
+    }
+
+    private int page(Long userId, LocalDate dateStart, LocalDate end, int categoryid) {
+        int allRecord = operationService.allExpensesUser(userId, dateStart, end, categoryid, null).size();
+        return (allRecord % MAX_COUNT_ELEMENT_PAGE == 0) ? allRecord / MAX_COUNT_ELEMENT_PAGE : allRecord / MAX_COUNT_ELEMENT_PAGE + 1;
     }
 }
