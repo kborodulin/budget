@@ -98,6 +98,12 @@ public class DateAnalizerImpl implements DateAnalizer {
         return parseTodayPeriod(today);
     }
 
+    @Override
+    public String getMonthName(int number) {
+        String[] monthNames = { "январь", "февраль", "март", "апрель", "май", "июнь", "июль", "август", "сентябрь", "октябрь", "ноябрь", "декабрь" };
+        return monthNames[number];
+    }
+
     private List<LocalDate> parseLifePeriod(LocalDate today) {
         LocalDate start = LocalDate.parse(FIRST_DAY_OF_LIFE);
         LocalDate end = today.withDayOfYear(today.lengthOfYear());
