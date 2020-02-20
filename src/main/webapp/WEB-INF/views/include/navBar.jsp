@@ -35,7 +35,11 @@
             </c:if>
         </li>
         <li class="nav-item text-nowrap">
-            <a class="nav-link" href="${pageContext.request.contextPath}/login">Выход</a>
+            <a class="nav-link" href="#" onclick="document.getElementById('logout-form').submit();"> Выход </a>
+
+            <form id="logout-form" action="${pageContext.request.contextPath}/perform_logout" method="post">
+                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+            </form>
         </li>
     </ul>
 </nav>

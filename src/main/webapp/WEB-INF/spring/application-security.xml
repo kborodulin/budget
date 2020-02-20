@@ -9,9 +9,15 @@
 	http://www.springframework.org/schema/beans
 	http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<http auto-config="true" use-expressions="true">
+	<http auto-config="true" use-expressions="true" request-matcher="ant">
 		<access-denied-handler error-page="/accessDenied" />
 		<intercept-url pattern="/account" access="hasRole('ROLE_USER')" />
+		<intercept-url pattern="/main" access="hasRole('ROLE_USER')" />
+		<intercept-url pattern="/expenses" access="hasRole('ROLE_USER')" />
+		<intercept-url pattern="/income" access="hasRole('ROLE_USER')" />
+		<intercept-url pattern="/income" access="hasRole('ROLE_USER')" />
+		<intercept-url pattern="/wallet" access="hasRole('ROLE_USER')" />
+		<intercept-url pattern="/statistic" access="hasRole('ROLE_USER')" />
 
 		<form-login login-page='/login'
 					default-target-url="/account"
@@ -20,7 +26,7 @@
 					password-parameter="password"
 					authentication-success-handler-ref="saveUserInSession"/>
 
-		<logout logout-success-url="/login"/>
+		<logout logout-success-url="/login" logout-url="/perform_logout"/>
 	</http>
 
 	<beans:bean id="encoder"
