@@ -18,4 +18,4 @@ if (setSaveIncome)
             return false;
         }
         setAddIncome.submit();
-    });
+    }, {once: true});

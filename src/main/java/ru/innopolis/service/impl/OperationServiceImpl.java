@@ -42,7 +42,12 @@ public class OperationServiceImpl implements OperationService {
     @Override
     public Operation findById(Long id) {
         log.info("find operation by ID {}", id);
-        return operationRepository.findById(id).get();
+        Operation operation = null;
+        Boolean present = operationRepository.findById(id).isPresent();
+        if (present) {
+            operation = operationRepository.findById(id).get();
+        }
+        return operation;
     }
 
     @Override
