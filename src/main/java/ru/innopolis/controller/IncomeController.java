@@ -19,6 +19,7 @@ import ru.innopolis.service.OperationService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -73,6 +74,13 @@ public class IncomeController {
         model.addAttribute("allincomeuser", operations);
         HttpSession session = request.getSession(true);
         session.setAttribute("allcategoryperiod", null);
+        List<Object[]> operationsAll = operationService.allIncomeUser(user.getUserid(), LocalDate.now(), LocalDate.now(), 0, null);
+        BigDecimal sumPeriod = BigDecimal.ZERO;
+        for (Object[] obj : operationsAll) {
+            sumPeriod = sumPeriod.add(((BigDecimal) obj[1]));
+        }
+        model.addAttribute("intervalperiod", "СУММА ЗА ДЕНЬ ");
+        model.addAttribute("sumperiod", sumPeriod + " руб.");
         return "income";
     }
 
@@ -173,6 +181,38 @@ public class IncomeController {
             model.addAttribute("isfilter", 1);
             dateRange = period;
             categoryPeriod = category;
+        }
+        List<Object[]> operationsAll = operationService.allIncomeUser(user.getUserid(), dates.get(0), dates.get(1), category, null);
+        BigDecimal sumPeriod = BigDecimal.ZERO;
+        for (Object[] obj : operationsAll) {
+            sumPeriod = sumPeriod.add(((BigDecimal) obj[1]));
+        }
+        switch (period) {
+            case 1: {
+                model.addAttribute("intervalperiod", "СУММА ЗА ДЕНЬ ");
+                model.addAttribute("sumperiod", sumPeriod + " руб.");
+                break;
+            }
+            case 2: {
+                model.addAttribute("intervalperiod", "СУММА ЗА НЕДЕЛЮ ");
+                model.addAttribute("sumperiod", sumPeriod + " руб.");
+                break;
+            }
+            case 3: {
+                model.addAttribute("intervalperiod", "СУММА ЗА МЕСЯЦ ");
+                model.addAttribute("sumperiod", sumPeriod + " руб.");
+                break;
+            }
+            case 4: {
+                model.addAttribute("intervalperiod", "СУММА ЗА ГОД ");
+                model.addAttribute("sumperiod", sumPeriod + " руб.");
+                break;
+            }
+            case 5: {
+                model.addAttribute("intervalperiod", "СУММА ЗА ВЕСЬ ПЕРИОД ");
+                model.addAttribute("sumperiod", sumPeriod + " руб.");
+                break;
+            }
         }
         return "income";
     }

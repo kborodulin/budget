@@ -61,8 +61,9 @@
                     <span id="save-item-expenses" style="text-decoration: underline;  color: #007bff;">сохранить расход&nbsp;</span>
                 </a>
             </div>
-            <form:form id= "addExpense" class="form-inline" name="expensesForm" action="/expenses/add">
-                <input type="number" step="0.01" min="0" max="999999999" class="form-control" name="amount" value="${updatedOperation.amount}"
+            <form:form id="addExpense" class="form-inline" name="expensesForm" action="/expenses/add">
+                <input type="number" step="0.01" min="0" max="999999999" class="form-control" name="amount"
+                       value="${updatedOperation.amount}"
                        id="inputSumExpense"
                        placeholder="Сумма" onKeyDown="if(this.value.length==9) return false;">
                 <div class="input-group-append">
@@ -72,24 +73,28 @@
                     <select class="form-control" name="accountid">
                         <c:forEach var="account" items="${findallaccountbyuser}">
                             <c:if test="${updatedOperation.account.name == account.name}">
-                                <option selected value=<c:out value="${account.accountid}"/>><c:out value="${account.name}"/></option>
+                                <option selected value=<c:out value="${account.accountid}"/>><c:out
+                                        value="${account.name}"/></option>
                             </c:if>
                             <c:if test="${updatedOperation.account.name != account.name}">
-                                <option value=<c:out value="${account.accountid}"/>><c:out value="${account.name}"/></option>
+                                <option value=<c:out value="${account.accountid}"/>><c:out
+                                        value="${account.name}"/></option>
                             </c:if>
                         </c:forEach>
                     </select>
                 </div>
                 <div class="form-group mx-sm-1">
                     <select class="form-control" name="categoryid">
-                    <c:forEach var="category" items="${refallcategory}">
-                        <c:if test="${updatedOperation.category.name == category.name}">
-                            <option selected value=<c:out value="${category.categoryid}"/>><c:out value="${category.name}"/></option>
-                        </c:if>
-                        <c:if test="${updatedOperation.category.name != category.name}">
-                            <option value=<c:out value="${category.categoryid}"/>><c:out value="${category.name}"/></option>
-                        </c:if>
-                    </c:forEach>
+                        <c:forEach var="category" items="${refallcategory}">
+                            <c:if test="${updatedOperation.category.name == category.name}">
+                                <option selected value=<c:out value="${category.categoryid}"/>><c:out
+                                        value="${category.name}"/></option>
+                            </c:if>
+                            <c:if test="${updatedOperation.category.name != category.name}">
+                                <option value=<c:out value="${category.categoryid}"/>><c:out
+                                        value="${category.name}"/></option>
+                            </c:if>
+                        </c:forEach>
                     </select>
                 </div>
                 <div class="form-group mx-sm-1">
@@ -107,11 +112,13 @@
                 </div>
                 <div class="form-group mx-sm-1">
                     <label for="comments" class="sr-only">Комментарий</label>
-                    <input type="text" maxlength="50" class="form-control" id="comments" name="comment" value="${updatedOperation.comment}"
+                    <input type="text" maxlength="50" class="form-control" id="comments" name="comment"
+                           value="${updatedOperation.comment}"
                            placeholder="Комментарий" style="display: inline-block;width:500px;">
                 </div>
                 <div class="form-group mx-sm-1">
-                    <input type="text" maxlength="50" class="form-control" name="typeoperationid" value="2" hidden="true">
+                    <input type="text" maxlength="50" class="form-control" name="typeoperationid" value="2"
+                           hidden="true">
                 </div>
                 <div class="form-group mx-sm-1">
                     <input type="text" class="form-control" name="operationid" value="${updatedOperation.operationid}"
@@ -120,13 +127,13 @@
             </form:form>
             <table class="table my-5">
                 <thead>
-                    <tr>
-                        <td colspan="4">
-                            <form:form method="post" name="pickDate" id="pickDate" action="/expenses/filter">
-                                <jsp:include page="include/periodSelection.jsp"/>
-                            </form:form>
-                        </td>
-                    </tr>
+                <tr>
+                    <td colspan="4">
+                        <form:form method="post" name="pickDate" id="pickDate" action="/expenses/filter">
+                            <jsp:include page="include/periodSelection.jsp"/>
+                        </form:form>
+                    </td>
+                </tr>
                 </thead>
                 <tbody>
                 <tr>
@@ -163,6 +170,18 @@
                         </td>
                     </tr>
                 </c:forEach>
+                <c:choose>
+                    <c:when test="${countPage == page || countPage == 1}">
+                        <tr class="table-active" style="font-style: italic">
+                            <td>
+                                    ${intervalperiod}
+                            </td>
+                            <td style="color: #1e7e34" colspan="6">
+                                    ${sumperiod}
+                            </td>
+                        </tr>
+                    </c:when>
+                </c:choose>
                 </tbody>
             </table>
             <table align="center">

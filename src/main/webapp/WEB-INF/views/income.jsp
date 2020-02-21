@@ -181,6 +181,18 @@
                         </td>
                     </tr>
                 </c:forEach>
+                <c:choose>
+                    <c:when test="${countPage == page || countPage == 1}">
+                        <tr class="table-active" style="font-style: italic">
+                            <td>
+                                    ${intervalperiod}
+                            </td>
+                            <td style="color: #1e7e34" colspan="6">
+                                    ${sumperiod}
+                            </td>
+                        </tr>
+                    </c:when>
+                </c:choose>
                 </tbody>
             </table>
             <table align="center">
