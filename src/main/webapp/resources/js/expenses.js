@@ -18,4 +18,4 @@ if (setSaveExpense)
             return false;
         }
         setAddExpense.submit();
-    });
+    }, {once: true});

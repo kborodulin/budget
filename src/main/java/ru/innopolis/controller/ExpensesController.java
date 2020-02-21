@@ -147,7 +147,9 @@ public class ExpensesController {
     @GetMapping("/expenses/delete/{id}")
     public String deleteExpenses(@PathVariable("id") Long id) {
         Operation operation = operationService.findById(id);
-        operationService.clearDelete(operation);
+        if (operation != null) {
+            operationService.clearDelete(operation);
+        }
         return "redirect:/expenses";
     }
 
