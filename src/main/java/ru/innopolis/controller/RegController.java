@@ -47,6 +47,7 @@ public class RegController {
         if (result.hasErrors()) {
             modelAndView.setViewName("registration");
             modelAndView.addObject("result", result);
+            modelAndView.addObject("regUser", user);
             return modelAndView;
         }
         user.setPassword(passwordEncoder.encode(user.getPassword()));
