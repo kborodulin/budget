@@ -3,10 +3,10 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
-<form:form method="post" class="form-signup" id="setingForm2" name="familyInfo" action="account/savefamily">
+<form:form method="post" class="form-signup" id="updateFamilyName" name="familyUpdateInfo" action="account/updateFamily">
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
         <h3 class="h3">Данные семьи
-            <input type="text" class="form-control set-control-family" id="FamilyName" placeholder="Family" name="name"
+            <input type="text" class="form-control set-control-family" id="FamilyUpdatedName" name="name"
                    value="${family.name}" required="">
         </h3>
         <a class="d-flex align-items-center text-muted" href="#" style="display:none">
