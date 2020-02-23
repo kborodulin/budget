@@ -154,7 +154,7 @@ public class IncomeController {
     public String deleteIncome(@PathVariable("id") Long id) {
         Operation operation = operationService.findById(id);
         if (operation != null) {
-            operationService.delete(operation);
+            operationService.clearDelete(operation);
         }
         return "redirect:/income";
     }

@@ -20,7 +20,7 @@
 		<intercept-url pattern="/statistic" access="hasRole('ROLE_USER')" />
 
 		<form-login login-page='/login'
-					default-target-url="/account"
+					default-target-url="/main"
 					authentication-failure-url="/login?error=true"
 					username-parameter="login"
 					password-parameter="password"

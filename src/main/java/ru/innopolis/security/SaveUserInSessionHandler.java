@@ -47,7 +47,7 @@ public class SaveUserInSessionHandler implements AuthenticationSuccessHandler {
         if (targetUrl != null) {
             response.sendRedirect(targetUrl);
         } else {
-            response.sendRedirect("/account");
+            response.sendRedirect("/main");
         }
     }
 

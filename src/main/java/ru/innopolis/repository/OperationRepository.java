@@ -9,6 +9,7 @@ import ru.innopolis.domain.Operation;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface OperationRepository extends JpaRepository<Operation, Long> {
@@ -19,7 +20,7 @@ public interface OperationRepository extends JpaRepository<Operation, Long> {
             "AND o.typeoperationid=2 " +
             "AND o.dateoper BETWEEN ?2 AND ?3 " +
             "AND o.category.categoryid = (case when ?4 = 0 then o.category.categoryid else ?4 end) " +
-            "order by o.datewritedb desc")
+            "order by o.dateoper desc")
     List<Operation> findUserExpensesInPeriod(Long famemId, LocalDate startDate, LocalDate endDate, int categoryid, Pageable page);
 
     @Query("SELECT o FROM Famem f " +
@@ -38,7 +39,7 @@ public interface OperationRepository extends JpaRepository<Operation, Long> {
             "WHERE f.family.familyid = ?1 " +
             "AND o.typeoperationid=2 " +
             "AND o.dateoper BETWEEN ?2 AND ?3")
-    BigDecimal getSummaryExpenses(Long familyId, LocalDate localDate, LocalDate localDate1);
+    Optional<BigDecimal> getSummaryExpenses(Long familyId, LocalDate localDate, LocalDate localDate1);
 
     @Query("SELECT SUM (o.amount) " +
             "FROM Famem f " +
@@ -47,5 +48,12 @@ public interface OperationRepository extends JpaRepository<Operation, Long> {
             "WHERE f.family.familyid = ?1 " +
             "AND o.typeoperationid=1 " +
             "AND o.dateoper BETWEEN ?2 AND ?3")
-    BigDecimal getSummaryIncome(Long familyid, LocalDate localDate, LocalDate localDate1);
+    Optional<BigDecimal> getSummaryIncome(Long familyid, LocalDate localDate, LocalDate localDate1);
+
+    @Query("SELECT o FROM Famem f " +
+            "JOIN f.accountList a " +
+            "JOIN a.operationList o " +
+            "WHERE f.family.familyid = ?1 " +
+            "ORDER BY o.dateoper desc ")
+    List<Operation> getTopByFamily(Long familyid, Pageable pageable);
 }

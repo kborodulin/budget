@@ -120,6 +120,6 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public BigDecimal famemBalance(Famem famem) {
-        return accountRepository.famemBalance(famem.getFamemid());
+        return accountRepository.famemBalance(famem.getFamemid()).orElse(BigDecimal.ZERO);
     }
 }
