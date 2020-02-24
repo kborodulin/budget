@@ -8,6 +8,7 @@ import ru.innopolis.domain.Famem;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface AccountRepository extends JpaRepository<Account, Long> {
@@ -17,5 +18,5 @@ public interface AccountRepository extends JpaRepository<Account, Long> {
             "FROM Famem f " +
             "JOIN f.accountList a " +
             "WHERE f.famemid = ?1 ")
-    BigDecimal famemBalance(Long famemId);
+    Optional<BigDecimal> famemBalance(Long famemId);
 }

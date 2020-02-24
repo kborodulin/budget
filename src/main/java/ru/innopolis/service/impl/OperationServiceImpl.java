@@ -103,7 +103,12 @@ public class OperationServiceImpl implements OperationService {
     @Override
     public void clearDelete(Operation operation) {
         Account account = accountService.findById(operation.getAccount().getAccountid());
-        account.setAmount(account.getAmount().add(operation.getAmount()));
+        if (operation.getTypeoperationid() == 1L) {
+            account.setAmount(account.getAmount().subtract(operation.getAmount()));
+        }
+        if (operation.getTypeoperationid() == 2L) {
+            account.setAmount(account.getAmount().add(operation.getAmount()));
+        }
         delete(operation);
     }
 
@@ -142,11 +147,18 @@ public class OperationServiceImpl implements OperationService {
 
     @Override
     public BigDecimal getSummaryExpenses(Family family, List<LocalDate> period) {
-        return operationRepository.getSummaryExpenses(family.getFamilyid(), period.get(0), period.get(1));
+        return operationRepository.getSummaryExpenses(family.getFamilyid(), period.get(0), period.get(1))
+                .orElse(BigDecimal.ZERO);
     }
 
     @Override
     public BigDecimal getSummaryIncome(Family family, List<LocalDate> period) {
-        return operationRepository.getSummaryIncome(family.getFamilyid(), period.get(0), period.get(1));
+        return operationRepository.getSummaryIncome(family.getFamilyid(), period.get(0), period.get(1))
+                .orElse(BigDecimal.ZERO);
+    }
+
+    @Override
+    public List<Operation> getTopFamilyOperations(Family family, Pageable pageable) {
+        return operationRepository.getTopByFamily(family.getFamilyid(), pageable);
     }
 }
