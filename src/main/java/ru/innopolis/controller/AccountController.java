@@ -34,7 +34,6 @@ public class AccountController {
     UserService userService;
     FamilyService familyService;
     AlertService alertService;
-    Validator familyValidator;
     Validator emailValidator;
 
     @GetMapping
@@ -56,19 +55,27 @@ public class AccountController {
     }
 
     @PostMapping(value = "/savefamily")
-    public ModelAndView saveNewFamily(@ModelAttribute("familyInfo") @Validated Family family, BindingResult result,
+    public ModelAndView saveNewFamily(@ModelAttribute("familyInfo") Family family,
                                       HttpServletRequest request) {
         User user = (User) request.getSession().getAttribute("user");
         ModelAndView modelAndView = new ModelAndView();
-        if (result.hasErrors()) {
-            modelAndView.addObject("result", result);
-            modelAndView.setViewName("redirect:/account");
-            return modelAndView;
-        }
         Famem famem = user.getFamem();
         log.info("save new family {}", family);
         famem.setFamily(family);
         famemService.save(famem);
+        modelAndView.setViewName("redirect:/account");
+        return modelAndView;
+    }
+
+    @PostMapping(value = "/updateFamily")
+    public ModelAndView updateFamily(@ModelAttribute("familyUpdateInfo") Family family,
+                                      HttpServletRequest request) {
+        User user = (User) request.getSession().getAttribute("user");
+        ModelAndView modelAndView = new ModelAndView();
+        Famem famem = user.getFamem();
+        Family existFamily = famem.getFamily();
+        existFamily.setName(family.getName());
+        familyService.save(existFamily);
         modelAndView.setViewName("redirect:/account");
         return modelAndView;
     }
@@ -112,11 +119,6 @@ public class AccountController {
         model.addAttribute("sendAlert", sendAlert);
     }
 
-    @InitBinder(value = "familyInfo")
-    private void initBinder(WebDataBinder binder) {
-        binder.setValidator(familyValidator);
-    }
-
     @InitBinder(value = "familyInfoMember")
     private void initEmailBinder(WebDataBinder binder) {
         binder.setValidator(emailValidator);
@@ -135,12 +137,6 @@ public class AccountController {
     @Autowired
     public void setFamilyService(FamilyService familyService) {
         this.familyService = familyService;
-    }
-
-    @Autowired
-    @Qualifier("familyValidator")
-    public void setFamilyValidator(Validator familyValidator) {
-        this.familyValidator = familyValidator;
     }
 
     @Autowired

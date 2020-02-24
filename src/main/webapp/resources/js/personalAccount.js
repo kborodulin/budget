@@ -51,6 +51,7 @@ if (setEditionFamily)
 if (setItemFamily)
     setItemFamily.addEventListener("click", e => {
         e.preventDefault();
+        document.querySelector("#updateFamilyName").submit();
         setItemFamily.style.display = "none";
         setEditionFamily.style.display = "";
         setNavItemExit.style.display = "none";
