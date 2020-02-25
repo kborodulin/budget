@@ -1,5 +1,6 @@
 var setSaveIncome = document.querySelector("#save-income");
 var setAddIncome = document.querySelector("#addincome");
+var setSend = 0;
 
 
 if (setSaveIncome)
@@ -17,5 +18,12 @@ if (setSaveIncome)
             alert("Введите сумму больше 0!!!");
             return false;
         }
-        setAddIncome.submit();
-    }, {once: true});
+        if (theDate.value < '1899.12.31!!!') {
+            alert("Введите год равным или больше 1900!!!");
+            return false;
+        }
+        if (setSend == 0) {
+            setSend = 1;
+            setAddIncome.submit();
+        }
+    });
