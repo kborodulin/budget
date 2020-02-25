@@ -25,4 +25,6 @@ public interface AccountService {
     List<Account> findAllByUserSort(Long userid, Long accountid);
 
     BigDecimal famemBalance(Famem famem);
+
+    List<Account> findAccountByName(String name);
 }

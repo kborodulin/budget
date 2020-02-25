@@ -19,4 +19,6 @@ public interface AccountRepository extends JpaRepository<Account, Long> {
             "JOIN f.accountList a " +
             "WHERE f.famemid = ?1 ")
     Optional<BigDecimal> famemBalance(Long famemId);
+
+    List <Account> findAccountByName(String name);
 }

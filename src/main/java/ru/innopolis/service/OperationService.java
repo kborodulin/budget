@@ -36,4 +36,6 @@ public interface OperationService {
     BigDecimal getSummaryIncome(Family family, List<LocalDate> period);
 
     List<Operation> getTopFamilyOperations(Family family, Pageable pageable);
+
+    List<Object[]> findAllTransactionsByPeriod(Long userid, LocalDate startDate, LocalDate endDate, Integer page);
 }

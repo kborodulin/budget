@@ -122,4 +122,9 @@ public class AccountServiceImpl implements AccountService {
     public BigDecimal famemBalance(Famem famem) {
         return accountRepository.famemBalance(famem.getFamemid()).orElse(BigDecimal.ZERO);
     }
+
+    @Override
+    public List<Account> findAccountByName(String name) {
+        return accountRepository.findAccountByName(name);
+    }
 }
