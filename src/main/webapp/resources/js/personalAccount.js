@@ -35,6 +35,10 @@ if (setEdAccount)
 if (saveItemAccount)
     saveItemAccount.addEventListener("click", e => {
         e.preventDefault();
+        if (DOB.value < '1850.01.01') {
+            alert("Дата рождения должна быть больше 01.01.1850!!!");
+            return false;
+        }
         setSettingForm.submit()
     });
 

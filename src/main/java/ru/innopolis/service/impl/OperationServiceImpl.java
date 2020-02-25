@@ -80,7 +80,7 @@ public class OperationServiceImpl implements OperationService {
                 "and f.userid = ? \n" +
                 "and o.dateoper between ? and ? \n" +
                 "and c.categoryid = (case when ? = 0 then c.categoryid else ? end) \n" +
-                "order by o.operationid desc\n");
+                "order by o.dateoper desc, o.operationid desc\n");
         query.setParameter(1, userid);
         query.setParameter(2, startDate);
         query.setParameter(3, endDate);

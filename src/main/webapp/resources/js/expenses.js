@@ -1,5 +1,6 @@
 var setSaveExpense = document.querySelector("#save-expenses");
 var setAddExpense = document.querySelector("#addExpense");
+var setSend = 0;
 
 
 if (setSaveExpense)
@@ -17,5 +18,12 @@ if (setSaveExpense)
             alert("Введите сумму больше 0!!!");
             return false;
         }
-        setAddExpense.submit();
-    }, {once: true});
+        if (theDate.value < '1899.12.31!!!') {
+            alert("Введите год равным или больше 1900!!!");
+            return false;
+        }
+        if (setSend == 0) {
+            setSend = 1;
+            setAddExpense.submit();
+        }
+    });

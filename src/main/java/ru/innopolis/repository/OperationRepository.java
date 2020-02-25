@@ -20,7 +20,7 @@ public interface OperationRepository extends JpaRepository<Operation, Long> {
             "AND o.typeoperationid=2 " +
             "AND o.dateoper BETWEEN ?2 AND ?3 " +
             "AND o.category.categoryid = (case when ?4 = 0 then o.category.categoryid else ?4 end) " +
-            "order by o.dateoper desc")
+            "order by o.dateoper desc, o.operationid desc")
     List<Operation> findUserExpensesInPeriod(Long famemId, LocalDate startDate, LocalDate endDate, int categoryid, Pageable page);
 
     @Query("SELECT o FROM Famem f " +
