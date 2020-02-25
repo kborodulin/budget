@@ -33,7 +33,7 @@
     <li class="nav-item">
         <a class="nav-link" id="nav-item-statistic" href="/statistic">
             <span data-feather="bar-chart-2"></span>
-            Отчеты
+            Статистика
         </a>
     </li>
     <li class="nav-item">
