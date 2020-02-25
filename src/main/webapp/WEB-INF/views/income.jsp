@@ -61,7 +61,7 @@
                 </a>
             </div>
             <form:form method="post" class="form-inline" name="incomeForm" id="addincome" action="/income/add">
-                <input type="number" step="0.01" min="0" max="999999999" class="form-control" name="amount"
+                <input type="number" step="0.01" min="0" max="999999999" style="width:150px;" class="form-control" name="amount"
                        id="inputSumIncome"
                        placeholder="Сумма" onKeyDown="if(this.value.length==9) return false;"
                        value="${findincome.amount}">
