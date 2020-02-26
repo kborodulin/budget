@@ -31,6 +31,5 @@
 <script src="../resources/js/refCategoryPeriod.js"></script>
 <script src="../resources/js/utils.js"></script>
 <script src="../resources/js/refAccountByUser.js"></script>
-<script src="../resources/js/income.js"></script>
 </body>
 </html>

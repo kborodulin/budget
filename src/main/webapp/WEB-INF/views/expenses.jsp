@@ -62,7 +62,7 @@
                 </a>
             </div>
             <form:form id="addExpense" class="form-inline" name="expensesForm" action="/expenses/add">
-                <input type="number" step="0.01" min="0" max="999999999" class="form-control" name="amount"
+                <input type="number" step="0.01" min="0" max="999999999" style="width:150px;" class="form-control" name="amount"
                        value="${updatedOperation.amount}"
                        id="inputSumExpense"
                        placeholder="Сумма" onKeyDown="if(this.value.length==9) return false;">
@@ -70,7 +70,7 @@
                     <span class="input-group-text">₽</span>
                 </div>
                 <div class="form-group mx-sm-1">
-                    <select class="form-control" name="accountid">
+                    <select class="form-control" name="accountid" id="accountexpbyuser">
                         <c:forEach var="account" items="${findallaccountbyuser}">
                             <c:if test="${updatedOperation.account.name == account.name}">
                                 <option selected value=<c:out value="${account.accountid}"/>><c:out
@@ -104,7 +104,7 @@
                                    placeholder="Дата">
                         </c:when>
                         <c:otherwise>
-                            <input type="date" class="form-control" class="mydate" name="dateoper"
+                            <input type="date" class="form-control" class="mydate" name="dateoper" id="expdate"
                                    value="${updatedOperation.dateoper}"
                                    placeholder="Дата">
                         </c:otherwise>
