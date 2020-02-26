@@ -104,7 +104,7 @@
                                    placeholder="Дата">
                         </c:when>
                         <c:otherwise>
-                            <input type="date" class="form-control" class="mydate" name="dateoper"
+                            <input type="date" class="form-control" class="mydate" name="dateoper" id="expdate"
                                    value="${updatedOperation.dateoper}"
                                    placeholder="Дата">
                         </c:otherwise>

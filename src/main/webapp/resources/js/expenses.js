@@ -18,14 +18,18 @@ if (setSaveExpense)
             alert("Введите сумму больше 0!!!");
             return false;
         }
-        if (theDate.value < '1899.12.31!!!') {
-            alert("Введите год равным или больше 1900!!!");
-            return false;
-        }
-        if (accountexpbyuser.value == '') {
-            alert("Проверьте наличие созданного счета в разделе счета у данного пользователя!!!");
-            return false;
-        }
+        try {
+            if (expdate.value < '1899.12.31') {
+                alert("Введите год равным или больше 1900!!!");
+                return false;
+            }
+        } catch (e) {}
+        try {
+            if (accountexpbyuser.value == '') {
+                alert("Проверьте наличие созданного счета в разделе счета у данного пользователя!!!");
+                return false;
+            }
+        } catch (e) {}
         if (setSend == 0) {
             setSend = 1;
             setAddExpense.submit();

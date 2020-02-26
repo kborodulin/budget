@@ -115,7 +115,7 @@
                     </c:when>
                     <c:otherwise>
                         <div class="form-group mx-sm-1">
-                            <input type="date" class="form-control" class="mydate" name="dateoper"
+                            <input type="date" class="form-control" class="mydate" name="dateoper" id="incdate"
                                    value="${findincome.dateoper}"
                                    placeholder="Дата">
                         </div>
