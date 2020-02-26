@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import ru.innopolis.domain.Account;
 import ru.innopolis.domain.Category;
 import ru.innopolis.domain.Operation;
@@ -130,23 +131,23 @@ public class ExpensesController {
      * Найти
      */
     @PostMapping("/expenses/find/{id}")
-    public String findExpenses(Model model, @PathVariable("id") Long id) {
+    public String findExpenses(RedirectAttributes attributes, @PathVariable("id") Long id) {
         Operation operation = operationService.findById(id);
-        model.addAttribute("findexpenses", operation);
-        return "expenses";
+        attributes.addFlashAttribute("findexpenses", operation);
+        return "redirect:/expenses";
     }
 
     /**
      * Редактировать
      */
     @GetMapping("/expenses/{id}")
-    public String renderUpdateExpenses(@PathVariable("id") Long id, Model model, HttpServletRequest request) {
+    public String renderUpdateExpenses(@PathVariable("id") Long id, RedirectAttributes attributes, HttpServletRequest request) {
         User user = (User) request.getSession().getAttribute("user");
         List<Operation> operations = operationService.allExpensesUser(user.getFamem().getFamemid(), LocalDate.now(), LocalDate.now(), 0, null);
-        model.addAttribute("allExpensesUser", operations);
+        attributes.addFlashAttribute("allExpensesUser", operations);
         Operation updatedOperation = operationService.findById(id);
-        model.addAttribute("updatedOperation", updatedOperation);
-        return "expenses";
+        attributes.addFlashAttribute("updatedOperation", updatedOperation);
+        return "redirect:/expenses";
     }
 
     /**
