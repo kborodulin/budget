@@ -22,6 +22,10 @@ if (setSaveExpense)
             alert("Введите год равным или больше 1900!!!");
             return false;
         }
+        if (accountexpbyuser.value == '') {
+            alert("Проверьте наличие созданного счета в разделе счета у данного пользователя!!!");
+            return false;
+        }
         if (setSend == 0) {
             setSend = 1;
             setAddExpense.submit();

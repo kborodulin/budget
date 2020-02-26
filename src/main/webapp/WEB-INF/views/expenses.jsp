@@ -70,7 +70,7 @@
                     <span class="input-group-text">₽</span>
                 </div>
                 <div class="form-group mx-sm-1">
-                    <select class="form-control" name="accountid">
+                    <select class="form-control" name="accountid" id="accountexpbyuser">
                         <c:forEach var="account" items="${findallaccountbyuser}">
                             <c:if test="${updatedOperation.account.name == account.name}">
                                 <option selected value=<c:out value="${account.accountid}"/>><c:out
