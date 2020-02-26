@@ -103,13 +103,9 @@
 <%@include file="include/navBar.jsp" %>
 <div class="container-fluid">
     <div class="row">
-        <nav class="col-md-2 d-none d-md-block bg-light sidebar">
-            <div class="sidebar-sticky">
-                <%@include file="include/mainMenu.jsp" %>
-            </div>
-        </nav>
+        <%@include file="include/mainMenu.jsp" %>
 
-        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+        <main role="main" class="col-md-9 col-lg-10 px-4" style="margin-left: 190px">
             <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
                 <h3 class="h3">Главная</h3>
             </div>

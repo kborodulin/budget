@@ -1,7 +1,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" %>
 <nav class="navbar navbar-expand navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
-    <a class="navbar-brand col-sm-3 col-md-2 mr-0"id="heading" href="#">Контроль расходов</a>
+    <a class="navbar-brand col-md-auto mr-0" id="heading" href="#" style="width: 180px">Контроль расходов</a>
 
     <ul class="navbar-nav ml-md-auto px-3">
         <li class="nav-item">

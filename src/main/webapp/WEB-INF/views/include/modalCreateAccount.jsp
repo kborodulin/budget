@@ -1,8 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!-- Modal -->
 <form:form name="createNewAccountForm" action="/wallet/create" method="post">
-    <div class="modal fade bd-example-modal-sm" id="newWalletDialog" tabindex="-1" role="dialog"
-         aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal fade bd-example-modal-sm" id="newWalletDialog" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -19,7 +18,7 @@
                         <input type="text" class="form-control" id="walletName" name="name" maxlength=20 required>
                     </div>
                     <div class="form-group">
-                        <label for="walletName" class="col-form-label">Баланс</label><br>
+                        <label for="walletBalance" class="col-form-label">Баланс</label><br>
                         <input type="number" class="form-control" name="amount" max="9999999" min="0" value="0" id="walletBalance">
                     </div>
                     <div class="form-group">
