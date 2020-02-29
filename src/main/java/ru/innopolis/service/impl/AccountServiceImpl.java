@@ -71,7 +71,7 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public List<Account> findAllByUser(Long userid) {
         Query query = em.createNativeQuery(
-                "select a.accountid, a.name from account a \n" +
+                "select a.accountid, a.name, a.amount from account a \n" +
                         "join famem f on a.famemid = f.famemid\n" +
                         "where f.userid = ? and a.isclosesign = 0"
         );
@@ -82,6 +82,7 @@ public class AccountServiceImpl implements AccountService {
             Account account = new Account();
             account.setAccountid(((BigInteger) obj[0]).longValue());
             account.setName((String) obj[1]);
+            account.setAmount(((BigDecimal) obj[2]));
             accounts.add(account);
         }
         return accounts;

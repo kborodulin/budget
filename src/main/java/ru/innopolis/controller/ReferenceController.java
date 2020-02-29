@@ -104,7 +104,7 @@ public class ReferenceController {
     /**
      * Список счетов пользователя
      */
-    @GetMapping("/ref/accountbyuser")
+    @GetMapping(value = {"/ref/accountbyuser", "/ref/accountbyusermain"})
     public void getAllOperationByUser(Model model, HttpServletRequest request) {
         User user = (User) request.getSession().getAttribute("user");
         List<Account> accountsByUser = accountService.findAllByUser(user.getUserid());
