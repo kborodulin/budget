@@ -26,7 +26,8 @@ public class StatisticGeneratorImpl implements StatisticGenerator {
     @Override
     public List<Point> getData(FilterStatistic filterStatistic) {
         List<Point> points = checkpointsGenerator.getPointDate(filterStatistic.getStartDate(), filterStatistic.getEndDate());
-        List<Operation> operations = operationService.getOperationsByFamemsAndCategories(filterStatistic.getFamilyMembers(), filterStatistic.getCategoryList(), filterStatistic.getStartDate(), filterStatistic.getEndDate());
+        List<Operation> operations = operationService.getOperationsByFamemsAndCategories(filterStatistic.getFamilyMembers(), filterStatistic.getCategoryList(), filterStatistic.getStartDate(), filterStatistic.getEndDate(),
+                filterStatistic.getOperationType());
         points = checkpointsGenerator.getPointAmount(points, operations);
         return points;
     }

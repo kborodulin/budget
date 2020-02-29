@@ -202,13 +202,13 @@ public class OperationServiceImpl implements OperationService {
     }
 
     @Override
-    public List<Operation> getOperationsByFamemsAndCategories(List<Long> familyMembersId, List<Long> categoryIdList, LocalDate startDate, LocalDate endDate) {
+    public List<Operation> getOperationsByFamemsAndCategories(List<Long> familyMembersId, List<Long> categoryIdList, LocalDate startDate, LocalDate endDate, int operationType) {
         List<Famem> familyMembers = familyMembersId.stream().map(a -> {Famem famem = new Famem();
                                                                  famem.setFamemid(a);
         return famem;}).collect(Collectors.toList());
         List<Category> categoryList = categoryIdList.stream().map(a -> {Category category = new Category();
             category.setCategoryid(a);
             return category;}).collect(Collectors.toList());
-        return operationRepositoryCustom.findAllExpensesByPredicates(familyMembers, categoryList, startDate, endDate);
+        return operationRepositoryCustom.findAllOperationsBy(familyMembers, categoryList, startDate, endDate, operationType);
     }
 }

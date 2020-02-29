@@ -39,5 +39,5 @@ public interface OperationService {
 
     List<Object[]> findAllTransactionsByPeriod(Long userid, LocalDate startDate, LocalDate endDate, Integer page);
 
-    List<Operation> getOperationsByFamemsAndCategories(List<Long> familyMembers, List<Long> categoryList, LocalDate startDate, LocalDate endDate);
+    List<Operation> getOperationsByFamemsAndCategories(List<Long> familyMembers, List<Long> categoryList, LocalDate startDate, LocalDate endDate, int operationType);
 }
