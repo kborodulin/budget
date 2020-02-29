@@ -104,6 +104,13 @@ public class DateAnalizerImpl implements DateAnalizer {
         return monthNames[number];
     }
 
+    @Override
+    public String getDateName(LocalDate date) {
+        String dateName = getMonthName(date.getMonthValue()-1).substring(0,3);
+        dateName = date.getDayOfMonth() + " " + dateName;
+        return dateName;
+    }
+
     private List<LocalDate> parseLifePeriod(LocalDate today) {
         LocalDate start = LocalDate.parse(FIRST_DAY_OF_LIFE);
         LocalDate end = today.withDayOfYear(today.lengthOfYear());
