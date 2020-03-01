@@ -14,7 +14,7 @@
     <script src="../resources/js/utilsChart.js"></script>
     <script src="../resources/js/Chart.js/Chart.min.js"></script>
     <style>
-        canvas{
+        canvas {
             -moz-user-select: none;
             -webkit-user-select: none;
             -ms-user-select: none;
@@ -70,79 +70,49 @@
                 </a>
             </div>
             <c:if test="${family == null}">
-            <div class="container-fluid">
-                Недостаточно данных для отображения статистики...
-            </div>
+                <div class="container-fluid">
+                    Недостаточно данных для отображения статистики...
+                </div>
             </c:if>
             <c:if test="${family != null}">
                 <table class="table my-2 table-borderless">
-                    <form:form method="post" name="filterStatistic" id="filterStatistic" action="/statistic/filter">
-                    <tbody>
-                    <tr>
-                    <td rowspan="2" style="width: 75%;">
-                        <div style="width:100%;">
-                            <canvas id="canvas"></canvas>
-                        </div>
-                    </td>
-                    <td colspan="2">
-                        <div class="form-group">
-                            <label for="exampleFormControlSelect1" style="color: #007bff">Период</label>
-                            <select class="form-control" id="exampleFormControlSelect1" disabled>
-                                    <%--        <option value="1" ${periodselected == 1 ? "selected" : ""}>день</option>--%>
-                                    <%--        <option value="2" ${periodselected == 2 ? "selected" : ""}>неделя</option>--%>
-                                    <%--        <option value="3" ${periodselected == 3 ? "selected" : ""}>месяц</option>--%>
-                                <option value="4">год</option>
-                                    <%--        <option value="5" ${periodselected == 5 ? "selected" : ""}>весь</option>--%>
-                            </select>
-                        </div>
-                    </td>
-                    <tr>
-                        <td>
-                            <div style="color: #007bff">Члены семьи</div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="" id="defaultCheck1" checked>
-                                <label class="form-check-label" for="defaultCheck1">
-                                    Все
-                                </label>
-                            </div>
-                            <c:forEach items="${familyMembers}" var="familyMember">
-                                <div class="form-check">
-                                    <input class="form-check-input qwe" type="checkbox" value="" id="defaultCheck2" checked>
-                                    <label class="form-check-label" for="defaultCheck2">
-                                        <c:out value="${familyMember.user.login}"/>
-                                    </label>
+                    <form:form method="post" name="filterStatistic" id="typeOperation" action="/statistic">
+                        <thead>
+                        <tr>
+                            <th style="text-align: center" class="text-muted">
+                                Статистика
+                                <c:if test="${filterStatistic.operationType == 2}"> расходов </c:if>
+                                <c:if test="${filterStatistic.operationType == 1}"> доходов </c:if>
+                                за период
+                            </th>
+                            <th colspan="2" style="text-align: right">
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input operation-type-radio" type="radio" name="operationType" id="expensesRadio"
+                                           value="2"
+                                    <c:if test="${filterStatistic.operationType == 2}"> checked </c:if>
+                                           onchange="this.form.submit()">
+                                    <label class="form-check-label" for="expensesRadio">Расходы</label>
                                 </div>
-                            </c:forEach>
-                        </td>
-                        <td>
-                        <div style="color: #007bff">Категории</div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="" id="defaultCheck3" checked>
-                                <label class="form-check-label" for="defaultCheck3">
-                                    Все
-                                </label>
-                            </div>
-                        <c:forEach items="${categoryList}" var="category">
-                            <div class="form-check">
-                                <input class="form-check-input qwe3" type="checkbox" value="" id="defaultCheck4" checked>
-                                <label class="form-check-label" for="defaultCheck4">
-                                    <c:out value="${category.name}"/>
-                                </label>
-                            </div>
-                        </c:forEach>
-                        </td>
-                    </tr>
-                    </tr>
-                    </tbody>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input operation-type-radio" type="radio" name="operationType" id="incomeRadio"
+                                           value="1"
+                                    <c:if test="${filterStatistic.operationType == 1}"> checked </c:if>
+                                           onchange="this.form.submit()">
+                                    <label class="form-check-label" for="incomeRadio">Доходы</label>
+                                </div>
+                            </th>
+                        </tr>
+                        </thead>
                     </form:form>
+                    <jsp:include page="${filterStatistic.operationType == 2?\"include/expensesStatistic.jsp\":\"include/incomeStatistic.jsp\"}"/>
                 </table>
                 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
                     <h3 class="h3"></h3>
                     <a class="d-flex align-items-center text-muted" id="getOperations" href="#">
-                        <span id="get-operations" style="text-decoration: underline;  color: #007bff;">детали&nbsp;</span>
+                        <span id="get-operations"
+                              style="text-decoration: underline;  color: #007bff;">детали&nbsp;</span>
                     </a>
                 </div>
-
                 <table class="table my-5" id="operationTable" style="display:none;">
                     <tbody>
                     <tr>
@@ -153,69 +123,56 @@
                         <th>Категория</th>
                         <th>Комментарий</th>
                     </tr>
-                    <c:forEach items="${operationList}" var="operation">
-                        <tr>
-                            <td>
-                                <div class="">${operation.account.famem.user.login} </div>
-                            </td>
-                            <td>
-                                <div class="">${operation.account.name} </div>
-                            </td>
-                            <td>
-                                <div class="text-success">${operation.amount} руб.</div>
-                            </td>
-                            <td>
-                                <div class=""> ${operation.dateoper} </div>
-                            </td>
-                            <td>
-                                <div class="">${operation.category.name} </div>
-                            </td>
-                            <td>
-                                <div class="">${operation.comment}</div>
-                            </td>
-                        </tr>
+                    <c:forEach items="${points}" var="point">
+                        <c:forEach items="${point.operations}" var="operation">
+                            <tr>
+                                <td>
+                                    <div class="">${operation.account.famem.user.login} </div>
+                                </td>
+                                <td>
+                                    <div class="">${operation.account.name} </div>
+                                </td>
+                                <td>
+                                    <div class="text-success">${operation.amount} руб.</div>
+                                </td>
+                                <td>
+                                    <div class=""> ${operation.dateoper} </div>
+                                </td>
+                                <td>
+                                    <div class="">${operation.category.name} </div>
+                                </td>
+                                <td>
+                                    <div class="">${operation.comment}</div>
+                                </td>
+                            </tr>
+                        </c:forEach>
                     </c:forEach>
                     </tbody>
                 </table>
-
-
             </c:if>
         </main>
     </div>
 </div>
 <script>
-    var MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
     var config = {
         type: 'line',
         data: {
-            labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+            labels: [
+                <c:forEach var="point" items="${points}">
+                '<c:out value="${point.dateBrief}"/>',
+                </c:forEach>
+            ],
             datasets: [{
-                label: 'Доходы',
-                backgroundColor: window.chartColors.red,
-                borderColor: window.chartColors.red,
-                data: [
-                    randomScalingFactor(),
-                    randomScalingFactor(),
-                    randomScalingFactor(),
-                    randomScalingFactor(),
-                    randomScalingFactor(),
-                    randomScalingFactor(),
-                    randomScalingFactor()
-                ],
-                fill: false,
-            }, {
-                label: 'Расходы',
+                label:
+                    <c:if test="${filterStatistic.operationType == 2}"> 'Расходы', </c:if>
+                <c:if test="${filterStatistic.operationType == 1}"> 'Доходы', </c:if>
                 fill: false,
                 backgroundColor: window.chartColors.blue,
                 borderColor: window.chartColors.blue,
                 data: [
-                    randomScalingFactor(),
-                    randomScalingFactor(),
-                    randomScalingFactor(),
-                    randomScalingFactor(),
-                    randomScalingFactor(),
-                    randomScalingFactor(),
-                    randomScalingFactor()
+                    <c:forEach var="point" items="${points}">
+                    <c:out value="${point.amount}, "/>
+                    </c:forEach>
                 ],
             }]
         },
@@ -223,7 +180,6 @@
             responsive: true,
             title: {
                 display: true,
-                text: 'Статистика расходов и доходов за год'
             },
             tooltips: {
                 mode: 'index',
@@ -238,83 +194,24 @@
                     display: true,
                     scaleLabel: {
                         display: true,
-                        labelString: 'Month'
+                        labelString: 'Дата'
                     }
                 }],
                 yAxes: [{
                     display: true,
                     scaleLabel: {
                         display: true,
-                        labelString: 'Value'
+                        labelString: 'Сумма'
                     }
                 }]
             }
         }
     };
 
-    window.onload = function() {
+    window.onload = function () {
         var ctx = document.getElementById('canvas').getContext('2d');
         window.myLine = new Chart(ctx, config);
     };
-
-    document.getElementById('randomizeData').addEventListener('click', function() {
-        config.data.datasets.forEach(function(dataset) {
-            dataset.data = dataset.data.map(function() {
-                return randomScalingFactor();
-            });
-
-        });
-
-        window.myLine.update();
-    });
-
-    var colorNames = Object.keys(window.chartColors);
-    document.getElementById('addDataset').addEventListener('click', function() {
-        var colorName = colorNames[config.data.datasets.length % colorNames.length];
-        var newColor = window.chartColors[colorName];
-        var newDataset = {
-            label: 'Dataset ' + config.data.datasets.length,
-            backgroundColor: newColor,
-            borderColor: newColor,
-            data: [],
-            fill: false
-        };
-
-        for (var index = 0; index < config.data.labels.length; ++index) {
-            newDataset.data.push(randomScalingFactor());
-        }
-
-        config.data.datasets.push(newDataset);
-        window.myLine.update();
-    });
-
-    document.getElementById('addData').addEventListener('click', function() {
-        if (config.data.datasets.length > 0) {
-            var month = MONTHS[config.data.labels.length % MONTHS.length];
-            config.data.labels.push(month);
-
-            config.data.datasets.forEach(function(dataset) {
-                dataset.data.push(randomScalingFactor());
-            });
-
-            window.myLine.update();
-        }
-    });
-
-    document.getElementById('removeDataset').addEventListener('click', function() {
-        config.data.datasets.splice(0, 1);
-        window.myLine.update();
-    });
-
-    document.getElementById('removeData').addEventListener('click', function() {
-        config.data.labels.splice(-1, 1); // remove the label first
-
-        config.data.datasets.forEach(function(dataset) {
-            dataset.data.pop();
-        });
-
-        window.myLine.update();
-    });
 </script>
 <script src="../resources/js/jquery/jquery.slim.min.js"></script>
 <script src="../resources/js/bs/bootstrap.bundle.min.js"></script>

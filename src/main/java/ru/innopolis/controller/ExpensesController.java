@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import ru.innopolis.domain.Account;
 import ru.innopolis.domain.Category;
 import ru.innopolis.domain.Operation;
@@ -138,32 +139,32 @@ public class ExpensesController {
      * Найти
      */
     @PostMapping("/expenses/find/{id}")
-    public String findExpenses(Model model, @PathVariable("id") Long id, HttpServletRequest request) {
+    public String findExpenses(RedirectAttributes attributes, @PathVariable("id") Long id, HttpServletRequest request) {
         Operation operation = operationService.findById(id);
-        model.addAttribute("findexpenses", operation);
+        attributes.addFlashAttribute("findexpenses", operation);
         User user = (User) request.getSession().getAttribute("user");
         List<Account> accountsByUser = accountService.findAllByUserSort(user.getUserid(), operation.getAccount().getAccountid());
         HttpSession session = request.getSession(true);
         session.setAttribute("findallaccountbyusersortfilter", accountsByUser.get(0).getName() + ": " + accountsByUser.get(0).getAmount() + " руб.");
         findIncome = 1;
-        return "expenses";
+        return "redirect:/expenses";
     }
 
     /**
      * Редактировать
      */
     @GetMapping("/expenses/{id}")
-    public String renderUpdateExpenses(@PathVariable("id") Long id, Model model, HttpServletRequest request) {
+    public String renderUpdateExpenses(@PathVariable("id") Long id, RedirectAttributes attributes, HttpServletRequest request) {
         User user = (User) request.getSession().getAttribute("user");
         List<Operation> operations = operationService.allExpensesUser(user.getFamem().getFamemid(), LocalDate.now(), LocalDate.now(), 0, null);
-        model.addAttribute("allExpensesUser", operations);
+        attributes.addFlashAttribute("allExpensesUser", operations);
         Operation updatedOperation = operationService.findById(id);
-        model.addAttribute("updatedOperation", updatedOperation);
+        attributes.addFlashAttribute("updatedOperation", updatedOperation);
         List<Account> accountsByUser = accountService.findAllByUserSort(user.getUserid(), updatedOperation.getAccount().getAccountid());
         HttpSession session = request.getSession(true);
         session.setAttribute("findallaccountbyusersortfilter", accountsByUser.get(0).getName() + ": " + accountsByUser.get(0).getAmount() + " руб.");
         findIncome = 1;
-        return "expenses";
+        return "redirect:/expenses";
     }
 
     /**

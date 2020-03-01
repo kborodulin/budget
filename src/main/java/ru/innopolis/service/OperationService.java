@@ -38,4 +38,6 @@ public interface OperationService {
     List<Operation> getTopFamilyOperations(Family family, Pageable pageable);
 
     List<Object[]> findAllTransactionsByPeriod(Long userid, LocalDate startDate, LocalDate endDate, Integer page);
+
+    List<Operation> getOperationsByFamemsAndCategories(List<Long> familyMembers, List<Long> categoryList, LocalDate startDate, LocalDate endDate, int operationType);
 }

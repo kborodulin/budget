@@ -13,4 +13,6 @@ public interface DateAnalizer {
     List<LocalDate> parsePeriod(int period);
 
     String getMonthName(int number);
+
+    String getDateName(LocalDate date);
 }
