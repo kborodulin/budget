@@ -16,4 +16,5 @@ public class FilterStatistic {
     LocalDate endDate;
     String flagAllFamilyMembers;
     String flagAllCategories;
+    int operationType;
 }

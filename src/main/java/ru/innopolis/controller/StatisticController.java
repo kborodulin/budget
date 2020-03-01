@@ -3,8 +3,6 @@ package ru.innopolis.controller;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -16,7 +14,10 @@ import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
-import ru.innopolis.domain.*;
+import ru.innopolis.domain.Category;
+import ru.innopolis.domain.Famem;
+import ru.innopolis.domain.Family;
+import ru.innopolis.domain.User;
 import ru.innopolis.enums.Periods;
 import ru.innopolis.service.*;
 import ru.innopolis.service.dto.FilterStatistic;
@@ -26,8 +27,6 @@ import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
-
-import static ru.innopolis.controller.IncomeController.MAX_COUNT_ELEMENT_PAGE;
 
 @Controller
 @Slf4j
@@ -57,8 +56,10 @@ public class StatisticController {
 
     @GetMapping("/statistic")
     public String renderMain(@ModelAttribute("filterStatistic") FilterStatistic filterStatistic, Model model) {
-        List<Point> points = statisticGenerator.getData(filterStatistic);
-        model.addAttribute("points", points);
+        if (filterStatistic.getFamilyMembers() != null) {
+            List<Point> points = statisticGenerator.getData(filterStatistic);
+            model.addAttribute("points", points);
+        }
         return "/statistic";
     }
 
@@ -75,27 +76,22 @@ public class StatisticController {
 
         List<Famem> familyMembers = famemService.findAllByFamily(family);
         model.addAttribute("familyMembers", familyMembers);
-
         List<Category> categoryList = categoryService.findAll();
         model.addAttribute("categoryList", categoryList);
 
-        Pageable pageable = PageRequest.of(0, MAX_COUNT_ELEMENT_PAGE);
-        List<Operation> operationList = operationService.getTopFamilyOperations(family, pageable);
-        model.addAttribute("operationList", operationList);
-
-        LocalDate startDate = dateAnalizer.parsePeriod(Periods.MONTH).get(0);
-        model.addAttribute("startDate", startDate);
-
-        LocalDate endDate = LocalDate.now();
-        model.addAttribute("endDate", endDate);
-
         if (filterStatistic.getFamilyMembers() == null || filterStatistic.getCategoryList() == null) {
+            LocalDate startDate = dateAnalizer.parsePeriod(Periods.MONTH).get(0);
+            LocalDate endDate = dateAnalizer.parsePeriod(Periods.MONTH).get(1);
+
             filterStatistic.setFamilyMembers(familyMembers.stream().map(Famem::getFamemid).collect(Collectors.toList()));
             filterStatistic.setCategoryList(categoryList.stream().map(Category::getCategoryid).collect(Collectors.toList()));
             filterStatistic.setStartDate(startDate);
             filterStatistic.setEndDate(endDate);
             filterStatistic.setFlagAllFamilyMembers(ALL_FLAG);
             filterStatistic.setFlagAllCategories(ALL_FLAG);
+            if (filterStatistic.getOperationType() == 0) {
+                filterStatistic.setOperationType(2);
+            }
             model.addAttribute("filterStatistic", filterStatistic);
         }
     }

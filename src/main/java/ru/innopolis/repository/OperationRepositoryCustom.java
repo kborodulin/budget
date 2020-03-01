@@ -18,7 +18,7 @@ public class OperationRepositoryCustom {
     @PersistenceContext
     private EntityManager entityManager;
 
-    public List<Operation> findAllExpensesByPredicates(List<Famem> familyMembers, List<Category> categoryList, LocalDate startDate, LocalDate endDate) {
+    public List<Operation> findAllOperationsBy(List<Famem> familyMembers, List<Category> categoryList, LocalDate startDate, LocalDate endDate, int operationType) {
         CriteriaBuilder cb = entityManager.getCriteriaBuilder();
         CriteriaQuery<Operation> query = cb.createQuery(Operation.class);
 
@@ -38,7 +38,7 @@ public class OperationRepositoryCustom {
         predicates.add(memberPredicate);
         predicates.add(categoryPredicate);
         predicates.add(datePredicate);
-        predicates.add(cb.equal(operation.get("typeoperationid"), 2));
+        predicates.add(cb.equal(operation.get("typeoperationid"), operationType));
 
         query.select(operation)
                 .where(cb.and(predicates.toArray(new Predicate[0]))).orderBy(cb.asc(operation.get("dateoper")));
