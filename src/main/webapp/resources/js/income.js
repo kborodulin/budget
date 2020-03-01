@@ -35,3 +35,15 @@ if (setSaveIncome)
             setAddIncome.submit();
         }
     });
+
+try {
+    document.getElementById('accountbyuser').addEventListener('change', function(e){
+        document.getElementById('nav-account').text = document.getElementById('h' + e.target.value).text;
+    })
+} catch (e) {}
+
+try {
+    document.getElementById('findallaccountbyusersortid').addEventListener('change', function(e){
+        document.getElementById('nav-account').text = document.getElementById('h' + e.target.value).text;
+    })
+} catch (e) {}

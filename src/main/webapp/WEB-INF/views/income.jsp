@@ -77,7 +77,7 @@
                     <c:otherwise>
                         <div class="form-group mx-sm-1">
                             <div class="form-group mx-sm-1">
-                                <select class="form-control" name="accountid">
+                                <select class="form-control" name="accountid" id="findallaccountbyusersortid">
                                     <c:forEach var="account" items="${findallaccountbyusersort}">
                                         <option value=<c:out value="${account.accountid}"/>><c:out
                                                 value="${account.name}"/></option>

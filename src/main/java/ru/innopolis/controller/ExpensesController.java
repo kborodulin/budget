@@ -46,6 +46,8 @@ public class ExpensesController {
 
     private int categoryPeriod;
 
+    private int findIncome = 0;
+
     @Autowired
     public void setOperationService(OperationService operationService) {
         this.operationService = operationService;
@@ -86,6 +88,12 @@ public class ExpensesController {
         }
         model.addAttribute("intervalperiod", "СУММА ЗА ДЕНЬ ");
         model.addAttribute("sumperiod", sumPeriod + " руб.");
+        if (findIncome == 0) {
+            session.setAttribute("findallaccountbyusersortfilter",null);
+        }
+        if (findIncome == 1) {
+            findIncome = 0;
+        }
         return "expenses";
     }
 
@@ -131,9 +139,14 @@ public class ExpensesController {
      * Найти
      */
     @PostMapping("/expenses/find/{id}")
-    public String findExpenses(RedirectAttributes attributes, @PathVariable("id") Long id) {
+    public String findExpenses(RedirectAttributes attributes, @PathVariable("id") Long id, HttpServletRequest request) {
         Operation operation = operationService.findById(id);
         attributes.addFlashAttribute("findexpenses", operation);
+        User user = (User) request.getSession().getAttribute("user");
+        List<Account> accountsByUser = accountService.findAllByUserSort(user.getUserid(), operation.getAccount().getAccountid());
+        HttpSession session = request.getSession(true);
+        session.setAttribute("findallaccountbyusersortfilter", accountsByUser.get(0).getName() + ": " + accountsByUser.get(0).getAmount() + " руб.");
+        findIncome = 1;
         return "redirect:/expenses";
     }
 
@@ -147,6 +160,10 @@ public class ExpensesController {
         attributes.addFlashAttribute("allExpensesUser", operations);
         Operation updatedOperation = operationService.findById(id);
         attributes.addFlashAttribute("updatedOperation", updatedOperation);
+        List<Account> accountsByUser = accountService.findAllByUserSort(user.getUserid(), updatedOperation.getAccount().getAccountid());
+        HttpSession session = request.getSession(true);
+        session.setAttribute("findallaccountbyusersortfilter", accountsByUser.get(0).getName() + ": " + accountsByUser.get(0).getAmount() + " руб.");
+        findIncome = 1;
         return "redirect:/expenses";
     }
 
