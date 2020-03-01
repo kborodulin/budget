@@ -42,6 +42,8 @@ public class IncomeController {
 
     private int categoryPeriod;
 
+    private int findIncome = 0;
+
     @Autowired
     public void setOperationService(OperationService operationService) {
         this.operationService = operationService;
@@ -81,6 +83,12 @@ public class IncomeController {
         }
         model.addAttribute("intervalperiod", "СУММА ЗА ДЕНЬ ");
         model.addAttribute("sumperiod", sumPeriod + " руб.");
+        if (findIncome == 0) {
+            session.setAttribute("findallaccountbyusersortfilter",null);
+        }
+        if (findIncome == 1) {
+            findIncome = 0;
+        }
         return "income";
     }
 
@@ -135,6 +143,9 @@ public class IncomeController {
         attributes.addFlashAttribute("findallaccountbyusersort", accountsByUser);
         attributes.addFlashAttribute("findallcategoriessort", categories);
         attributes.addFlashAttribute("findoperationid", operation.getOperationid());
+        HttpSession session = request.getSession(true);
+        session.setAttribute("findallaccountbyusersortfilter", accountsByUser.get(0).getName() + ": " + accountsByUser.get(0).getAmount() + " руб.");
+        findIncome = 1;
         return "redirect:/income";
     }
 

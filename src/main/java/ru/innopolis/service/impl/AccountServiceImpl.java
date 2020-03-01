@@ -96,8 +96,8 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public List<Account> findAllByUserSort(Long userid, Long accountid) {
         Query query = em.createNativeQuery(
-                "select a.accountid, a.name \n" +
-                        "from (select a.name, a.accountid, f.userid, \n" +
+                "select a.accountid, a.name, a.amount \n" +
+                        "from (select a.name, a.accountid, f.userid, a.amount, \n" +
                         "\t\tcase \n" +
                         "\t\t\twhen accountid = ?\n" +
                         "\t\t\tthen 1 \n" +
@@ -114,6 +114,7 @@ public class AccountServiceImpl implements AccountService {
             Account account = new Account();
             account.setAccountid(((BigInteger) obj[0]).longValue());
             account.setName((String) obj[1]);
+            account.setAmount(((BigDecimal) obj[2]));
             accounts.add(account);
         }
         return accounts;

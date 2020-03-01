@@ -5,13 +5,21 @@
         <c:if test="${findallaccountbyuser.size() == 0}">
             «Не заполнен раздел счета!!!»
         </c:if>
-        <c:forEach var="account" items="${findallaccountbyuser}" end="0">
-            ${account.name}: ${account.amount} руб.
-        </c:forEach>
+        <c:if test="${findallaccountbyusersortfilter == null}">
+            <c:forEach var="account" items="${findallaccountbyuser}" end="0">
+                ${account.name}: ${account.amount} руб.
+            </c:forEach>
+        </c:if>
+        <c:if test="${findallaccountbyusersortfilter != null}">
+            ${findallaccountbyusersortfilter}
+        </c:if>
     </a>
 </span>
 <div class="dropdown-menu dropdown-menu-md-right" aria-labelledby="nav-account" id="accountbyusermain">
     <c:forEach var="account" items="${findallaccountbyuser}">
+        <a class="dropdown-item" href="#" id="h${account.accountid}">${account.name}: ${account.amount} руб.</a>
+    </c:forEach>
+    <c:forEach var="account" items="${findallaccountbyusersortid}">
         <a class="dropdown-item" href="#" id="h${account.accountid}">${account.name}: ${account.amount} руб.</a>
     </c:forEach>
 </div>
