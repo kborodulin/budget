@@ -1,5 +1,6 @@
 var getOperations = document.querySelector("#getOperations");
 var operationTable = document.querySelector("#operationTable");
+var pagesNumber = document.querySelector("#pagesNumber");
 var getStatistic = document.querySelector("#getStatistic");
 var formFilterStatistic = document.querySelector("#filterStatistic");
 
@@ -8,9 +9,11 @@ if (getOperations)
         e.preventDefault();
         if (operationTable.style.display === "none"){
             operationTable.style.display = "";
+            pagesNumber.style.display = "";
         }
         else {
             operationTable.style.display = "none";
+            pagesNumber.style.display = "none";
         }
     });
 

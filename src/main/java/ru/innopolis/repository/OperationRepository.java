@@ -54,6 +54,6 @@ public interface OperationRepository extends JpaRepository<Operation, Long> {
             "JOIN f.accountList a " +
             "JOIN a.operationList o " +
             "WHERE f.family.familyid = ?1 " +
-            "ORDER BY o.dateoper desc ")
+            "ORDER BY o.dateoper desc, o.operationid desc ")
     List<Operation> getTopByFamily(Long familyid, Pageable pageable);
 }

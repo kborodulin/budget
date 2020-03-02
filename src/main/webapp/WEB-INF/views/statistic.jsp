@@ -113,7 +113,10 @@
                               style="text-decoration: underline;  color: #007bff;">детали&nbsp;</span>
                     </a>
                 </div>
-                <table class="table my-5" id="operationTable" style="display:none;">
+                <table class="table my-5" id="operationTable"
+                       <c:if test="${currentPage == 1}"> style="display:none;" </c:if>
+                       <c:if test="${currentPage != 1}"> style="" </c:if>
+                >
                     <tbody>
                     <tr>
                         <th>Член семьи</th>
@@ -123,8 +126,7 @@
                         <th>Категория</th>
                         <th>Комментарий</th>
                     </tr>
-                    <c:forEach items="${points}" var="point">
-                        <c:forEach items="${point.operations}" var="operation">
+                        <c:forEach items="${operations}" var="operation">
                             <tr>
                                 <td>
                                     <div class="">${operation.account.famem.user.login} </div>
@@ -146,8 +148,21 @@
                                 </td>
                             </tr>
                         </c:forEach>
-                    </c:forEach>
                     </tbody>
+                </table>
+                <table  align="center" id="pagesNumber"
+                        <c:if test="${currentPage == 1}"> style="display: none" </c:if>
+                        <c:if test="${currentPage != 1}"> style="" </c:if>
+                >
+                <tr>
+                    <c:forEach begin="1" end="${pages}" var="page">
+                        <th>
+                            <a href="/statistic/${page}"
+                            <c:if test="${page==currentPage}"> style="text-decoration: underline;" </c:if>>
+                                    ${page}</a>
+                        </th>
+                    </c:forEach>
+                </tr>
                 </table>
             </c:if>
         </main>
