@@ -12,6 +12,7 @@ import ru.innopolis.domain.User;
 import ru.innopolis.service.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -50,6 +51,8 @@ public class WalletController {
         modelAndView.addObject("types", accountTypeService.findAll());
         modelAndView.addObject("err", err);
         modelAndView.setViewName("wallet");
+        HttpSession session = request.getSession(true);
+        session.setAttribute("isaccount", null);
         return modelAndView;
     }
 

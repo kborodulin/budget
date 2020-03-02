@@ -43,6 +43,7 @@ public class TransactionController {
         List<Transaction> transactions = groupTransactions(operationService.findAllTransactionsByPeriod(familyId, dates.get(0), dates.get(1), page));
         modelAndView.addObject("transactions", transactions);
         modelAndView.setViewName("transactions");
+        session.setAttribute("isaccount", 1);
         return modelAndView;
     }
 
