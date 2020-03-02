@@ -214,5 +214,6 @@
 <script src="../resources/js/refCategory.js"></script>
 <script src="../resources/js/utils.js"></script>
 <script src="../resources/js/refAccountByUser.js"></script>
+<script src="../resources/js/personalAccount.js"></script>
 </body>
 </html>
