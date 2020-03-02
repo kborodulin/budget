@@ -110,11 +110,6 @@ public class AccountController {
             model.addAttribute("membersList", membersList);
             log.info("memberList get {}", membersList);
         }
-        Alert alert = alertService.checkForAlerts(famem);
-        model.addAttribute("alert", alert);
-        if (alert != null) {
-            model.addAttribute("invitingFamily", alert.getFamily());
-        }
         List<Alert> sendAlert = alertService.findByInitiator(famem.getFamemid(), BigDecimal.ZERO);
         model.addAttribute("sendAlert", sendAlert);
     }

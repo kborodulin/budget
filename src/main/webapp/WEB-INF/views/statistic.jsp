@@ -234,5 +234,6 @@
 <script src="../resources/js/Chart.js/Chart.min.js"></script>
 <script src="../resources/js/dashboard.js"></script>
 <script src="../resources/js/statistic.js"></script>
+<script src="../resources/js/personalAccount.js"></script>
 </body>
 </html>

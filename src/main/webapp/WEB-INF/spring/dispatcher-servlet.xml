@@ -40,4 +40,13 @@
 
     <tx:annotation-driven/>
 
+    <mvc:interceptors>
+        <mvc:interceptor>
+            <mvc:mapping path="/**"/>
+            <mvc:exclude-mapping path="/js/**"/>
+            <mvc:exclude-mapping path="/resources/**"/>
+            <bean class="ru.innopolis.interceptor.AlertInterceptor"/>
+        </mvc:interceptor>
+    </mvc:interceptors>
+
 </beans>
