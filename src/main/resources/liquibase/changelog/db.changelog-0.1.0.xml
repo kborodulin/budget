@@ -528,4 +528,13 @@
             values('Получение перевода', 'transactionIn');
         </sql>
     </changeSet>
+
+    <changeSet id="50" author="e_belolipetskaya">
+        <sql>
+            DELETE FROM category WHERE categoryid = 3;
+            DELETE FROM category WHERE categoryid = 2;
+            UPDATE category SET name = 'Перевод', brief = 'transaction' WHERE categoryid = 15;
+            INSERT INTO public.category (name, brief) VALUES ('Прочее', 'others');
+        </sql>
+    </changeSet>
 </databaseChangeLog>
