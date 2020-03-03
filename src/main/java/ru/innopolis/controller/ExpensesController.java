@@ -94,6 +94,7 @@ public class ExpensesController {
         if (findIncome == 1) {
             findIncome = 0;
         }
+        session.setAttribute("isaccount", 1);
         return "expenses";
     }
 

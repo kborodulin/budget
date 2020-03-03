@@ -22,6 +22,7 @@ import ru.innopolis.service.FamilyService;
 import ru.innopolis.service.UserService;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.math.BigDecimal;
 import java.util.List;
 
@@ -111,6 +112,8 @@ public class AccountController {
             log.info("memberList get {}", membersList);
         }
         List<Alert> sendAlert = alertService.findByInitiator(famem.getFamemid(), BigDecimal.ZERO);
+        HttpSession session = request.getSession(true);
+        session.setAttribute("isaccount", null);
         model.addAttribute("sendAlert", sendAlert);
     }
 
