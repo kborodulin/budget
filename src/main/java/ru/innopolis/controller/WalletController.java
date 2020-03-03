@@ -2,6 +2,7 @@ package ru.innopolis.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -56,12 +57,42 @@ public class WalletController {
         return modelAndView;
     }
 
+    @ModelAttribute
+    public void persistUser(Model model, HttpServletRequest request) {
+        User user = (User) request.getSession().getAttribute("user");
+        Famem famem = famemService.findById(user.getFamem().getFamemid());
+        model.addAttribute("famem", famem);
+        if (famem.getFamily() != null) {
+            Family family = famem.getFamily();
+            model.addAttribute("family", family);
+            List<Famem> membersList = family.getFamemList();
+            model.addAttribute("membersList", membersList);
+        }
+        HttpSession session = request.getSession(true);
+        session.setAttribute("isaccount", null);
+    }
+
 
     @PostMapping(path = "/remove")
     public ModelAndView deleteWallet(@ModelAttribute("deletewallet") Account account) {
         ModelAndView modelAndView = new ModelAndView();
         account = accountService.findById(account.getAccountid());
         account.setIsclosesign(new BigDecimal(1));
+        accountService.save(account);
+        modelAndView.setViewName("redirect:/wallet");
+        return modelAndView;
+    }
+
+    @PostMapping(path="/edit")
+    public ModelAndView editWallet(@ModelAttribute("editwallet") Account account){
+        ModelAndView modelAndView = new ModelAndView();
+        Long acctypeid = account.getAcctypeid();
+        String newName = account.getName();
+        BigDecimal newAmount = account.getAmount();
+        account = accountService.findById(account.getAccountid());
+        account.setAccounttype(accountTypeService.findById(acctypeid));
+        account.setName(newName);
+        account.setAmount(newAmount);
         accountService.save(account);
         modelAndView.setViewName("redirect:/wallet");
         return modelAndView;

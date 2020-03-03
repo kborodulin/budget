@@ -10,15 +10,17 @@ import ru.innopolis.service.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static ru.innopolis.controller.IncomeController.MAX_COUNT_ELEMENT_PAGE;
 
 @Controller
-@RequestMapping("/transactions")
+@RequestMapping(value = {"/transactions", "/transactions/{optionalPage}"})
 public class TransactionController {
 
     private AccountService accountService;
@@ -30,44 +32,46 @@ public class TransactionController {
     private DateAnalizer dateAnalizer;
     private int dateRange;
 
-    @GetMapping
-    public ModelAndView openTransactions(ModelAndView modelAndView, HttpServletRequest request, Integer page) {
-        if (page == null) page = 1;
-        Long familyId = getMyFamem(request).getFamily().getFamilyid();
-        modelAndView.addObject("countPage", page(familyId, LocalDate.now(), LocalDate.now()));
+    @GetMapping()
+    public ModelAndView openTransactions(ModelAndView modelAndView, HttpServletRequest request, @PathVariable Optional<Integer> optionalPage, @RequestParam(required = false) String range) {
+        Integer page = 1;
         HttpSession session = request.getSession(true);
-        Object tranpersel = session.getAttribute("tranpersel");
-        Integer periodSelected = tranpersel != null ? (Integer) tranpersel : 1;
+        if (range == null) {
+            range = (String) session.getAttribute("range");
+            if (range == null) range = "1";
+        } else session.setAttribute("range", range);
+        if (optionalPage.isPresent()) {
+            page = optionalPage.get();
+            session.setAttribute("tranpage", page);
+        } else if (session.getAttribute("tranpage") != null) {
+            page = (Integer) session.getAttribute("tranpage");
+        }
+        Family myFamily = getMyFamem(request).getFamily();
+        Long familyId = myFamily != null ? myFamily.getFamilyid() : null;
+        Integer periodSelected = Integer.valueOf(range);
         modelAndView.addObject("periodselected", periodSelected);
         List<LocalDate> dates = dateAnalizer.parsePeriod(periodSelected);
-        List<Transaction> transactions = groupTransactions(operationService.findAllTransactionsByPeriod(familyId, dates.get(0), dates.get(1), page));
+        Long userid = getMe(request).getUserid();
+        List<Transaction> transactions = groupTransactions(operationService.findAllTransactionsByPeriod(familyId, dates.get(0), dates.get(1), page, userid));
+        modelAndView.addObject("countPage", page(familyId, dates.get(0), dates.get(1), userid));
+        modelAndView.addObject("curpage", page);
         modelAndView.addObject("transactions", transactions);
         modelAndView.setViewName("transactions");
         session.setAttribute("isaccount", 1);
         return modelAndView;
     }
 
-    @PostMapping
-    public ModelAndView walletsWithFilter(ModelAndView modelAndView,
-                                          HttpServletRequest request,
-                                          @ModelAttribute("dateRange") int period) {
-        modelAndView.addObject("periodselected", period);
-        List<LocalDate> dates = dateAnalizer.parsePeriod(period);
-        List<Transaction> transactions = groupTransactions(operationService.findAllTransactionsByPeriod(getMyFamem(request).getFamily().getFamilyid(), dates.get(0), dates.get(1), 1));
-        modelAndView.addObject("transactions", transactions);
-        modelAndView.setViewName("transactions");
-        HttpSession session = request.getSession(true);
-        session.setAttribute("tranpersel", period);
-        return modelAndView;
-    }
 
     private List<Transaction> groupTransactions(List<Object[]> transactions) {
         List<Transaction> gTransactions = new ArrayList<>();
+        List<Object[]> used = new ArrayList<>();
         transactions.forEach(trans -> {
-            if (trans[5].equals(BigInteger.valueOf(3))) {
+            if (!used.contains(trans) && trans[5].equals(BigInteger.valueOf(3))) {
                 transactions.forEach(t -> {
-                    if (t[5].equals(BigInteger.valueOf(4)) && t[3].equals(trans[3]) && t[2].equals(trans[2]) && t[1].equals(trans[1])) {
+                    if (!used.contains(t) && t[5].equals(BigInteger.valueOf(4)) && t[3].equals(trans[3]) && t[2].equals(trans[2]) && t[1].equals(trans[1])) {
                         gTransactions.add(new Transaction(trans, t));
+                        used.add(trans);
+                        used.add(t);
                     }
                 });
             }
@@ -107,8 +111,32 @@ public class TransactionController {
         LocalDate dateOper = transaction.getDateOper() != null ? transaction.getDateOper() : LocalDate.now();
         Account accountOut = accountService.findById(transaction.getOutAccountId());
         Account accountIn = accountService.findById(transaction.getInAccountId());
+        BigDecimal transactionSum = transaction.getOutSum();
 
-        Operation operationOut = new Operation();
+        Operation operationOut;
+        Operation operationIn;
+
+        Long outOpId = transaction.getOutOperationId();
+        Long inOpid = transaction.getInOperationId();
+
+        Operation oldOperationOut = outOpId != null ? operationService.findById(transaction.getOutOperationId()) : null;
+        Operation oldOperationIn = inOpid != null ? operationService.findById(transaction.getInOperationId()) : null;
+
+        BigDecimal deltaSum;
+
+        if (oldOperationOut != null && oldOperationIn != null) {
+            operationIn = oldOperationIn;
+            operationOut = oldOperationOut;
+            deltaSum = transactionSum.subtract(operationIn.getAmount());
+        } else {
+            operationOut = new Operation();
+            operationIn = new Operation();
+            deltaSum = transactionSum;
+        }
+
+        accountOut.setAmount(accountOut.getAmount().subtract(deltaSum));
+        accountIn.setAmount(accountIn.getAmount().add(deltaSum));
+
         operationOut.setTypeoperationid(3L);
         operationOut.setCategory(category);
         operationOut.setAmount(transaction.getOutSum());
@@ -116,7 +144,6 @@ public class TransactionController {
         operationOut.setComment(transaction.getComment());
         operationOut.setAccount(accountOut);
 
-        Operation operationIn = new Operation();
         operationIn.setTypeoperationid(4L);
         operationIn.setCategory(category);
         operationIn.setAmount(transaction.getOutSum());
@@ -126,10 +153,6 @@ public class TransactionController {
 
         operationService.save(operationOut);
         operationService.save(operationIn);
-
-        accountOut.setAmount(accountOut.getAmount().subtract(transaction.getOutSum()));
-        accountIn.setAmount(accountIn.getAmount().add(transaction.getOutSum()));
-
         accountService.save(accountIn);
         accountService.save(accountOut);
 
@@ -137,6 +160,30 @@ public class TransactionController {
         return modelAndView;
     }
 
+    @PostMapping(path = "/remove")
+    private ModelAndView removeTransaction(@ModelAttribute("deltransa") Transaction transaction) {
+        ModelAndView modelAndView = new ModelAndView();
+        if (transaction.getOutOperationId() != null) {
+            Operation outOperation = operationService.findById(transaction.getOutOperationId());
+            if (outOperation != null) {
+                operationService.delete(outOperation);
+                Account outAccount = outOperation.getAccount();
+                outAccount.setAmount(outAccount.getAmount().add(outOperation.getAmount()));
+                accountService.save(outAccount);
+            }
+        }
+        if (transaction.getInOperationId() != null) {
+            Operation inOperation = operationService.findById(transaction.getInOperationId());
+            if (inOperation != null) {
+                operationService.delete(inOperation);
+                Account inAccount = inOperation.getAccount();
+                inAccount.setAmount(inAccount.getAmount().subtract(inOperation.getAmount()));
+                accountService.save(inAccount);
+            }
+        }
+        modelAndView.setViewName("redirect:/transactions");
+        return modelAndView;
+    }
 
     private User getMe(HttpServletRequest request) {
         return (User) request.getSession().getAttribute("user");
@@ -185,22 +232,23 @@ public class TransactionController {
 
     @PostMapping("/filter")
     public String filterTransactions(Model model,
-                               HttpServletRequest request,
-                               @ModelAttribute("dateRange") int period,
-                               Integer page) {
+                                     HttpServletRequest request,
+                                     @ModelAttribute("dateRange") int period,
+                                     Integer page) {
         List<LocalDate> dates = dateAnalizer.parsePeriod(period);
-        Long familyId = getMyFamem(request).getFamily().getFamilyid();
+        Famem myFamem = getMyFamem(request);
+        Long familyId = myFamem.getFamily().getFamilyid();
         User user = (User) request.getSession().getAttribute("user");
         if (page == null) page = 1;
-        List<Object[]> operations = operationService.findAllTransactionsByPeriod(familyId, dates.get(0), dates.get(1), page);
-        model.addAttribute("countPage", page(familyId, dates.get(0), dates.get(1)));
+        List<Object[]> operations = operationService.findAllTransactionsByPeriod(familyId, dates.get(0), dates.get(1), page, user.getUserid());
+        model.addAttribute("countPage", page(familyId, dates.get(0), dates.get(1), user.getUserid()));
         model.addAttribute("periodselected", period);
         model.addAttribute("allincomeuser", operations);
         if (period > 0) {
             model.addAttribute("isfilter", 1);
             dateRange = period;
         }
-        List<Object[]> operationsAll = operationService.findAllTransactionsByPeriod(familyId, dates.get(0), dates.get(1), null);
+        List<Object[]> operationsAll = operationService.findAllTransactionsByPeriod(familyId, dates.get(0), dates.get(1), null, user.getUserid());
         return "transactions";
     }
 
@@ -210,8 +258,8 @@ public class TransactionController {
         return "transactions";
     }
 
-    private int page(Long familyId, LocalDate dateStart, LocalDate end) {
-        int allRecord = operationService.findAllTransactionsByPeriod(familyId, dateStart, end, null).size();
+    private int page(Long familyId, LocalDate dateStart, LocalDate end, Long userid) {
+        int allRecord = operationService.findAllTransactionsByPeriod(familyId, dateStart, end, null, userid).size() / 2;
         return (allRecord % MAX_COUNT_ELEMENT_PAGE == 0) ? allRecord / MAX_COUNT_ELEMENT_PAGE : allRecord / MAX_COUNT_ELEMENT_PAGE + 1;
     }
 }

@@ -21,6 +21,7 @@ function recoverWalletDialog() {
 
 fetch("/ref/allaccounttype").then(r => r.text()).then(data => {
     document.querySelector("#walletType").innerHTML = data;
+    document.querySelector("#walletEditType").innerHTML = data;
 });
 
 addListeners();
