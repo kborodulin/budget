@@ -39,7 +39,7 @@ function saveChanges(){
     if (checkTransactionAvailable()){
         document.querySelector("#transactionForm").submit();
         saveChangeBtn.removeEventListener("click", saveChanges);
-    }
+    }transactions
 }
 
 saveChangeBtn.addEventListener("click", saveChanges);
