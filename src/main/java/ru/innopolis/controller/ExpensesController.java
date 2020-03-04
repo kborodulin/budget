@@ -95,6 +95,7 @@ public class ExpensesController {
             findIncome = 0;
         }
         session.setAttribute("isaccount", 1);
+        session.setAttribute("curpage", page);
         return "expenses";
     }
 
@@ -245,7 +246,7 @@ public class ExpensesController {
                 break;
             }
         }
-
+        session.setAttribute("curpage", page);
         return "expenses";
     }
 

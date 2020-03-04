@@ -90,6 +90,7 @@ public class IncomeController {
             findIncome = 0;
         }
         session.setAttribute("isaccount", 1);
+        session.setAttribute("curpage", page);
         return "income";
     }
 
@@ -226,6 +227,7 @@ public class IncomeController {
                 break;
             }
         }
+        session.setAttribute("curpage", page);
         return "income";
     }
 

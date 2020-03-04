@@ -189,10 +189,10 @@
                     <th>
                         <c:choose>
                             <c:when test="${isfilter == 1}">
-                                <a href="/expenses/filter${page}">${page}</a>
+                                <a <c:if test="${curpage==page}">class="text-danger"</c:if> href="/expenses/filter${page}">${page}</a>
                             </c:when>
                             <c:otherwise>
-                                <a href="/expenses${page}">${page}</a>
+                                <a <c:if test="${curpage==page}">class="text-danger"</c:if> href="/expenses${page}">${page}</a>
                             </c:otherwise>
                         </c:choose>
                     </th>
