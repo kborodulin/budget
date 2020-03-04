@@ -44,6 +44,7 @@
                     Личный кабинет
                 </a>
             </li>
+            <a style="position: absolute; bottom: 10px; left: 30px; margin: auto;" id="company" href="/company">&copy;&nbsp;о программе</a>
         </ul>
     </div>
 </nav>
