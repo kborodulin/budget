@@ -19,6 +19,7 @@ import ru.innopolis.service.AccountService;
 import ru.innopolis.service.CategoryService;
 import ru.innopolis.service.DateAnalizer;
 import ru.innopolis.service.OperationService;
+import ru.innopolis.service.dto.CategoryPeriod;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -44,7 +45,7 @@ public class ExpensesController {
 
     private int dateRange;
 
-    private int categoryPeriod;
+    private CategoryPeriod categoryPeriod;
 
     private int findIncome = 0;
 
@@ -195,25 +196,25 @@ public class ExpensesController {
     public String filterIncome(Model model,
                                HttpServletRequest request,
                                @ModelAttribute("dateRange") int period,
-                               @ModelAttribute("categoryperiod") int category,
+                               @ModelAttribute("categoryperiod") CategoryPeriod category,
                                Integer page) {
         List<LocalDate> dates = dateAnalizer.parsePeriod(period);
         User user = (User) request.getSession().getAttribute("user");
         if (page == null) page = 1;
         Pageable pageable = PageRequest.of(page - 1, MAX_COUNT_ELEMENT_PAGE);
-        List<Operation> operations = operationService.allExpensesUser(user.getFamem().getFamemid(), dates.get(0), dates.get(1), category, pageable);
-        model.addAttribute("countPage", page(user.getFamem().getFamemid(), dates.get(0), dates.get(1), category));
+        List<Operation> operations = operationService.allExpensesUser(user.getFamem().getFamemid(), dates.get(0), dates.get(1), category.getCategoryperiod(), pageable);
+        model.addAttribute("countPage", page(user.getFamem().getFamemid(), dates.get(0), dates.get(1), category.getCategoryperiod()));
         model.addAttribute("periodselected", period);
         model.addAttribute("allExpensesUser", operations);
         HttpSession session = request.getSession(true);
-        session.setAttribute("allcategoryperiod", category);
-        if (period > 0 || category > 0) {
+        session.setAttribute("allcategoryperiod", category.getCategoryperiod());
+        if (period > 0 || category.getCategoryperiod() > 0) {
             model.addAttribute("isfilter", 1);
             dateRange = period;
             categoryPeriod = category;
         }
 
-        List<Operation> operationsAll = operationService.allExpensesUser(user.getFamem().getFamemid(), dates.get(0), dates.get(1), category, null);
+        List<Operation> operationsAll = operationService.allExpensesUser(user.getFamem().getFamemid(), dates.get(0), dates.get(1), category.getCategoryperiod(), null);
         BigDecimal sumPeriod = BigDecimal.ZERO;
         for (Operation operation : operationsAll) {
             sumPeriod = sumPeriod.add(operation.getAmount());
