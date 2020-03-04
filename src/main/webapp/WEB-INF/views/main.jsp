@@ -228,6 +228,9 @@
                                    </c:if>
                                    <div class="text-muted" style="font-size: small">${operation.dateoper}</div>
                                </td>
+                               <td>
+                                   <div class="" style="font-size: large">${operation.comment} </div>
+                               </td>
                            </tr>
                            </c:forEach>
                            </tbody>

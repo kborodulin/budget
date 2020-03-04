@@ -35,8 +35,16 @@ public class CheckpointsGeneratorImpl implements CheckpointsGenerator {
             return pointsByEndOfMonth(pointList, startDate, endDate);
         }
         else {
-            long step = Math.round(1.0*deltaDays/ CHECKPOINT_COUNT);
-            return pointsByStep(pointList, startDate, endDate, step>0?step:1);
+//            long step = Math.round(1.0*deltaDays/ CHECKPOINT_COUNT);
+//            return pointsByStep(pointList, startDate, endDate, step>0?step:1);
+            long step;
+            if (deltaDays > startDate.getMonth().length(false)){
+                step = 2;
+            }
+            else {
+                step = 1;
+            }
+            return pointsByStep(pointList, startDate, endDate, step);
         }
     }
 

@@ -133,13 +133,13 @@
                 </thead>
                 <tbody>
                 <tr>
-                    <th>Наименование</th>
+                    <th>Счет</th>
                     <th>Сумма</th>
                     <th>Дата</th>
                     <th>Категория</th>
                     <th>Комментарий</th>
-                    <th>Изменить</th>
-                    <th>Удалить</th>
+                    <th></th>
+                    <th></th>
                 </tr>
                 <c:forEach items="${allExpensesUser}" var="expense">
                     <tr>
