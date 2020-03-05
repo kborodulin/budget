@@ -154,7 +154,7 @@
                     <c:forEach begin="1" end="${pages}" var="page">
                         <th>
                             <a href="/statistic/${page}"
-                            <c:if test="${page==currentPage}"> style="text-decoration: underline;" </c:if>>
+                            <c:if test="${page==currentPage}"> class="text-danger" </c:if>>
                                     ${page}</a>
                         </th>
                     </c:forEach>

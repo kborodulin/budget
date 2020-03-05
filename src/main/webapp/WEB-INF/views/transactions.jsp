@@ -108,8 +108,8 @@
                 </thead>
                 <tbody>
                 <tr>
-                    <th colspan="2">Исходящий счет/Владелец</th>
-                    <th colspan="2">Входящий счет/Владелец</th>
+                    <th colspan="2">Откуда</th>
+                    <th colspan="2">Куда</th>
                     <th>Сумма</th>
                     <th>Дата</th>
                     <th>Комментарий</th>

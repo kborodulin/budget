@@ -19,6 +19,7 @@
 		<intercept-url pattern="/wallet" access="hasRole('ROLE_USER')" />
 		<intercept-url pattern="/statistic" access="hasRole('ROLE_USER')" />
 		<intercept-url pattern="/transactions" access="hasRole('ROLE_USER')" />
+		<intercept-url pattern="/company" access="hasRole('ROLE_USER')" />
 
 		<form-login login-page='/login'
 					default-target-url="/main"
