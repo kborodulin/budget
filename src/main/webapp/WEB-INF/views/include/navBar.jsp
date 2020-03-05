@@ -3,6 +3,7 @@
 <nav class="navbar navbar-expand navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
     <a class="navbar-brand col-md-auto mr-0" id="heading" href="#" style="width: 180px">Контроль расходов</a>
 
+    <c:if test="${user != null}">
     <ul class="navbar-nav ml-md-auto px-3">
         <li class="nav-item">
             <span id="head-currentUser" class="nav-link">${user.login}</span>
@@ -35,6 +36,14 @@
             </form>
         </li>
     </ul>
+    </c:if>
+    <c:if test="${user == null}">
+    <ul class="navbar-nav ml-md-auto px-3">
+        <li class="nav-item text-nowrap">
+            <a class="nav-link" href="/login"> Вход </a>
+        </li>
+    </ul>
+    </c:if>
 </nav>
 <!-- Modal -->
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
