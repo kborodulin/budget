@@ -119,7 +119,7 @@ public class IncomeController {
         category = categoryService.findById(category.getCategoryid());
         if (operation.getOperationid() != null) {
             Operation operationOld = operationService.findById(operation.getOperationid());
-            account.setAmount(account.getAmount().subtract(operationOld.getAmount()));
+            operationService.clearDelete(operationOld);
         }
         if (operation.getTypeoperationid().equals(1L)) {
             account.setAmount(account.getAmount().add(operation.getAmount()));

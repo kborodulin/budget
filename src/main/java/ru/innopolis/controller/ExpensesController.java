@@ -124,7 +124,7 @@ public class ExpensesController {
         category = categoryService.findById(category.getCategoryid());
         if (operation.getOperationid() != null) {
             Operation operationOld = operationService.findById(operation.getOperationid());
-            account.setAmount(account.getAmount().add(operationOld.getAmount()));
+            operationService.clearDelete(operationOld);
         }
         if (operation.getTypeoperationid().equals(2L)) {
             account.setAmount(account.getAmount().subtract(operation.getAmount()));
