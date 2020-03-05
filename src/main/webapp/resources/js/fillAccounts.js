@@ -71,6 +71,7 @@ function editBtnActivate(){
                 saveChangeBtn.style.display = "";
                 cancelBtn.style.display = "";
                 this.parentElement.parentElement.classList.add("alert", "alert-warning");
+                document.querySelector('#outAccount').dispatchEvent(new Event("change"));
                 return;
             }
             return alert("Этот перевод не может быть отредактирован");

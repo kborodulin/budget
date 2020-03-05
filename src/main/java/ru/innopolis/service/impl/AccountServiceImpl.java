@@ -129,4 +129,9 @@ public class AccountServiceImpl implements AccountService {
     public List<Account> findAccountByName(String name) {
         return accountRepository.findAccountByName(name);
     }
+
+    @Override
+    public Account findAccountByNameAndUserId(String name, Famem famem) {
+        return accountRepository.findAccountByNameAndFamemAndIsclosesignEquals(name, famem, BigDecimal.valueOf(0));
+    }
 }

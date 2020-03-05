@@ -3,7 +3,6 @@ package ru.innopolis.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import ru.innopolis.domain.Account;
@@ -109,10 +108,12 @@ public class WalletController {
     }
 
     @PostMapping(path = "/create")
-    public ModelAndView createNewWallet(@ModelAttribute("createNewAccountForm") Account account, HttpServletRequest request, BindingResult result) {
+    public ModelAndView createNewWallet(@ModelAttribute("createNewAccountForm") Account account, HttpServletRequest request) {
         ModelAndView modelAndView = new ModelAndView();
         List<String> errors = new ArrayList<>();
-        if (accountService.findAccountByName(account.getName()).size() == 0) {
+        Famem myFamem = getMyFamem(request);
+        Account isRegistered = accountService.findAccountByNameAndUserId(account.getName(), myFamem);
+        if (isRegistered == null) {
             account.setFamem(getMyFamem(request));
             account.setDateopen(LocalDate.now());
             account.setCurrencyid(1L);

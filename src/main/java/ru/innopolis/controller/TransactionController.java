@@ -68,10 +68,10 @@ public class TransactionController {
         transactions.forEach(trans -> {
             if (!used.contains(trans) && trans[5].equals(BigInteger.valueOf(3))) {
                 transactions.forEach(t -> {
-                    if (!used.contains(t) && t[5].equals(BigInteger.valueOf(4)) && t[3].equals(trans[3]) && t[2].equals(trans[2]) && t[1].equals(trans[1])) {
-                        gTransactions.add(new Transaction(trans, t));
-                        used.add(trans);
+                    if (!used.contains(t) && !used.contains(trans) && t[5].equals(BigInteger.valueOf(4)) && t[3].equals(trans[3]) && t[2].equals(trans[2]) && t[1].equals(trans[1])) {
                         used.add(t);
+                        used.add(trans);
+                        gTransactions.add(new Transaction(trans, t));
                     }
                 });
             }
@@ -128,6 +128,21 @@ public class TransactionController {
             operationIn = oldOperationIn;
             operationOut = oldOperationOut;
             deltaSum = transactionSum.subtract(operationIn.getAmount());
+
+            Account oldAccountIn = operationIn.getAccount();
+            Account oldAccountOut = operationOut.getAccount();
+
+            if (!oldAccountIn.getAccountid().equals(accountIn.getAccountid())) {
+                oldAccountIn.setAmount(oldAccountIn.getAmount().subtract(operationIn.getAmount()));
+                accountIn.setAmount(accountIn.getAmount().add(operationIn.getAmount()));
+                accountService.save(oldAccountIn);
+            }
+
+            if (!oldAccountOut.getAccountid().equals(accountOut.getAccountid())) {
+                oldAccountOut.setAmount(oldAccountOut.getAmount().add(operationOut.getAmount()));
+                accountOut.setAmount(accountOut.getAmount().subtract(operationOut.getAmount()));
+                accountService.save(oldAccountOut);
+            }
         } else {
             operationOut = new Operation();
             operationIn = new Operation();
