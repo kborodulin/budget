@@ -19,7 +19,7 @@
 		<intercept-url pattern="/wallet" access="hasRole('ROLE_USER')" />
 		<intercept-url pattern="/statistic" access="hasRole('ROLE_USER')" />
 		<intercept-url pattern="/transactions" access="hasRole('ROLE_USER')" />
-		<intercept-url pattern="/company" access="hasRole('ROLE_USER')" />
+		<intercept-url pattern="/company" access="permitAll()" />
 
 		<form-login login-page='/login'
 					default-target-url="/main"
@@ -28,7 +28,7 @@
 					password-parameter="password"
 					authentication-success-handler-ref="saveUserInSession"/>
 
-		<logout logout-success-url="/login" logout-url="/perform_logout"/>
+		<logout logout-success-url="/company" logout-url="/perform_logout"/>
 	</http>
 
 	<beans:bean id="encoder"
