@@ -1,6 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<c:if test="${percentOfExpenses gt 75}">
+<c:if test="${percentOfExpenses gt 75 }">
     <div class="progress">
         <div class="progress-bar bg-danger" role="progressbar"
              style="width: <c:out value="${percentOfExpenses}"/>%"
@@ -8,7 +8,7 @@
              aria-valuemax="100"></div>
     </div>
 </c:if>
-<c:if test="${percentOfExpenses gt 50 and percentOfExpenses lt 75}">
+<c:if test="${percentOfExpenses gt 50 and (percentOfExpenses lt 75 or percentOfExpenses == 75)}">
     <div class="progress">
         <div class="progress-bar bg-warning" role="progressbar"
              style="width: <c:out value="${percentOfExpenses}"/>%"
@@ -16,7 +16,7 @@
              aria-valuemax="100"></div>
     </div>
 </c:if>
-<c:if test="${percentOfExpenses gt 25 and percentOfExpenses lt 50}">
+<c:if test="${percentOfExpenses gt 25 and (percentOfExpenses lt 50 or percentOfExpenses == 50) }">
     <div class="progress">
         <div class="progress-bar bg-info" role="progressbar"
              style="width: <c:out value="${percentOfExpenses}"/>%"
@@ -24,7 +24,7 @@
              aria-valuemax="100"></div>
     </div>
 </c:if>
-<c:if test="${percentOfExpenses lt 25}">
+<c:if test="${percentOfExpenses lt 25 or percentOfExpenses == 25}">
     <div class="progress">
         <div class="progress-bar bg-success" role="progressbar"
              style="width: <c:out value="${percentOfExpenses}"/>%"
