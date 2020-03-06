@@ -115,12 +115,12 @@ public class IncomeController {
                              @ModelAttribute("addincome") Operation operation,
                              @ModelAttribute("accountid") Account account,
                              @ModelAttribute("categoryid") Category category) {
-        account = accountService.findById(account.getAccountid());
-        category = categoryService.findById(category.getCategoryid());
         if (operation.getOperationid() != null) {
             Operation operationOld = operationService.findById(operation.getOperationid());
             operationService.clearDelete(operationOld);
         }
+        account = accountService.findById(account.getAccountid());
+        category = categoryService.findById(category.getCategoryid());
         if (operation.getTypeoperationid().equals(1L)) {
             account.setAmount(account.getAmount().add(operation.getAmount()));
         }
