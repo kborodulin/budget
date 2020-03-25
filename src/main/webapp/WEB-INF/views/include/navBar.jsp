@@ -1,20 +1,14 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" %>
 <nav class="navbar navbar-expand navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
-    <a class="navbar-brand col-sm-3 col-md-2 mr-0"id="heading" href="#">Контроль расходов</a>
+    <a class="navbar-brand col-md-auto mr-0" id="heading" href="#" style="width: 180px">Контроль расходов</a>
 
+    <c:if test="${user != null}">
     <ul class="navbar-nav ml-md-auto px-3">
-        <li class="nav-item dropdown">
-            <a class="nav-item nav-link dropdown-toggle mr-md-2" href="#" id="nav-account" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                42151723423 (Сбер1)
-            </a>
-            <div class="dropdown-menu dropdown-menu-md-right" aria-labelledby="nav-account">
-                <a class="dropdown-item active" href="#">42151723423 (Сбер1)</a>
-                <a class="dropdown-item" href="#">124124143 (Сбер2)</a>
-            </div>
-        </li>
         <li class="nav-item">
-            <span id="head-currentBalance" class="nav-link">1000/40000</span>
+            <span id="head-currentUser" class="nav-link">${user.login}</span>
+        </li>
+        <li class="nav-item dropdown" id="accountbyusermain">
         </li>
         <li class="nav-item">
             <c:if test="${alert!=null}">
@@ -42,6 +36,14 @@
             </form>
         </li>
     </ul>
+    </c:if>
+    <c:if test="${user == null}">
+    <ul class="navbar-nav ml-md-auto px-3">
+        <li class="nav-item text-nowrap">
+            <a class="nav-link" href="/login"> Вход </a>
+        </li>
+    </ul>
+    </c:if>
 </nav>
 <!-- Modal -->
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -70,3 +72,4 @@
         </div>
     </div>
 </div>
+<script src="../resources/js/refAccountByUserMain.js"></script>

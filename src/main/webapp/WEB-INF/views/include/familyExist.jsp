@@ -39,8 +39,9 @@
     </h6>
     <c:forEach var="alert" items="${sendAlert}">
             <div style="white-space: nowrap;" class="col-md-6 mb-3">
-                <input type="text" class="form-control " id="alertReceiverName" placeholder="" value="${alert.receiver.name}" required="" disabled>
-                <input type="text" class="form-control " id="alertReceiverSurname" placeholder="" value="${alert.receiver.surname}" required="" disabled>
+                <input type="text" class="form-control " id="alertReceiverLogin" placeholder="Логин" value="${alert.receiver.user.login}" required="" disabled>
+                <input type="text" class="form-control " id="alertReceiverName" placeholder="Имя" value="${alert.receiver.name}" required="" disabled>
+                <input type="text" class="form-control " id="alertReceiverSurname" placeholder="Фамилия" value="${alert.receiver.surname}" required="" disabled>
                 <input type="text" style="display: none" id="alertId" placeholder="" value="${alert.alertid}" name="alertid" required="" disabled>
             </div>
     </c:forEach>
@@ -51,8 +52,9 @@
     <c:forEach var="member" items="${membersList}">
         <c:if test="${member.user.userid != user.userid}">
         <div style="white-space: nowrap;" class="col-md-6 mb-3">
-            <input type="text" class="form-control " id="LoginFamily" placeholder="" value="${member.name}" required="" disabled>
-            <input type="email" class="form-control" id="EmailFamily" placeholder="" value="${member.surname}" required="" disabled>
+            <input type="text" class="form-control " id="LoginUser" placeholder="Логин" value="${member.user.login}" required="" disabled>
+            <input type="text" class="form-control " id="LoginFamily" placeholder="Имя" value="${member.name}" required="" disabled>
+            <input type="email" class="form-control" id="EmailFamily" placeholder="Фамилия" value="${member.surname}" required="" disabled>
         </div>
         </c:if>
     </c:forEach>

@@ -528,4 +528,226 @@
             values('Получение перевода', 'transactionIn');
         </sql>
     </changeSet>
+
+    <changeSet id="50" author="e_belolipetskaya">
+        <sql>
+            DELETE FROM category WHERE categoryid = 3;
+            DELETE FROM category WHERE categoryid = 2;
+            UPDATE category SET name = 'Перевод', brief = 'transaction' WHERE categoryid = 15;
+            INSERT INTO public.category (name, brief) VALUES ('Прочее', 'others');
+        </sql>
+    </changeSet>
+
+    <changeSet id="51" author="e_belolipetskaya">
+        <sql>
+            INSERT INTO public.users (datecreate, login, password, email, isblock, roleid) VALUES (DEFAULT, 'olga',
+            '$2a$11$bsL1VFuelo7VGB8hB4V6dumKJFyRgifheAZ1gvpjxNAhX54/ZpXny', 'olga@gmail.com', DEFAULT, 1);
+            INSERT INTO public.users (datecreate, login, password, email, isblock, roleid) VALUES (DEFAULT, 'aleksey',
+            '$2a$11$S2ayYobQXF6iGQScL5oasetigWwalSdMYoT8grGVNFXGhl0VYAo/6', 'aleksey@gmail.com', DEFAULT, 1);
+            INSERT INTO public.users (datecreate, login, password, email, isblock, roleid) VALUES (DEFAULT, 'kate',
+            '$2a$11$ad/Jin85ftEIGvzF/vPsP.tqX3eyXp1L3JaP0OgBq0iKTfKcr2T2e', 'kate@gmail.com', DEFAULT, 1);
+        </sql>
+    </changeSet>
+    <changeSet id="52" author="e_belolipetskaya">
+        <sql>
+            INSERT INTO public.family (name) VALUES ('Медведевы');
+            INSERT INTO public.family (name) VALUES ('Очень хорошая семья');
+        </sql>
+    </changeSet>
+    <changeSet id="53" author="e_belolipetskaya">
+        <sql>
+            INSERT INTO public.famem (surname, name, patronymic, datebirth, familyid, userid) VALUES ('Медведева',
+            'Ольга',
+            'Владимировна', '1985-05-05', 4, 6);
+            INSERT INTO public.famem (surname, name, patronymic, datebirth, familyid, userid) VALUES ('Медведев',
+            'Алексей',
+            'Иванович', '1980-03-02', 4, 7);
+            INSERT INTO public.famem (familyid, userid) VALUES (5, 8);
+
+        </sql>
+    </changeSet>
+    <changeSet id="54" author="e_belolipetskaya">
+        <sql>
+            INSERT INTO public.account (num, amount, dateopen, accountopenorg, isclosesign, famemid, accounttypeid,
+            currencyid, name) VALUES (null, 106000, '2020-03-05', null, 0, 4, 4, 1, 'Tinkoff black');
+            INSERT INTO public.account (num, amount, dateopen, accountopenorg, isclosesign, famemid, accounttypeid,
+            currencyid, name) VALUES (null, 57800, '2020-03-05', null, 0, 4, 4, 1, 'Сбер *4564');
+            INSERT INTO public.account (num, amount, dateopen, accountopenorg, isclosesign, famemid, accounttypeid,
+            currencyid, name) VALUES (null, 360128, '2020-03-05', null, 0, 4, 2, 1, 'Вклад Сохраняй Сбер');
+            INSERT INTO public.account (num, amount, dateopen, accountopenorg, isclosesign, famemid, accounttypeid,
+            currencyid, name) VALUES (null, 3750, '2020-03-05', null, 0, 4, 1, 1, 'Мой кошелек');
+
+            INSERT INTO public.account (num, amount, dateopen, accountopenorg, isclosesign, famemid, accounttypeid,
+            currencyid, name) VALUES (null, 63000, '2020-03-05', null, 0, 3, 4, 1, 'Сбер *7554');
+            INSERT INTO public.account (num, amount, dateopen, accountopenorg, isclosesign, famemid, accounttypeid,
+            currencyid, name) VALUES (null, 300, '2020-03-05', null, 0, 3, 1, 1, 'Красный кошелек');
+            INSERT INTO public.account (num, amount, dateopen, accountopenorg, isclosesign, famemid, accounttypeid,
+            currencyid, name) VALUES (null, 15000, '2020-03-05', null, 0, 3, 1, 1, 'Малиновый кошелек');
+        </sql>
+    </changeSet>
+    <changeSet id="55" author="e_belolipetskaya">
+        <sql>
+            INSERT INTO public.operation (typeoperationid, categoryid, accountid, amount, dateoper, datewritedb,
+            comment) VALUES
+            (1, 1, 4, 106000, '2020-02-10', '2020-03-05 14:42:22.000000', '');
+            INSERT INTO public.operation (typeoperationid, categoryid, accountid, amount, dateoper, datewritedb,
+            comment) VALUES
+            (1, 1, 4, 106000, '2020-01-10', '2020-03-05 14:42:22.000000', '');
+            INSERT INTO public.operation (typeoperationid, categoryid, accountid, amount, dateoper, datewritedb,
+            comment) VALUES
+            (3, 15, 4, 106000, '2020-03-05', '2020-03-05 14:43:52.000000', '');
+            INSERT INTO public.operation (typeoperationid, categoryid, accountid, amount, dateoper, datewritedb,
+            comment) VALUES
+            (4, 15, 3, 106000, '2020-01-11', '2020-03-05 14:43:52.000000', '');
+            INSERT INTO public.operation (typeoperationid, categoryid, accountid, amount, dateoper, datewritedb,
+            comment) VALUES
+            (3, 15, 4, 106000, '2020-01-11', '2020-03-05 14:43:54.000000', '');
+            INSERT INTO public.operation (typeoperationid, categoryid, accountid, amount, dateoper, datewritedb,
+            comment) VALUES
+            (4, 15, 3, 106000, '2020-03-05', '2020-03-05 14:43:54.000000', '');
+            INSERT INTO public.operation (typeoperationid, categoryid, accountid, amount, dateoper, datewritedb,
+            comment) VALUES
+            (2, 8, 3, 5700, '2020-01-29', null, 'Карусель');
+            INSERT INTO public.operation (typeoperationid, categoryid, accountid, amount, dateoper, datewritedb,
+            comment) VALUES
+            (2, 8, 3, 5700, '2020-02-29', null, 'Карусель');
+            INSERT INTO public.operation (typeoperationid, categoryid, accountid, amount, dateoper, datewritedb,
+            comment) VALUES
+            (2, 8, 3, 500, '2020-02-29', null, 'Магнит');
+            INSERT INTO public.operation (typeoperationid, categoryid, accountid, amount, dateoper, datewritedb,
+            comment) VALUES
+            (2, 8, 3, 500, '2020-01-29', null, 'Магнит');
+            INSERT INTO public.operation (typeoperationid, categoryid, accountid, amount, dateoper, datewritedb,
+            comment) VALUES
+            (2, 8, 3, 1450, '2020-01-16', null, 'Пятерочка');
+            INSERT INTO public.operation (typeoperationid, categoryid, accountid, amount, dateoper, datewritedb,
+            comment) VALUES
+            (2, 8, 3, 1450, '2020-02-16', null, 'Пятерочка');
+            INSERT INTO public.operation (typeoperationid, categoryid, accountid, amount, dateoper, datewritedb,
+            comment) VALUES
+            (2, 10, 3, 7500, '2020-02-16', null, 'WB');
+            INSERT INTO public.operation (typeoperationid, categoryid, accountid, amount, dateoper, datewritedb,
+            comment) VALUES
+            (2, 7, 3, 4300, '2020-02-18', null, '');
+            INSERT INTO public.operation (typeoperationid, categoryid, accountid, amount, dateoper, datewritedb,
+            comment) VALUES
+            (2, 6, 4, 500, '2020-02-19', null, '');
+            INSERT INTO public.operation (typeoperationid, categoryid, accountid, amount, dateoper, datewritedb,
+            comment) VALUES
+            (2, 6, 4, 500, '2020-02-14', null, '');
+            INSERT INTO public.operation (typeoperationid, categoryid, accountid, amount, dateoper, datewritedb,
+            comment) VALUES
+            (2, 6, 4, 500, '2020-02-02', null, '');
+            INSERT INTO public.operation (typeoperationid, categoryid, accountid, amount, dateoper, datewritedb,
+            comment) VALUES
+            (2, 5, 3, 600, '2020-02-01', null, '');
+            INSERT INTO public.operation (typeoperationid, categoryid, accountid, amount, dateoper, datewritedb,
+            comment) VALUES
+            (2, 13, 3, 2500, '2020-02-11', null, 'цветы жене');
+            INSERT INTO public.operation (typeoperationid, categoryid, accountid, amount, dateoper, datewritedb,
+            comment) VALUES
+            (2, 13, 3, 2500, '2020-02-27', null, 'цветы жене');
+            INSERT INTO public.operation (typeoperationid, categoryid, accountid, amount, dateoper, datewritedb,
+            comment) VALUES
+            (2, 11, 4, 1500, '2020-02-05', null, '+ попкорн');
+            INSERT INTO public.operation (typeoperationid, categoryid, accountid, amount, dateoper, datewritedb,
+            comment) VALUES
+            (2, 11, 4, 1500, '2020-02-11', null, '+ попкорн');
+            INSERT INTO public.operation (typeoperationid, categoryid, accountid, amount, dateoper, datewritedb,
+            comment) VALUES
+            (2, 11, 4, 1500, '2020-03-01', null, '+ попкорн');
+            INSERT INTO public.operation (typeoperationid, categoryid, accountid, amount, dateoper, datewritedb,
+            comment) VALUES
+            (2, 9, 3, 30000, '2020-02-03', null, 'дорогие анализы');
+            INSERT INTO public.operation (typeoperationid, categoryid, accountid, amount, dateoper, datewritedb,
+            comment) VALUES
+            (2, 9, 3, 30000, '2020-01-03', null, 'дорогие анализы');
+            INSERT INTO public.operation (typeoperationid, categoryid, accountid, amount, dateoper, datewritedb,
+            comment) VALUES
+            (1, 1, 7, 75000, '2020-01-10', '2020-03-05 17:55:28.000000', 'зп');
+            INSERT INTO public.operation (typeoperationid, categoryid, accountid, amount, dateoper, datewritedb,
+            comment) VALUES
+            (1, 1, 7, 75000, '2020-02-10', '2020-03-05 17:55:28.000000', 'зп');
+            INSERT INTO public.operation (typeoperationid, categoryid, accountid, amount, dateoper, datewritedb,
+            comment) VALUES
+            (1, 1, 7, 30000, '2020-02-27', '2020-03-05 17:55:53.000000', 'аванс');
+            INSERT INTO public.operation (typeoperationid, categoryid, accountid, amount, dateoper, datewritedb,
+            comment) VALUES
+            (1, 1, 7, 30000, '2020-01-27', '2020-03-05 17:55:53.000000', 'аванс');
+            INSERT INTO public.operation (typeoperationid, categoryid, accountid, amount, dateoper, datewritedb,
+            comment) VALUES
+            (2, 12, 8, 3000, '2020-02-09', '2020-03-05 17:56:19.000000', 'посидела с подругой...');
+            INSERT INTO public.operation (typeoperationid, categoryid, accountid, amount, dateoper, datewritedb,
+            comment) VALUES
+            (2, 11, 7, 2000, '2020-02-23', '2020-03-05 17:56:40.000000', 'кино с сыном');
+            INSERT INTO public.operation (typeoperationid, categoryid, accountid, amount, dateoper, datewritedb,
+            comment) VALUES
+            (2, 8, 9, 1700, '2020-02-16', '2020-03-05 17:57:11.000000', '');
+            INSERT INTO public.operation (typeoperationid, categoryid, accountid, amount, dateoper, datewritedb,
+            comment) VALUES
+            (2, 12, 7, 400, '2020-02-03', '2020-03-05 17:59:16.000000', 'обед');
+            INSERT INTO public.operation (typeoperationid, categoryid, accountid, amount, dateoper, datewritedb,
+            comment) VALUES
+            (2, 12, 7, 400, '2020-02-04', '2020-03-05 17:59:16.000000', 'обед');
+            INSERT INTO public.operation (typeoperationid, categoryid, accountid, amount, dateoper, datewritedb,
+            comment) VALUES
+            (2, 12, 7, 400, '2020-02-05', '2020-03-05 17:59:16.000000', 'обед');
+            INSERT INTO public.operation (typeoperationid, categoryid, accountid, amount, dateoper, datewritedb,
+            comment) VALUES
+            (2, 12, 7, 400, '2020-02-06', '2020-03-05 17:59:16.000000', 'обед');
+            INSERT INTO public.operation (typeoperationid, categoryid, accountid, amount, dateoper, datewritedb,
+            comment) VALUES
+            (2, 12, 7, 400, '2020-02-07', '2020-03-05 17:59:16.000000', 'обед');
+            INSERT INTO public.operation (typeoperationid, categoryid, accountid, amount, dateoper, datewritedb,
+            comment) VALUES
+            (2, 12, 7, 400, '2020-02-10', '2020-03-05 17:59:16.000000', 'обед');
+            INSERT INTO public.operation (typeoperationid, categoryid, accountid, amount, dateoper, datewritedb,
+            comment) VALUES
+            (2, 12, 7, 400, '2020-02-11', '2020-03-05 17:59:16.000000', 'обед');
+            INSERT INTO public.operation (typeoperationid, categoryid, accountid, amount, dateoper, datewritedb,
+            comment) VALUES
+            (2, 12, 7, 400, '2020-02-12', '2020-03-05 17:59:16.000000', 'обед');
+            INSERT INTO public.operation (typeoperationid, categoryid, accountid, amount, dateoper, datewritedb,
+            comment) VALUES
+            (2, 12, 7, 400, '2020-02-13', '2020-03-05 17:59:16.000000', 'обед');
+            INSERT INTO public.operation (typeoperationid, categoryid, accountid, amount, dateoper, datewritedb,
+            comment) VALUES
+            (2, 12, 7, 400, '2020-02-14', '2020-03-05 17:59:16.000000', 'обед');
+            INSERT INTO public.operation (typeoperationid, categoryid, accountid, amount, dateoper, datewritedb,
+            comment) VALUES
+            (2, 12, 7, 400, '2020-03-02', '2020-03-05 17:59:16.000000', 'обед');
+            INSERT INTO public.operation (typeoperationid, categoryid, accountid, amount, dateoper, datewritedb,
+            comment) VALUES
+            (2, 12, 7, 400, '2020-03-03', '2020-03-05 17:59:16.000000', 'обед');
+            INSERT INTO public.operation (typeoperationid, categoryid, accountid, amount, dateoper, datewritedb,
+            comment) VALUES
+            (2, 12, 7, 400, '2020-03-04', '2020-03-05 17:59:16.000000', 'обед');
+            INSERT INTO public.operation (typeoperationid, categoryid, accountid, amount, dateoper, datewritedb,
+            comment) VALUES
+            (2, 12, 7, 400, '2020-03-05', '2020-03-05 17:59:16.000000', 'обед');
+            INSERT INTO public.operation (typeoperationid, categoryid, accountid, amount, dateoper, datewritedb,
+            comment) VALUES
+            (2, 7, 9, 1000, '2020-03-06', '2020-03-05 18:05:12.000000', '');
+            INSERT INTO public.operation (typeoperationid, categoryid, accountid, amount, dateoper, datewritedb,
+            comment) VALUES
+            (2, 11, 7, 1500, '2020-03-01', '2020-03-05 18:05:25.000000', '');
+            INSERT INTO public.operation (typeoperationid, categoryid, accountid, amount, dateoper, datewritedb,
+            comment) VALUES
+            (2, 5, 9, 500, '2020-03-02', '2020-03-05 18:05:39.000000', '');
+            INSERT INTO public.operation (typeoperationid, categoryid, accountid, amount, dateoper, datewritedb,
+            comment) VALUES
+            (2, 8, 4, 2500, '2020-03-05', '2020-03-05 18:14:26.000000', 'Карусель');
+            INSERT INTO public.operation (typeoperationid, categoryid, accountid, amount, dateoper, datewritedb,
+            comment) VALUES
+            (1, 1, 7, 10000, '2020-03-05', '2020-03-05 18:06:28.000000', 'подарок на работе к 30-летию');
+            INSERT INTO public.operation (typeoperationid, categoryid, accountid, amount, dateoper, datewritedb,
+            comment) VALUES
+            (2, 4, 3, 5500, '2020-02-06', '2020-03-06 16:25:09.000000', '');
+            INSERT INTO public.operation (typeoperationid, categoryid, accountid, amount, dateoper, datewritedb,
+            comment) VALUES
+            (2, 4, 3, 5500, '2020-01-06', '2020-03-06 16:25:09.000000', '');
+        </sql>
+    </changeSet>
+
+
 </databaseChangeLog>

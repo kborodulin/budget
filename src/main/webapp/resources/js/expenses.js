@@ -35,3 +35,7 @@ if (setSaveExpense)
             setAddExpense.submit();
         }
     });
+
+document.getElementById('accountexpbyuser').addEventListener('change', function(e){
+    document.getElementById('nav-account').text = document.getElementById('h' + e.target.value).text;
+})

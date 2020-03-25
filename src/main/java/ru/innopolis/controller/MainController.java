@@ -14,6 +14,7 @@ import ru.innopolis.enums.Periods;
 import ru.innopolis.service.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.HashMap;
@@ -50,7 +51,9 @@ public class MainController {
     }
 
     @GetMapping("/main")
-    public String renderMain() {
+    public String renderMain(HttpServletRequest request) {
+        HttpSession session = request.getSession(true);
+        session.setAttribute("isaccount", null);
         return "/main";
     }
 

@@ -18,6 +18,7 @@ import ru.innopolis.service.dto.FilterStatistic;
 import ru.innopolis.service.dto.Point;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -52,7 +53,7 @@ public class StatisticController {
     }
 
     @GetMapping("/statistic")
-    public String renderMain(@ModelAttribute("filterStatistic") FilterStatistic filterStatistic, Model model) {
+    public String renderMain(@ModelAttribute("filterStatistic") FilterStatistic filterStatistic, Model model, HttpServletRequest request) {
         if (filterStatistic.getFamilyMembers() != null) {
             List<Point> points = statisticGenerator.getData(filterStatistic);
             model.addAttribute("points", points);
@@ -62,6 +63,8 @@ public class StatisticController {
             model.addAttribute("pages", countPages(filterStatistic));
             model.addAttribute("currentPage", FIRST_PAGE);
         }
+        HttpSession session = request.getSession(true);
+        session.setAttribute("isaccount", null);
         return "/statistic";
     }
 

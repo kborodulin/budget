@@ -21,4 +21,6 @@ public interface AccountRepository extends JpaRepository<Account, Long> {
     Optional<BigDecimal> famemBalance(Long famemId);
 
     List <Account> findAccountByName(String name);
+
+    Account findAccountByNameAndFamemAndIsclosesignEquals(String name, Famem famem, BigDecimal closeSign);
 }

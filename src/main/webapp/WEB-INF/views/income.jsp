@@ -47,13 +47,9 @@
 <%@include file="include/navBar.jsp" %>
 <div class="container-fluid">
     <div class="row">
-        <nav class="col-md-2 d-none d-md-block bg-light sidebar">
-            <div class="sidebar-sticky">
-                <%@include file="include/mainMenu.jsp" %>
-            </div>
-        </nav>
+        <%@include file="include/mainMenu.jsp" %>
 
-        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+        <main role="main" class="col-md-9 col-lg-10 px-4" style="margin-left: 190px">
             <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
                 <h3 class="h3">Доходы</h3>
                 <a class="d-flex align-items-center text-muted" id="save-income" href="#">
@@ -77,7 +73,7 @@
                     <c:otherwise>
                         <div class="form-group mx-sm-1">
                             <div class="form-group mx-sm-1">
-                                <select class="form-control" name="accountid">
+                                <select class="form-control" name="accountid" id="findallaccountbyusersortid">
                                     <c:forEach var="account" items="${findallaccountbyusersort}">
                                         <option value=<c:out value="${account.accountid}"/>><c:out
                                                 value="${account.name}"/></option>
@@ -148,13 +144,13 @@
                 </thead>
                 <tbody>
                 <tr>
-                    <th>Наименование</th>
+                    <th>Счет</th>
                     <th>Сумма</th>
                     <th>Дата</th>
                     <th>Категория</th>
                     <th>Комментарий</th>
-                    <th>Изменить</th>
-                    <th>Удалить</th>
+                    <th></th>
+                    <th></th>
                 </tr>
                 <c:forEach items="${allincomeuser}" var="income">
                     <tr>
@@ -204,10 +200,10 @@
                     <th>
                         <c:choose>
                             <c:when test="${isfilter == 1}">
-                                <a href="/income/filter${page}">${page}</a>
+                                <a <c:if test="${curpage==page}">class="text-danger"</c:if> href="/income/filter${page}">${page}</a>
                             </c:when>
                             <c:otherwise>
-                                <a href="/income${page}">${page}</a>
+                                <a <c:if test="${curpage==page}">class="text-danger"</c:if> href="/income${page}">${page}</a>
                             </c:otherwise>
                         </c:choose>
                     </th>

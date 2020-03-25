@@ -48,13 +48,9 @@
 <%@include file="include/navBar.jsp" %>
 <div class="container-fluid">
     <div class="row">
-        <nav class="col-md-2 d-none d-md-block bg-light sidebar">
-            <div class="sidebar-sticky">
-                <%@include file="include/mainMenu.jsp" %>
-            </div>
-        </nav>
+        <%@include file="include/mainMenu.jsp" %>
 
-        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+        <main role="main" class="col-md-9 col-lg-10 px-4" style="margin-left: 190px">
             <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
                 <h3 class="h3">Расходы</h3>
                 <a class="d-flex align-items-center text-muted" id="save-expenses" href="#">
@@ -137,13 +133,13 @@
                 </thead>
                 <tbody>
                 <tr>
-                    <th>Наименование</th>
+                    <th>Счет</th>
                     <th>Сумма</th>
                     <th>Дата</th>
                     <th>Категория</th>
                     <th>Комментарий</th>
-                    <th>Изменить</th>
-                    <th>Удалить</th>
+                    <th></th>
+                    <th></th>
                 </tr>
                 <c:forEach items="${allExpensesUser}" var="expense">
                     <tr>
@@ -193,10 +189,10 @@
                     <th>
                         <c:choose>
                             <c:when test="${isfilter == 1}">
-                                <a href="/expenses/filter${page}">${page}</a>
+                                <a <c:if test="${curpage==page}">class="text-danger"</c:if> href="/expenses/filter${page}">${page}</a>
                             </c:when>
                             <c:otherwise>
-                                <a href="/expenses${page}">${page}</a>
+                                <a <c:if test="${curpage==page}">class="text-danger"</c:if> href="/expenses${page}">${page}</a>
                             </c:otherwise>
                         </c:choose>
                     </th>
@@ -214,5 +210,6 @@
 <script src="../resources/js/refCategory.js"></script>
 <script src="../resources/js/utils.js"></script>
 <script src="../resources/js/refAccountByUser.js"></script>
+<script src="../resources/js/personalAccount.js"></script>
 </body>
 </html>

@@ -46,13 +46,8 @@
 <%@include file="include/navBar.jsp" %>
 <div class="container-fluid">
     <div class="row">
-        <nav class="col-md-2 d-none d-md-block bg-light sidebar">
-            <div class="sidebar-sticky">
-                <%@include file="include/mainMenu.jsp" %>
-            </div>
-        </nav>
-
-        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+        <%@include file="include/mainMenu.jsp" %>
+        <main role="main" class="col-md-9 col-lg-10 px-4" style="margin-left: 190px">
             <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
                 <h3 class="h3">Счета</h3>
                 <a class="d-flex align-items-center text-muted" id="addNewInvoice" href="#">
@@ -86,7 +81,7 @@
                             <td>${account.amount}₽</td>
                             <td>
                                 <c:if test="${account.isclosesign<1&&account.famem.famemid.equals(myfamem.famemid)}">
-                                    <a class="editWallet" href="#">
+                                    <a class="editWallet" href="#" data-accountid=<c:out value="${account.accountid}"/> data-accountname="${account.name}" data-accounttypeid="${account.accounttype.accounttypeid}" data-amount="${account.amount}">
                                         <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" class="feather"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
                                     </a>
                                 </c:if>
@@ -117,7 +112,7 @@
 <%@include file="include/modalCreateAccount.jsp" %>
 <%@include file="include/modalDeleteAccount.jsp" %>
 <%@include file="include/modalRecoverAccount.jsp" %>
-
+<%@include file="include/modalEditAccount.jsp" %>
 
 <script src="../resources/js/jquery/jquery.slim.min.js"></script>
 <script src="../resources/js/fillWallets.js"></script>

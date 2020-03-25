@@ -4,6 +4,7 @@ import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.time.LocalDate;
 
 @Data
@@ -16,6 +17,8 @@ public class Transaction {
     private String inName;
     private String outOwner;
     private String inOwner;
+    private Long outOperationId;
+    private Long inOperationId;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate dateOper;
@@ -31,6 +34,8 @@ public class Transaction {
         comment = (String) out[3];
         outOwner = (String) out[6];
         inOwner = (String) in[6];
+        outOperationId = ((BigInteger) out[4]).longValue();
+        inOperationId = ((BigInteger) in[4]).longValue();
     }
 
 }

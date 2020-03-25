@@ -102,7 +102,7 @@ public class OperationServiceImpl implements OperationService {
 
 
     @Override
-    public List<Object[]> findAllTransactionsByPeriod(Long familyid, LocalDate startDate, LocalDate endDate, Integer page) {
+    public List<Object[]> findAllTransactionsByPeriod(Long familyid, LocalDate startDate, LocalDate endDate, Integer page, Long userid) {
         Query query = em.createNativeQuery("select\n" +
                 "  a.name,\n" +
                 "  coalesce(o.amount, 0) amount,\n" +
@@ -111,19 +111,26 @@ public class OperationServiceImpl implements OperationService {
                 "  o.operationid,\n" +
                 "  typ.typeoperationid,\n" +
                 "  u.login \n" +
-                "from  operation o\n" +
+                "from operation o\n" +
                 "join typeoperation typ on typ.typeoperationid = o.typeoperationid\n" +
                 "join account a on a.accountid = o.accountid\n" +
                 "join famem f on f.famemid = a.famemid \n" +
                 "join users u on u.userid = f.userid\n" +
                 "where (typ.typeoperationid = 3 or typ.typeoperationid = 4) \n" +
-                "and f.familyid = ? \n" +
+                (familyid!=null?"and f.familyid = ? \n":"") +
+                (familyid==null && userid!=null?"and f.userid = ? \n":"") +
                 "and o.dateoper between ? and ? \n" +
                 "order by o.operationid desc\n");
-        query.setParameter(1, familyid);
-        query.setParameter(2, startDate);
-        query.setParameter(3, endDate);
-        List<Object[]> objects = null;
+        if (familyid != null || userid != null){
+            query.setParameter(1, familyid!=null?familyid:userid);
+            query.setParameter(2, startDate);
+            query.setParameter(3, endDate);
+        } else{
+            query.setParameter(1, startDate);
+            query.setParameter(2, endDate);
+        }
+
+        List<Object[]> objects;
         if (page == null) {
             objects = query.getResultList();
         }

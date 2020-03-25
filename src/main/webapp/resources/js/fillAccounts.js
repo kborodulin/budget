@@ -2,9 +2,7 @@ const outAccount = document.querySelector("#outAccount");
 const inAccount = document.querySelector("#inAccount");
 const inUser = document.querySelector("#inUser");
 const inputSumWallet = document.querySelector("#inputSumWallet");
-const comments = document.querySelector("#comments");
 const saveTransfer = document.querySelector("#save-item-wallet");
-
 
 const token = $("meta[name='_csrf']").attr("content");
 const header = $("meta[name='_csrf_header']").attr("content");
@@ -36,7 +34,50 @@ fetch("/transactions/getallwallets", {method: "POST", headers}).then(r => r.text
     inAccount.innerHTML = accountsSelect.innerHTML;
     inUser.innerHTML = getUsersFromSelect(accountsSelect).innerHTML;
     filterInUserAccounts();
+    editBtnActivate();
 });
+
+let editTransferBtns = document.querySelectorAll(".editTransfer");
+
+function editBtnActivate(){
+    for (let etb of editTransferBtns){
+        etb.style.display = "";
+        etb.addEventListener("click", function(){
+            let some = Array.prototype.some;
+            if (this.dataset.outsum && this.dataset.dateoper && this.dataset.outopid && this.dataset.inopid && some.call(outAccount.options, (opt,i)=>{
+                if (opt.innerHTML == this.dataset.outname){
+                    outAccount.selectedIndex =  i;
+                    return true;
+                }
+            }) && some.call(inUser.options, (opt,i)=>{
+                if (opt.innerHTML == this.dataset.inowner){
+                    inUser.selectedIndex = i;
+                    inUser.dispatchEvent(new Event("change"));
+                    return true;
+                }
+            }) && some.call(inAccount.options, (opt, i)=>{
+                if (opt.innerHTML == this.dataset.inname){
+                    inAccount.selectedIndex = i;
+                    return true;
+                }
+            })) {
+                cancelChanges();
+                inputSumWallet.value = this.dataset.outsum;
+                document.querySelector("#theDate").value = this.dataset.dateoper;
+                document.querySelector("#comments").value = this.dataset.comment;
+                document.querySelector("#inOperationId").value = this.dataset.inopid;
+                document.querySelector("#outOperationId").value = this.dataset.outopid;
+                saveTransfer.style.display = "none";
+                saveChangeBtn.style.display = "";
+                cancelBtn.style.display = "";
+                this.parentElement.parentElement.classList.add("alert", "alert-warning");
+                document.querySelector('#outAccount').dispatchEvent(new Event("change"));
+                return;
+            }
+            return alert("Этот перевод не может быть отредактирован");
+        });
+    }
+}
 
 
 function checkTransactionAvailable() {

@@ -27,4 +27,6 @@ public interface AccountService {
     BigDecimal famemBalance(Famem famem);
 
     List<Account> findAccountByName(String name);
+
+    Account findAccountByNameAndUserId(String name, Famem famem);
 }

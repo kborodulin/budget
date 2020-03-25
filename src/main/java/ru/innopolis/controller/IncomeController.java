@@ -16,6 +16,7 @@ import ru.innopolis.service.AccountService;
 import ru.innopolis.service.CategoryService;
 import ru.innopolis.service.DateAnalizer;
 import ru.innopolis.service.OperationService;
+import ru.innopolis.service.dto.CategoryPeriod;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -40,7 +41,9 @@ public class IncomeController {
 
     private int dateRange;
 
-    private int categoryPeriod;
+    private CategoryPeriod categoryPeriod;
+
+    private int findIncome = 0;
 
     @Autowired
     public void setOperationService(OperationService operationService) {
@@ -81,6 +84,14 @@ public class IncomeController {
         }
         model.addAttribute("intervalperiod", "СУММА ЗА ДЕНЬ ");
         model.addAttribute("sumperiod", sumPeriod + " руб.");
+        if (findIncome == 0) {
+            session.setAttribute("findallaccountbyusersortfilter",null);
+        }
+        if (findIncome == 1) {
+            findIncome = 0;
+        }
+        session.setAttribute("isaccount", 1);
+        session.setAttribute("curpage", page);
         return "income";
     }
 
@@ -104,12 +115,12 @@ public class IncomeController {
                              @ModelAttribute("addincome") Operation operation,
                              @ModelAttribute("accountid") Account account,
                              @ModelAttribute("categoryid") Category category) {
-        account = accountService.findById(account.getAccountid());
-        category = categoryService.findById(category.getCategoryid());
         if (operation.getOperationid() != null) {
             Operation operationOld = operationService.findById(operation.getOperationid());
-            account.setAmount(account.getAmount().subtract(operationOld.getAmount()));
+            operationService.clearDelete(operationOld);
         }
+        account = accountService.findById(account.getAccountid());
+        category = categoryService.findById(category.getCategoryid());
         if (operation.getTypeoperationid().equals(1L)) {
             account.setAmount(account.getAmount().add(operation.getAmount()));
         }
@@ -135,6 +146,9 @@ public class IncomeController {
         attributes.addFlashAttribute("findallaccountbyusersort", accountsByUser);
         attributes.addFlashAttribute("findallcategoriessort", categories);
         attributes.addFlashAttribute("findoperationid", operation.getOperationid());
+        HttpSession session = request.getSession(true);
+        session.setAttribute("findallaccountbyusersortfilter", accountsByUser.get(0).getName() + ": " + accountsByUser.get(0).getAmount() + " руб.");
+        findIncome = 1;
         return "redirect:/income";
     }
 
@@ -166,23 +180,23 @@ public class IncomeController {
     public String filterIncome(Model model,
                                HttpServletRequest request,
                                @ModelAttribute("dateRange") int period,
-                               @ModelAttribute("categoryperiod") int category,
+                               @ModelAttribute("categoryperiod") CategoryPeriod category,
                                Integer page) {
         List<LocalDate> dates = dateAnalizer.parsePeriod(period);
         User user = (User) request.getSession().getAttribute("user");
         if (page == null) page = 1;
-        List<Object[]> operations = operationService.allIncomeUser(user.getUserid(), dates.get(0), dates.get(1), category, page);
-        model.addAttribute("countPage", page(user.getUserid(), dates.get(0), dates.get(1), category));
+        List<Object[]> operations = operationService.allIncomeUser(user.getUserid(), dates.get(0), dates.get(1), category.getCategoryperiod(), page);
+        model.addAttribute("countPage", page(user.getUserid(), dates.get(0), dates.get(1), category.getCategoryperiod()));
         model.addAttribute("periodselected", period);
         model.addAttribute("allincomeuser", operations);
         HttpSession session = request.getSession(true);
-        session.setAttribute("allcategoryperiod", category);
-        if (period > 0 || category > 0) {
+        session.setAttribute("allcategoryperiod", category.getCategoryperiod());
+        if (period > 0 || category.getCategoryperiod() > 0) {
             model.addAttribute("isfilter", 1);
             dateRange = period;
             categoryPeriod = category;
         }
-        List<Object[]> operationsAll = operationService.allIncomeUser(user.getUserid(), dates.get(0), dates.get(1), category, null);
+        List<Object[]> operationsAll = operationService.allIncomeUser(user.getUserid(), dates.get(0), dates.get(1), category.getCategoryperiod(), null);
         BigDecimal sumPeriod = BigDecimal.ZERO;
         for (Object[] obj : operationsAll) {
             sumPeriod = sumPeriod.add(((BigDecimal) obj[1]));
@@ -214,6 +228,7 @@ public class IncomeController {
                 break;
             }
         }
+        session.setAttribute("curpage", page);
         return "income";
     }
 

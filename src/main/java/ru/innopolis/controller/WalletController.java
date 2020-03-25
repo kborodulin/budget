@@ -2,7 +2,7 @@ package ru.innopolis.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import ru.innopolis.domain.Account;
@@ -12,6 +12,7 @@ import ru.innopolis.domain.User;
 import ru.innopolis.service.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -50,7 +51,24 @@ public class WalletController {
         modelAndView.addObject("types", accountTypeService.findAll());
         modelAndView.addObject("err", err);
         modelAndView.setViewName("wallet");
+        HttpSession session = request.getSession(true);
+        session.setAttribute("isaccount", null);
         return modelAndView;
+    }
+
+    @ModelAttribute
+    public void persistUser(Model model, HttpServletRequest request) {
+        User user = (User) request.getSession().getAttribute("user");
+        Famem famem = famemService.findById(user.getFamem().getFamemid());
+        model.addAttribute("famem", famem);
+        if (famem.getFamily() != null) {
+            Family family = famem.getFamily();
+            model.addAttribute("family", family);
+            List<Famem> membersList = family.getFamemList();
+            model.addAttribute("membersList", membersList);
+        }
+        HttpSession session = request.getSession(true);
+        session.setAttribute("isaccount", null);
     }
 
 
@@ -59,6 +77,21 @@ public class WalletController {
         ModelAndView modelAndView = new ModelAndView();
         account = accountService.findById(account.getAccountid());
         account.setIsclosesign(new BigDecimal(1));
+        accountService.save(account);
+        modelAndView.setViewName("redirect:/wallet");
+        return modelAndView;
+    }
+
+    @PostMapping(path="/edit")
+    public ModelAndView editWallet(@ModelAttribute("editwallet") Account account){
+        ModelAndView modelAndView = new ModelAndView();
+        Long acctypeid = account.getAcctypeid();
+        String newName = account.getName();
+        BigDecimal newAmount = account.getAmount();
+        account = accountService.findById(account.getAccountid());
+        account.setAccounttype(accountTypeService.findById(acctypeid));
+        account.setName(newName);
+        account.setAmount(newAmount);
         accountService.save(account);
         modelAndView.setViewName("redirect:/wallet");
         return modelAndView;
@@ -75,10 +108,12 @@ public class WalletController {
     }
 
     @PostMapping(path = "/create")
-    public ModelAndView createNewWallet(@ModelAttribute("createNewAccountForm") Account account, HttpServletRequest request, BindingResult result) {
+    public ModelAndView createNewWallet(@ModelAttribute("createNewAccountForm") Account account, HttpServletRequest request) {
         ModelAndView modelAndView = new ModelAndView();
         List<String> errors = new ArrayList<>();
-        if (accountService.findAccountByName(account.getName()).size() == 0) {
+        Famem myFamem = getMyFamem(request);
+        Account isRegistered = accountService.findAccountByNameAndUserId(account.getName(), myFamem);
+        if (isRegistered == null) {
             account.setFamem(getMyFamem(request));
             account.setDateopen(LocalDate.now());
             account.setCurrencyid(1L);

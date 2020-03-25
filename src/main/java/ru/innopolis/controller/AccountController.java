@@ -22,6 +22,7 @@ import ru.innopolis.service.FamilyService;
 import ru.innopolis.service.UserService;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.math.BigDecimal;
 import java.util.List;
 
@@ -110,12 +111,9 @@ public class AccountController {
             model.addAttribute("membersList", membersList);
             log.info("memberList get {}", membersList);
         }
-        Alert alert = alertService.checkForAlerts(famem);
-        model.addAttribute("alert", alert);
-        if (alert != null) {
-            model.addAttribute("invitingFamily", alert.getFamily());
-        }
         List<Alert> sendAlert = alertService.findByInitiator(famem.getFamemid(), BigDecimal.ZERO);
+        HttpSession session = request.getSession(true);
+        session.setAttribute("isaccount", null);
         model.addAttribute("sendAlert", sendAlert);
     }
 
