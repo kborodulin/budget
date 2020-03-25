@@ -16,7 +16,7 @@
             <h1 class="h3 mb-3 font-weight-normal">Контроль семейного бюджета</h1>
         </div>
         <div class="form-label-group">
-            <input type="login" name="username" class="form-control" placeholder="введите логин" required autofocus>
+            <input type="login" name="login" class="form-control" placeholder="введите логин" required autofocus>
             <input type="password" name="password" class="form-control" placeholder="введите пароль" required>
             <button class="btn btn-lg btn-primary btn-block" id="buttonLogin" type="submit">Войти</button>
             <p><a id="regBtn" href="/registration">регистрация</a> для новых пользователей </p>

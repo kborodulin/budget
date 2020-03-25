@@ -6,11 +6,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
-@RequestMapping("/panel")
-public class PanelController {
+@RequestMapping("/personalaccount")
+public class PersonalInfoController {
 
     @GetMapping
-    public ModelAndView renderMainPanel() {
+    public ModelAndView renderPersonalAccount() {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("personalAccount");
         return modelAndView;

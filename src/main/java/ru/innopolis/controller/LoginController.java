@@ -10,7 +10,7 @@ import org.springframework.web.servlet.ModelAndView;
 public class LoginController {
 
     @GetMapping
-    public ModelAndView renderLoginForm() {
+    public ModelAndView renderLogin() {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("login");
         return modelAndView;
