@@ -14,7 +14,7 @@ import java.util.List;
 public interface AlertRepository extends JpaRepository<Alert, Long> {
     Alert findFirstByReceiver(Famem famem);
     void deleteAllByFamily(Family family);
-
+//
     @Query("SELECT a FROM Alert a WHERE a.initiator.famemid = ?1 and a.isalertsignproc = ?2")
     List<Alert> findAlertsByInitiator(Long famemId, BigDecimal proc);
 }
