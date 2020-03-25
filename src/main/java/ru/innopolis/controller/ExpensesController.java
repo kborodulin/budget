@@ -242,6 +242,8 @@ public class ExpensesController {
         return "expenses";
     }
 //
+    //
+
     private int page(Long userId, LocalDate dateStart, LocalDate end, int categoryid) {
         int allRecord = operationService.allExpensesUser(userId, dateStart, end, categoryid, null).size();
         return (allRecord % MAX_COUNT_ELEMENT_PAGE == 0) ? allRecord / MAX_COUNT_ELEMENT_PAGE : allRecord / MAX_COUNT_ELEMENT_PAGE + 1;
