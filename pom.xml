@@ -16,7 +16,7 @@
 
         <spring.version>5.2.3.RELEASE</spring.version>
         <spring-security.version>5.2.1.RELEASE</spring-security.version>
-        <hibernate-core.version>5.4.10.Final</hibernate-core.version>
+        <hibernate-core.version>5.4.24.Final</hibernate-core.version>
         <spring-data-jpa.version>2.2.3.RELEASE</spring-data-jpa.version>
         <log4j.version>2.13.0</log4j.version>
         <javax.sevlet.version>4.0.1</javax.sevlet.version>
